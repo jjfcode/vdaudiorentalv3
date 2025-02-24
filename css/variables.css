@@ -1,0 +1,32 @@
+:root {
+  /* Main colors */
+  --vd-primary: #225D38;
+  --vd-primary-light: #2d7a4a;
+  --vd-primary-dark: #1a462a;
+  
+  /* Neutral colors */
+  --vd-background: #ffffff;
+  --vd-surface: #f8f9fa;
+  --vd-text: #2c3e50;
+  
+  /* Accent colors */
+  --vd-accent: #34495e;
+  --vd-success: #27ae60;
+  --vd-warning: #f39c12;
+  --vd-error: #e74c3c;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Typography */
+  --font-primary: 'Roboto Slab', serif;
+  --font-secondary: 'Roboto', sans-serif;
+  
+  /* Borders and shadows */
+  --border-radius: 8px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 
