@@ -253,6 +253,12 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--vd-text);
 }
 
+.equipment-item a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 /* Features List */
 .features-list {
   list-style: none;
@@ -417,7 +423,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .used-equipment-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--spacing-lg);
     margin-top: var(--spacing-lg);
 }
@@ -462,22 +468,53 @@ h1, h2, h3, h4, h5, h6 {
     margin: var(--spacing-sm) 0;
 }
 
+.equipment-features {
+    list-style: none;
+    margin: var(--spacing-md) 0;
+    padding: var(--spacing-sm);
+    background: var(--vd-surface);
+    border-radius: var(--border-radius);
+}
+
+.equipment-features li {
+    margin-bottom: var(--spacing-xs);
+    color: var(--vd-text);
+}
+
+.equipment-features i {
+    color: var(--vd-primary);
+    width: 20px;
+    margin-right: var(--spacing-sm);
+}
+
 .equipment-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: var(--spacing-md);
+    margin: var(--spacing-md) 0;
 }
 
 .condition {
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
-    color: var(--vd-primary);
 }
 
 .condition i {
+    color: #ffd700;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
     color: var(--vd-primary);
+}
+
+.sale-note {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
 }
 
 .btn-sm {
@@ -496,4 +533,251 @@ h1, h2, h3, h4, h5, h6 {
 .cta-container p {
     margin-bottom: var(--spacing-md);
     font-size: 1.1rem;
+}
+
+/* Equipment Detail Page */
+.equipment-detail-page {
+    padding-top: 120px; /* Account for fixed navbar */
+}
+
+.mixer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+}
+
+.mixer-item {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease;
+}
+
+.mixer-item:hover {
+    transform: translateY(-5px);
+}
+
+.mixer-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    background: var(--vd-surface);
+    padding: var(--spacing-md);
+}
+
+.mixer-info {
+    padding: var(--spacing-lg);
+}
+
+.mixer-info h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--vd-primary);
+}
+
+.mixer-specs {
+    list-style: none;
+    margin-bottom: var(--spacing-lg);
+}
+
+.mixer-specs li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    color: var(--vd-text);
+}
+
+.mixer-specs i {
+    color: var(--vd-primary);
+    width: 20px;
+}
+
+@media (max-width: 768px) {
+    .mixer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Brand Logos Section */
+.brands-section {
+    background-color: var(--vd-surface);
+    padding: var(--spacing-xl) 0;
+    margin-bottom: var(--spacing-md);
+}
+
+.brands-section h1 {
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+    color: var(--vd-primary);
+    font-size: 2.5rem;
+}
+
+.brands-section .section-description {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: 1.2rem;
+    color: var(--vd-text);
+}
+
+/* Remove the old h2 styles since we're not using "Trusted Brands" anymore */
+.brands-section h2 {
+    display: none;
+}
+
+.brand-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-xl);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.brand-logo-item {
+    flex: 0 1 200px;
+    padding: var(--spacing-md);
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.brand-logo-item:hover {
+    transform: translateY(-5px);
+}
+
+.brand-logo-item img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.brand-logo-item:hover img {
+    filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+    .brand-logos {
+        gap: var(--spacing-lg);
+    }
+    
+    .brand-logo-item {
+        flex: 0 1 150px;
+    }
+}
+
+/* Back Button */
+.back-button-container {
+    padding-top: 100px;
+    padding-bottom: var(--spacing-md);
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--vd-primary);
+    text-decoration: none;
+    font-weight: 500;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    background-color: var(--vd-surface);
+}
+
+.back-button:hover {
+    background-color: var(--vd-primary);
+    color: white;
+    transform: translateX(-5px);
+}
+
+.back-button i {
+    font-size: 1.1rem;
+}
+
+/* Brand Section in Mixers */
+.brand-section {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--vd-surface);
+    display: none; /* Hide all brand sections by default */
+}
+
+.brand-section.active {
+    display: block;
+}
+
+.brand-title {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.brand-title-logo {
+    height: 300px;
+    width: auto;
+    object-fit: contain;
+    max-width: 1000px;
+}
+
+.mixer-specs {
+    background: var(--vd-surface);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+.mixer-specs li {
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.mixer-specs li:last-child {
+    border-bottom: none;
+}
+
+/* Media query for mobile */
+@media (max-width: 768px) {
+    .brand-title-logo {
+        height: 180px;
+    }
+}
+
+.mixer-image-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.mixer-image-link::after {
+    content: '\f08e';  /* Font Awesome external link icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    color: var(--vd-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mixer-image-link:hover::after {
+    opacity: 1;
+}
+
+.mixer-image-link img {
+    transition: transform 0.3s ease;
+}
+
+.mixer-image-link:hover img {
+    transform: scale(1.05);
 } 

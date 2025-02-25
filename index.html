@@ -15,15 +15,16 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="navbar-brand">
+            <a href="index.html" class="navbar-brand">
                 <img src="images/logos/logo1.png" alt="VD Audio Rental Logo" class="brand-logo">
             </a>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#equipment">Equipment</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#equipment">Equipment</a></li>
+                <li><a href="index.html#used-equipment">Sales</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -77,9 +78,11 @@
                     <p>High-end professional speaker systems</p>
                 </div>
                 <div class="equipment-item">
-                    <img src="images/services/mixer.png" alt="Audio Mixers">
-                    <h3>Mixers</h3>
-                    <p>Digital and analog mixing consoles</p>
+                    <a href="mixers.html">
+                        <img src="images/services/mixer.png" alt="Audio Mixers">
+                        <h3>Mixers</h3>
+                        <p>Digital and analog mixing consoles</p>
+                    </a>
                 </div>
                 <div class="equipment-item">
                     <img src="images/services/wmike.png" alt="Wireless Microphones">
@@ -128,28 +131,36 @@
     <!-- Used Equipment Section -->
     <section id="used-equipment" class="section">
         <div class="container">
-            <h2>Used Equipment for Sale</h2>
-            <p class="section-description">Browse our selection of quality pre-owned audio equipment. All used gear is thoroughly tested and maintained.</p>
+            <h2>Used Equipment For Sale</h2>
+            <p class="section-description">Professional audio equipment available for purchase</p>
             
             <div class="used-equipment-grid">
                 <div class="used-equipment-item">
-                    <div class="equipment-status">Available</div>
-                    <img src="images/equipment/used-mixer.jpg" alt="Used Mixer">
+                    <img src="images/equipment/profile.jpg" alt="Avid VENUE Profile">
                     <div class="equipment-details">
-                        <h3>Yamaha M7CL-48</h3>
-                        <p class="equipment-description">Digital Mixing Console, excellent condition</p>
+                        <h3>Avid VENUE Profile</h3>
+                        <p class="equipment-description">Professional Digital Mixing Console</p>
+                        <ul class="equipment-features">
+                            <li><i class="fas fa-plug"></i> 96 Input Channels</li>
+                            <li><i class="fas fa-sliders"></i> 24 Mix Buses</li>
+                            <li><i class="fas fa-microchip"></i> TDM Plugin Support</li>
+                            <li><i class="fas fa-desktop"></i> 24 Touch-sensitive Faders</li>
+                        </ul>
                         <div class="equipment-meta">
-                            <span class="condition"><i class="fas fa-star"></i> Good Condition</span>
-                            <a href="#contact" class="btn btn-primary btn-sm">Inquire</a>
+                            <div class="condition">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>4.0/5.0</span>
+                            </div>
+                            <div class="price">$8,000</div>
                         </div>
+                        <p class="sale-note">* Sold as is. Details to be confirmed.</p>
+                        <a href="#contact" class="btn btn-primary">Inquire Now</a>
                     </div>
                 </div>
-                <!-- Add more used equipment items as needed -->
-            </div>
-            
-            <div class="cta-container">
-                <p>Looking for specific used equipment?</p>
-                <a href="#contact" class="btn btn-primary">Contact Us</a>
             </div>
         </div>
     </section>
