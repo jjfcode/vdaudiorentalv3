@@ -24,9 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             if (modal) {
                 modal.style.display = 'block';
-                modal.style.opacity = '1';
-                modal.style.visibility = 'visible';
-                console.log('Modal opened'); // Debug log
+                console.log('Modal opened');
             }
         });
     }
@@ -36,9 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
         closeModalBtn.addEventListener('click', function() {
             if (modal) {
                 modal.style.display = 'none';
-                modal.style.opacity = '0';
-                modal.style.visibility = 'hidden';
-                console.log('Modal closed'); // Debug log
+                console.log('Modal closed');
             }
         });
     }
@@ -47,17 +43,22 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
-            modal.style.opacity = '0';
-            modal.style.visibility = 'hidden';
-            console.log('Modal closed by clicking outside'); // Debug log
+            console.log('Modal closed by clicking outside');
         }
     });
 
     // Handle form submission
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            // Verify reCAPTCHA
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                alert('Please complete the reCAPTCHA verification');
+                return;
+            }
+
             // Show loading state
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
@@ -68,28 +69,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 company: contactForm.company.value,
                 email: contactForm.email.value,
                 phone: contactForm.phone.value,
-                message: contactForm.message.value
+                message: contactForm.message.value,
+                recaptchaResponse: recaptchaResponse
             };
 
-            // Send email using EmailJS
-            emailjs.send('service_t5qc6ns', 'template_0sn9gbc', formData)
-                .then(function() {
-                    // Success
-                    alert('Thank you for your message! We will get back to you soon.');
-                    contactForm.reset();
-                    modal.style.display = 'none';
-                    modal.style.opacity = '0';
-                    modal.style.visibility = 'hidden';
-                }, function(error) {
-                    // Error
-                    console.error('EmailJS Error:', error);
-                    alert('Error sending message: ' + error.text);
-                })
-                .finally(function() {
-                    // Reset button state
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            try {
+                // Send to backend
+                const response = await fetch('http://localhost:3000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
                 });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Success
+                alert('Thank you for your message! We will get back to you soon.');
+                contactForm.reset();
+                grecaptcha.reset(); // Reset reCAPTCHA
+                modal.style.display = 'none';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error sending message. Please try again later.');
+            } finally {
+                // Reset button state
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+            }
         });
     }
 }); 

@@ -15,19 +15,28 @@ This website serves as a digital storefront for VD Audio Rental, featuring:
 ## Features
 
 - Responsive design for all devices
+- Modern UI with smooth animations
 - Equipment catalog with detailed specifications
 - Brand showcase including Yamaha, DiGiCo, Avid, Allen & Heath, and Mackie
-- Contact form for quote requests
+- Interactive contact form with email notifications
 - Service descriptions and company information
 - Image galleries for equipment visualization
+- Modal-based forms for better user experience
 
 ## Tech Stack
 
+### Frontend
 - HTML5
-- CSS3
-- JavaScript
+- CSS3 with CSS Variables
+- JavaScript (ES6+)
 - Font Awesome for icons
 - Google Fonts (Roboto Slab, Roboto)
+
+### Backend
+- Node.js
+- Express.js
+- Nodemailer for email handling
+- Custom SMTP server integration
 
 ## Getting Started
 
@@ -36,54 +45,86 @@ This website serves as a digital storefront for VD Audio Rental, featuring:
 git clone https://github.com/yourusername/vdaudiorentalv3.git
 ```
 
-## File Structure
-
-```
-vdaudiorentalv3/
-├── css/
-│   ├── style.css          # Main stylesheet
-│   └── responsive.css     # Media queries and responsive styles
-├── js/
-│   ├── main.js           # Main JavaScript functionality
-│   └── catalog.js        # Equipment catalog logic
-├── images/
-│   ├── equipment/        # Product images
-│   ├── brands/          # Brand logos
-│   └── gallery/         # Project and event photos
-├── pages/
-│   ├── catalog.html     # Equipment catalog page
-│   ├── services.html    # Services overview
-│   ├── about.html       # About company
-│   └── contact.html     # Contact form
-└── index.html           # Homepage
-```
-
-## Installation
-
-1. Clone the repository:
+2. Install backend dependencies:
 ```bash
-git clone https://github.com/yourusername/vdaudiorentalv3.git
+cd backend
+npm install
 ```
 
-2. Navigate to the project directory:
+3. Configure environment variables:
+Create a `.env` file in the backend directory with:
+```env
+EMAIL_USER=your_email@domain.com
+EMAIL_PASS=your_email_password
+SMTP_HOST=your_smtp_host
+SMTP_PORT=587
+PORT=3000
+```
+
+4. Start the backend server:
 ```bash
-cd vdaudiorentalv3
+npm start
 ```
 
-3. Open index.html in your preferred browser or use a local development server:
+5. Open index.html in your browser or use a local server:
 ```bash
 npx http-server
 ```
 
-## Development
+## File Structure
 
-To contribute to this project:
+```
+vdaudiorentalv3/
+├── backend/
+│   ├── server.js         # Node.js server
+│   ├── package.json      # Backend dependencies
+│   └── .env             # Environment variables
+├── css/
+│   ├── style.css        # Main stylesheet
+│   └── variables.css    # CSS variables
+├── js/
+│   └── contact.js       # Contact form functionality
+├── images/
+│   ├── equipment/       # Product images
+│   ├── logos/          # Brand and company logos
+│   └── services/       # Service images
+├── pages/
+│   ├── speakers.html   # Speakers catalog
+│   ├── mixers.html    # Mixers catalog
+│   ├── wireless.html  # Wireless systems
+│   └── thank-you.html # Form submission confirmation
+└── index.html         # Homepage
+```
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Features in Detail
+
+### Contact Form
+- Modal-based contact form
+- Form validation
+- Email notifications using custom SMTP server
+- Auto-response to users
+- Success confirmation page
+
+### Equipment Catalog
+- Categorized equipment listings
+- Detailed specifications
+- High-quality product images
+- Easy navigation structure
+
+### Responsive Design
+- Mobile-first approach
+- Breakpoints for all devices
+- Optimized images
+- Touch-friendly interface
+
+## Email Configuration
+
+The contact form uses a custom SMTP server with the following setup:
+- Sender email: esend@vdaudiorentals.com
+- Recipient email: info@vdaudiorentals.com
+- Custom SMTP server configuration
+- HTML email templates
+- Auto-response functionality
 
 ## Browser Support
 
@@ -94,11 +135,11 @@ To contribute to this project:
 
 ## Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## Contact
 
@@ -112,17 +153,27 @@ VD Audio Rental
 ### Developer Contact
 John Joseph Ferlito
 - Email: jjfcode@gmail.com
-- GitHub: [github.com/yourusername](https://github.com/jjfcode/vdaudiorentalv3)
+- GitHub: [github.com/jjfcode](https://github.com/jjfcode/vdaudiorentalv3)
+
+## Version History
+
+- 2.0.0
+    - Added Node.js backend
+    - Implemented custom SMTP email server
+    - Updated contact form with modal interface
+    - Added auto-response functionality
+- 1.0.0
+    - Initial Release
+    - Basic catalog functionality
+    - Contact form implementation
 
 ## Acknowledgments
 
 - Font Awesome for icons
 - Google Fonts for typography
+- Node.js community for excellent documentation
 - All our clients and partners who trust in our services
 
-## Version History
+## License
 
-- 1.0.0
-    - Initial Release
-    - Basic catalog functionality
-    - Contact form implementation
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
