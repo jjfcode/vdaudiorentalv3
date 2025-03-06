@@ -1075,4 +1075,16 @@ h1, h2, h3, h4, h5, h6 {
     .thank-you-content i {
         font-size: 4rem;
     }
+}
+
+/* Add to your existing CSS */
+.g-recaptcha {
+    margin-bottom: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .g-recaptcha {
+        transform: scale(0.9);
+        transform-origin: left center;
+    }
 } 

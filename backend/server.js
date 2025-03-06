@@ -1,7 +1,6 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
-const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
@@ -12,41 +11,22 @@ app.use(express.json());
 
 // Email transporter configuration
 const transporter = nodemailer.createTransport({
-    host: 'mail.vdaudiorentals.com', // Tu servidor SMTP
-    port: 587, // Puerto SMTP (normalmente 587 para TLS)
-    secure: false, // true para 465, false para otros puertos
+    host: 'mail.vdaudiorentals.com',
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
     tls: {
-        rejectUnauthorized: false // Solo si tienes problemas con certificados SSL
+        rejectUnauthorized: false
     }
 });
-
-// Verify reCAPTCHA token
-async function verifyRecaptcha(token) {
-    try {
-        const response = await axios.post(
-            `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`
-        );
-        return response.data.success;
-    } catch (error) {
-        console.error('reCAPTCHA verification error:', error);
-        return false;
-    }
-}
 
 // Contact form endpoint
 app.post('/api/contact', async (req, res) => {
     try {
-        const { name, company, email, phone, message, recaptchaResponse } = req.body;
-
-        // Verify reCAPTCHA
-        const isRecaptchaValid = await verifyRecaptcha(recaptchaResponse);
-        if (!isRecaptchaValid) {
-            return res.status(400).json({ error: 'Invalid reCAPTCHA' });
-        }
+        const { name, company, email, phone, message } = req.body;
 
         // Email content
         const mailOptions = {
