@@ -5,50 +5,39 @@
 
 // Contact Form Modal Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Get modal elements
+    // Get modal elements - Removemos los console.log innecesarios
     const modal = document.getElementById('messageModal');
     const showMessageBtn = document.getElementById('showMessageForm');
     const closeModalBtn = document.querySelector('.close-modal');
     const contactForm = document.getElementById('contactForm');
-    const modalContent = modal.querySelector('.modal-content');
-
-    // Debug log to check if elements are found
-    console.log('Modal:', modal);
-    console.log('Show Message Button:', showMessageBtn);
-    console.log('Close Button:', closeModalBtn);
-    console.log('Contact Form:', contactForm);
+    const modalContent = document.querySelector('.modal-content');
 
     // Show modal
-    if (showMessageBtn) {
+    if (showMessageBtn && modal) {
         showMessageBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            if (modal) {
-                modal.style.display = 'block';
-                console.log('Modal opened');
-            }
+            modal.style.display = 'block';
         });
     }
 
     // Close modal
-    if (closeModalBtn) {
+    if (closeModalBtn && modal) {
         closeModalBtn.addEventListener('click', function() {
-            if (modal) {
-                modal.style.display = 'none';
-                console.log('Modal closed');
-            }
+            modal.style.display = 'none';
         });
     }
 
     // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-            console.log('Modal closed by clicking outside');
-        }
-    });
+    if (modal) {
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
 
     // Handle form submission
-    if (contactForm) {
+    if (contactForm && modal && modalContent) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -72,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
 
                 if (response.ok) {
-                    // Reemplazar contenido del modal con mensaje de éxito
                     modalContent.innerHTML = `
                         <div class="thank-you-message" style="text-align: center; padding: 40px;">
                             <i class="fas fa-check-circle" style="font-size: 48px; color: var(--vd-primary); margin-bottom: 20px;"></i>
@@ -81,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     `;
 
-                    // Esperar 3 segundos y redirigir
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 3000);
