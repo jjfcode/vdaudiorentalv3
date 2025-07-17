@@ -8,12 +8,18 @@
   --vd-background: #ffffff;
   --vd-surface: #f8f9fa;
   --vd-text: #2c3e50;
+  --vd-text-light: #5a6c7d; /* For secondary text with sufficient contrast */
+  --vd-text-muted: #6c757d; /* For muted text with minimum AA contrast */
   
   /* Accent colors */
   --vd-accent: #34495e;
-  --vd-success: #27ae60;
-  --vd-warning: #f39c12;
-  --vd-error: #e74c3c;
+  --vd-success: #1e7e34; /* Darker green for better contrast */
+  --vd-warning: #e67e22; /* Adjusted orange for better contrast */
+  --vd-error: #dc3545; /* Standard Bootstrap red with good contrast */
+  
+  /* High contrast colors for accessibility */
+  --vd-high-contrast-text: #000000;
+  --vd-high-contrast-bg: #ffffff;
   
   /* Spacing */
   --spacing-xs: 0.25rem;

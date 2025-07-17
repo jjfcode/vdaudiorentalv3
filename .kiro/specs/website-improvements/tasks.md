@@ -8,28 +8,25 @@
   - Test keyboard navigation and screen reader compatibility
   - _Requirements: 1.1, 1.2, 1.3, 1.4_
 
-- [ ] 2. Implement accessibility improvements
-- [ ] 2.1 Add comprehensive alt text for all images
+- [x] 2. Implement accessibility improvements
+- [x] 2.1 Add comprehensive alt text for all images
   - Audit all images across the website for missing or inadequate alt text
   - Write descriptive alt text for equipment images, logos, and decorative elements
   - Update HTML templates with proper alt attributes
   - _Requirements: 3.1_
-
-- [ ] 2.2 Implement keyboard navigation and focus indicators
+- [x] 2.2 Implement keyboard navigation and focus indicators
   - Add visible focus indicators for all interactive elements
   - Ensure proper tab order throughout the website
   - Test keyboard-only navigation flow
   - Add skip-to-content links for screen readers
   - _Requirements: 3.2_
-
-- [ ] 2.3 Add ARIA labels and improve semantic markup
+- [x] 2.3 Add ARIA labels and improve semantic markup
   - Add ARIA labels for complex interactions and form elements
   - Implement proper heading hierarchy
   - Add role attributes where necessary
   - Test with screen reader software
   - _Requirements: 3.4_
-
-- [ ] 2.4 Verify and fix color contrast issues
+- [x] 2.4 Verify and fix color contrast issues
   - Audit all text and background color combinations
   - Ensure WCAG 2.1 AA compliance for contrast ratios
   - Update CSS variables if needed to meet accessibility standards

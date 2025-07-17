@@ -216,7 +216,7 @@ class MobileNavigation {
     srAnnouncement.style.width = '1px';
     srAnnouncement.style.height = '1px';
     srAnnouncement.style.overflow = 'hidden';
-    srAnnouncement.style.clip = 'rect(0, 0, 0, 0)';
+    srAnnouncement.style.clipPath = 'inset(50%)';
     document.body.appendChild(srAnnouncement);
     
     this.srAnnouncement = srAnnouncement;
@@ -324,4 +324,96 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+});
+
+// Enhanced keyboard navigation for interactive elements
+document.addEventListener('DOMContentLoaded', () => {
+  // Handle keyboard navigation for brand logo items
+  const brandLogoItems = document.querySelectorAll('.brand-logo-item[tabindex="0"]');
+  
+  brandLogoItems.forEach(item => {
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        // Trigger click event for brand selection
+        item.click();
+      }
+    });
+  });
+  
+  // Handle keyboard navigation for equipment items
+  const equipmentItems = document.querySelectorAll('.equipment-item, .mixer-item, .used-equipment-item');
+  
+  equipmentItems.forEach(item => {
+    // Make equipment items focusable
+    if (!item.hasAttribute('tabindex')) {
+      item.setAttribute('tabindex', '0');
+    }
+    
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        // Find the first link within the item and trigger it
+        const link = item.querySelector('a');
+        if (link) {
+          link.click();
+        }
+      }
+    });
+  });
+  
+  // Handle keyboard navigation for cards
+  const cards = document.querySelectorAll('.card');
+  
+  cards.forEach(card => {
+    // Make cards focusable if they contain interactive content
+    const interactiveElements = card.querySelectorAll('a, button, input, textarea, select');
+    if (interactiveElements.length > 0 && !card.hasAttribute('tabindex')) {
+      card.setAttribute('tabindex', '0');
+    }
+  });
+  
+  // Enhance form accessibility
+  const formGroups = document.querySelectorAll('.form-group');
+  
+  formGroups.forEach(group => {
+    const input = group.querySelector('input, textarea');
+    const icon = group.querySelector('i');
+    
+    if (input && icon) {
+      // Associate icon with input for screen readers
+      icon.setAttribute('aria-hidden', 'true');
+    }
+  });
+  
+  // Add keyboard support for modal
+  const modal = document.querySelector('.modal');
+  const closeModal = document.querySelector('.close-modal');
+  
+  if (modal && closeModal) {
+    modal.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal.click();
+      }
+    });
+    
+    // Trap focus within modal when open
+    modal.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        const focusableElements = modal.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    });
+  }
 });
