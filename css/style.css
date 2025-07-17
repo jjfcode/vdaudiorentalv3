@@ -392,11 +392,38 @@ h1, h2, h3, h4, h5, h6 {
 .social-links a {
   color: white;
   font-size: 1.5rem;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .social-links a:hover {
-  opacity: 0.8;
+  color: var(--vd-accent);
+  transform: translateY(-2px);
+}
+
+.social-links a:visited {
+  color: white;
+}
+
+.social-links a:active {
+  color: white;
+}
+
+/* Ensure all social icons behave consistently */
+.social-links a i {
+  color: inherit;
+  transition: inherit;
+}
+
+.social-links a:visited i {
+  color: white;
+}
+
+.social-links a:hover i {
+  color: var(--vd-accent);
+}
+
+.social-links a:active i {
+  color: white;
 }
 
 .footer-bottom {
