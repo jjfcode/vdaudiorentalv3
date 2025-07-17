@@ -116,9 +116,65 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.3s ease;
 }
 
-.nav-menu a:hover {
+.nav-menu a:hover,
+.nav-menu a:focus {
   color: var(--vd-primary);
   background-color: rgba(34, 93, 56, 0.1);
+  outline: 2px solid var(--vd-primary);
+  outline-offset: 2px;
+}
+
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--border-radius);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1001;
+  touch-action: manipulation;
+}
+
+.mobile-menu-toggle:hover,
+.mobile-menu-toggle:focus {
+  background-color: rgba(34, 93, 56, 0.1);
+  outline: 2px solid var(--vd-primary);
+  outline-offset: 2px;
+}
+
+.mobile-menu-toggle:focus-visible {
+  outline: 2px solid var(--vd-primary);
+  outline-offset: 2px;
+}
+
+.hamburger-line {
+  width: 28px;
+  height: 3px;
+  background-color: var(--vd-primary);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger Animation States */
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* Utilities */
@@ -365,8 +421,73 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.2rem;
   }
   
+  /* Show mobile menu toggle button */
+  .mobile-menu-toggle {
+    display: flex;
+  }
+  
+  /* Mobile navigation menu */
   .nav-menu {
-    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background-color: var(--vd-background);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: var(--spacing-xl);
+    gap: var(--spacing-lg);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    box-shadow: var(--box-shadow);
+    z-index: 999;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .nav-menu.active {
+    transform: translateX(0);
+  }
+  
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition-delay: calc(var(--item-index, 0) * 0.05s);
+  }
+  
+  .nav-menu.active li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .nav-menu a {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-md);
+    font-size: 1.2rem;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(34, 93, 56, 0.1);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nav-menu a:hover,
+  .nav-menu a:focus {
+    background-color: rgba(34, 93, 56, 0.1);
+    outline: none;
+    border-left: 4px solid var(--vd-primary);
+  }
+  
+  .nav-menu a:focus-visible {
+    outline: 2px solid var(--vd-primary);
+    outline-offset: -2px;
   }
   
   .equipment-grid {
@@ -1158,4 +1279,65 @@ h1, h2, h3, h4, h5, h6 {
     .outboard-item img {
         height: 200px;
     }
-} 
+} /* Skip to
+ content link for accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--vd-primary);
+  color: white;
+  padding: var(--spacing-md);
+  z-index: 1001;
+  transition: top 0.3s ease;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 2px solid white;
+  outline-offset: -2px;
+}
+
+/* Touch feedback styles */
+.nav-menu a.touch-active {
+  background-color: rgba(34, 93, 56, 0.2);
+  transform: scale(0.98);
+}
+
+.mobile-menu-toggle.touch-active {
+  background-color: rgba(34, 93, 56, 0.2);
+  transform: scale(0.95);
+}
+
+/* Screen reader only announcement */
+.sr-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible styles for better keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--vd-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .nav-menu,
+  .nav-menu li,
+  .hamburger-line,
+  .mobile-menu-toggle,
+  .nav-menu a {
+    transition: none !important;
+    animation: none !important;
+  }
+}

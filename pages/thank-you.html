@@ -18,6 +18,11 @@
             <a href="../index.html" class="navbar-brand">
                 <img src="../images/logos/logo1.png" alt="VD Audio Rental Logo" class="brand-logo">
             </a>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
             <ul class="nav-menu">
                 <li><a href="../index.html#home">Home</a></li>
                 <li><a href="../index.html#services">Services</a></li>
@@ -61,5 +66,18 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="../js/navigation.js"></script>
+    <!-- Add main-content ID for skip-to-content functionality -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add main-content ID to the thank-you section for skip-to-content functionality
+        const thankYouSection = document.querySelector('.thank-you-section');
+        if (thankYouSection) {
+          thankYouSection.id = 'main-content';
+        }
+      });
+    </script>
 </body>
 </html> 
