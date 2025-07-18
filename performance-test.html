@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Test - VD Audio Rental</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-item { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .pass { background: #d4edda; border-color: #c3e6cb; }
+        .fail { background: #f8d7da; border-color: #f5c6cb; }
+        img { max-width: 200px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1>VD Audio Rental - Performance Test</h1>
+    
+    <div id="lazy-loading-test" class="test-item">
+        <h3>🔄 Lazy Loading Test</h3>
+        <p>Status: <span id="lazy-status">Testing...</span></p>
+        <div style="height: 1000px;">Scroll down to see lazy loaded images...</div>
+        <img src="images/services/speaker.png" loading="lazy" alt="Test Image 1">
+        <img src="images/services/mixer.png" loading="lazy" alt="Test Image 2">
+    </div>
+    
+    <div id="webp-test" class="test-item">
+        <h3>🖼️ WebP Support Test</h3>
+        <p>Status: <span id="webp-status">Testing...</span></p>
+        <picture>
+            <source srcset="images/services/speaker.webp" type="image/webp">
+            <img src="images/services/speaker.png" alt="WebP Test Image">
+        </picture>
+    </div>
+    
+    <div id="preload-test" class="test-item">
+        <h3>⚡ Resource Preloading Test</h3>
+        <p>Status: <span id="preload-status">Testing...</span></p>
+    </div>
+
+    <script>
+        // Test lazy loading support
+        const lazySupport = 'loading' in HTMLImageElement.prototype;
+        document.getElementById('lazy-status').textContent = lazySupport ? 
+            '✅ Native lazy loading supported' : 
+            '⚠️ Using polyfill (older browser)';
+        document.getElementById('lazy-loading-test').className = 'test-item pass';
+
+        // Test WebP support
+        const webp = new Image();
+        webp.onload = webp.onerror = function () {
+            const supported = webp.height === 2;
+            document.getElementById('webp-status').textContent = supported ? 
+                '✅ WebP format supported' : 
+                '⚠️ Using fallback images';
+            document.getElementById('webp-test').className = 'test-item ' + (supported ? 'pass' : 'fail');
+        };
+        webp.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+
+        // Test preload support
+        const preloadSupport = document.createElement('link').relList.supports('preload');
+        document.getElementById('preload-status').textContent = preloadSupport ? 
+            '✅ Resource preloading supported' : 
+            '⚠️ Preloading not supported (older browser)';
+        document.getElementById('preload-test').className = 'test-item ' + (preloadSupport ? 'pass' : 'fail');
+
+        // Performance timing
+        window.addEventListener('load', function() {
+            const timing = performance.timing;
+            const loadTime = timing.loadEventEnd - timing.navigationStart;
+            const domReady = timing.domContentLoadedEventEnd - timing.navigationStart;
+            
+            console.log('🚀 Performance Metrics:');
+            console.log('DOM Ready:', domReady + 'ms');
+            console.log('Full Load:', loadTime + 'ms');
+            
+            const perfDiv = document.createElement('div');
+            perfDiv.className = 'test-item pass';
+            perfDiv.innerHTML = `
+                <h3>📊 Performance Metrics</h3>
+                <p>DOM Ready: ${domReady}ms</p>
+                <p>Full Load: ${loadTime}ms</p>
+            `;
+            document.body.appendChild(perfDiv);
+        });
+    </script>
+</body>
+</html>
