@@ -681,6 +681,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: var(--spacing-lg);
     background: var(--vd-surface);
     border-radius: var(--border-radius);
+    color: var(--vd-text);
 }
 
 .cta-container p {
