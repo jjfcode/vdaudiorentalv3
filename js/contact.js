@@ -1,6 +1,6 @@
 // Initialize EmailJS with your public key
 (function() {
-    emailjs.init("4e4Z_pgISz5k917Nc");
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
 })();
 
 // Contact Form Modal Functionality
@@ -320,49 +320,56 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state
             setLoadingState(submitBtn, btnContent, btnLoading, true);
 
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            // Replace with your EmailJS service ID and template ID
+            const response = await emailjs.send(
+                'YOUR_SERVICE_ID',     // Replace with your EmailJS service ID
+                'YOUR_TEMPLATE_ID',    // Replace with your EmailJS template ID
+                {
+                    from_name: formData.name,
+                    from_company: formData.company,
+                    from_email: formData.email,
+                    from_phone: formData.phone,
+                    message: formData.message,
+                    to_name: 'VD Audio Rental'
+                }
+            );
 
-            const response = await fetch('http://localhost:3000/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-                signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-
-            if (response.ok) {
+            if (response.status === 200) {
                 // Success - reset retry count
                 retryCount = 0;
                 lastFormData = null;
-
-                const result = await response.json();
-                modalContent.innerHTML = `
-                    <div class="thank-you-message" style="text-align: center; padding: 40px;">
-                        <i class="fas fa-check-circle" style="font-size: 48px; color: var(--vd-primary); margin-bottom: 20px;"></i>
-                        <h2 style="color: var(--vd-primary); margin-bottom: 15px;">Thank You!</h2>
-                        <p style="font-size: 1.1rem;">Your message has been sent successfully.</p>
-                    </div>
-                `;
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 3000);
             } else {
-                throw new Error(`HTTP ${response.status}`);
+                throw new Error(`EmailJS Error: ${response.status}`);
             }
+
+            modalContent.innerHTML = `
+                <div class="thank-you-message" style="text-align: center; padding: 40px;">
+                    <i class="fas fa-check-circle" style="font-size: 48px; color: var(--vd-primary); margin-bottom: 20px;"></i>
+                    <h2 style="color: var(--vd-primary); margin-bottom: 15px;">Thank You!</h2>
+                    <p style="font-size: 1.1rem;">Your message has been received successfully.</p>
+
+                </div>
+            `;
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+                // Reset form
+                contactForm.reset();
+                // Reset form states
+                const formGroups = contactForm.querySelectorAll('.form-group');
+                formGroups.forEach(group => {
+                    group.classList.remove('error', 'success');
+                });
+                const errorMessages = contactForm.querySelectorAll('.error-message');
+                errorMessages.forEach(msg => {
+                    msg.textContent = '';
+                    msg.classList.remove('show');
+                });
+            }, 3000);
+
         } catch (error) {
             console.error('Form submission error:', error);
-            
-            if (error.name === 'AbortError') {
-                handleSubmissionError(new Error('Request timeout'));
-            } else {
-                handleSubmissionError(error, error.response);
-            }
-
+            handleSubmissionError(error);
             // Store form data for retry
             lastFormData = formData;
         }
