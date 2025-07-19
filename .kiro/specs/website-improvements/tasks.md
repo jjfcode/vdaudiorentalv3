@@ -85,8 +85,8 @@
 
 ### 🚀 PENDING FRONTEND TASKS
 
-- [ ] 5. Interactive equipment enhancements
-- [ ] 5.1 Implement equipment image gallery with lightbox
+- [-] 5. Interactive equipment enhancements
+- [x] 5.1 Implement equipment image gallery with lightbox
   - Create lightbox modal for equipment images
   - Add image zoom and pan functionality
   - Implement image carousel/slideshow navigation
