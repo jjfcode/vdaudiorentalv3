@@ -1163,6 +1163,173 @@ h1, h2, h3, h4, h5, h6 {
     cursor: not-allowed;
 }
 
+/* Loading state styles for submit button */
+.submit-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.submit-btn.loading {
+    background-color: var(--vd-primary-light);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.submit-btn .btn-content,
+.submit-btn .btn-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    transition: opacity 0.3s ease;
+}
+
+.submit-btn .btn-loading {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+
+.submit-btn.loading .btn-content {
+    opacity: 0;
+}
+
+.submit-btn.loading .btn-loading {
+    opacity: 1;
+}
+
+.submit-btn .fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Form submission states */
+.form-group.error input,
+.form-group.error textarea {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.form-group.success input,
+.form-group.success textarea {
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+/* Error message styles */
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: var(--spacing-xs);
+    display: none;
+    padding-left: var(--spacing-sm);
+}
+
+.error-message.show {
+    display: block;
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+/* Success state icon */
+.form-group.success .form-icon {
+    color: #28a745;
+}
+
+.form-group.error .form-icon {
+    color: #dc3545;
+}
+
+/* Error notification styles */
+.error-notification {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    display: none;
+    position: relative;
+}
+
+.error-notification.show {
+    display: block;
+}
+
+.error-notification .error-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.error-notification .error-message {
+    color: inherit;
+    font-size: 0.9rem;
+    margin: 0;
+    display: block;
+}
+
+.error-notification .retry-button {
+    background-color: #721c24;
+    color: white;
+    border: none;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-top: var(--spacing-sm);
+    transition: background-color 0.3s ease;
+}
+
+.error-notification .retry-button:hover {
+    background-color: #5a161f;
+}
+
+.error-notification .close-error {
+    position: absolute;
+    top: var(--spacing-xs);
+    right: var(--spacing-sm);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #721c24;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Offline notification */
+.offline-notification {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    display: none;
+    text-align: center;
+}
+
+.offline-notification.show {
+    display: block;
+}
+
+.offline-notification i {
+    margin-right: var(--spacing-sm);
+}
+
 /* Message Button Styles */
 .message-btn {
     margin-top: var(--spacing-md);

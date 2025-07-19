@@ -41,6 +41,18 @@ document.addEventListener('DOMContentLoaded', function() {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            // Validate all fields before submission
+            if (!validateAllFields()) {
+                return; // Stop submission if validation fails
+            }
+
+            const submitBtn = this.querySelector('.submit-btn');
+            const btnContent = submitBtn.querySelector('.btn-content');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+
+            // Show loading state
+            setLoadingState(submitBtn, btnContent, btnLoading, true);
+
             const formData = {
                 name: this.name.value,
                 company: this.company.value,
@@ -49,36 +61,343 @@ document.addEventListener('DOMContentLoaded', function() {
                 message: this.message.value
             };
 
-            try {
-                const response = await fetch('http://localhost:3000/api/contact', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
+            // Reset retry count for new submission
+            retryCount = 0;
+            
+            // Attempt submission with comprehensive error handling
+            await attemptSubmission(formData);
+        });
+    }
+
+    // Function to manage loading state
+    function setLoadingState(submitBtn, btnContent, btnLoading, isLoading) {
+        if (isLoading) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            btnContent.style.display = 'none';
+            btnLoading.removeAttribute('hidden');
+            btnLoading.style.display = 'flex';
+        } else {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            btnContent.style.display = 'flex';
+            btnLoading.setAttribute('hidden', '');
+            btnLoading.style.display = 'none';
+        }
+    }
+
+    // Form validation functions
+    const validators = {
+        name: {
+            validate: (value) => {
+                if (!value.trim()) return 'Name is required';
+                if (value.trim().length < 2) return 'Name must be at least 2 characters';
+                if (value.trim().length > 50) return 'Name must be less than 50 characters';
+                if (!/^[a-zA-Z\s]+$/.test(value.trim())) return 'Name can only contain letters and spaces';
+                return null;
+            }
+        },
+        company: {
+            validate: (value) => {
+                if (!value.trim()) return 'Company name is required';
+                if (value.trim().length > 100) return 'Company name must be less than 100 characters';
+                return null;
+            }
+        },
+        email: {
+            validate: (value) => {
+                if (!value.trim()) return 'Email is required';
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(value.trim())) return 'Please enter a valid email address';
+                return null;
+            }
+        },
+        phone: {
+            validate: (value) => {
+                if (!value.trim()) return 'Phone number is required';
+                const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+                const cleanPhone = value.replace(/[\s\-\(\)]/g, '');
+                if (!phoneRegex.test(cleanPhone)) return 'Please enter a valid phone number';
+                return null;
+            }
+        },
+        message: {
+            validate: (value) => {
+                if (!value.trim()) return 'Message is required';
+                if (value.trim().length < 10) return 'Message must be at least 10 characters';
+                if (value.trim().length > 1000) return 'Message must be less than 1000 characters';
+                return null;
+            }
+        }
+    };
+
+    // Function to validate a single field
+    function validateField(fieldName, value) {
+        const validator = validators[fieldName];
+        if (!validator) return null;
+        return validator.validate(value);
+    }
+
+    // Function to show/hide error message
+    function showFieldError(fieldName, errorMessage) {
+        const formGroup = document.querySelector(`#contact-${fieldName}`).closest('.form-group');
+        const errorElement = document.getElementById(`${fieldName}-error`);
+        const inputElement = document.getElementById(`contact-${fieldName}`);
+
+        if (errorMessage) {
+            formGroup.classList.add('error');
+            formGroup.classList.remove('success');
+            errorElement.textContent = errorMessage;
+            errorElement.classList.add('show');
+            inputElement.setAttribute('aria-invalid', 'true');
+        } else {
+            formGroup.classList.remove('error');
+            formGroup.classList.add('success');
+            errorElement.textContent = '';
+            errorElement.classList.remove('show');
+            inputElement.setAttribute('aria-invalid', 'false');
+        }
+    }
+
+    // Function to validate all fields
+    function validateAllFields() {
+        let isValid = true;
+        const formData = {
+            name: document.getElementById('contact-name').value,
+            company: document.getElementById('contact-company').value,
+            email: document.getElementById('contact-email').value,
+            phone: document.getElementById('contact-phone').value,
+            message: document.getElementById('contact-message').value
+        };
+
+        Object.keys(formData).forEach(fieldName => {
+            const error = validateField(fieldName, formData[fieldName]);
+            showFieldError(fieldName, error);
+            if (error) isValid = false;
+        });
+
+        return isValid;
+    }
+
+    // Add real-time validation to form fields
+    if (contactForm) {
+        const formFields = ['name', 'company', 'email', 'phone', 'message'];
+        
+        formFields.forEach(fieldName => {
+            const inputElement = document.getElementById(`contact-${fieldName}`);
+            if (inputElement) {
+                // Validate on blur (when user leaves the field)
+                inputElement.addEventListener('blur', function() {
+                    const error = validateField(fieldName, this.value);
+                    showFieldError(fieldName, error);
                 });
 
-                const result = await response.json();
-
-                if (response.ok) {
-                    modalContent.innerHTML = `
-                        <div class="thank-you-message" style="text-align: center; padding: 40px;">
-                            <i class="fas fa-check-circle" style="font-size: 48px; color: var(--vd-primary); margin-bottom: 20px;"></i>
-                            <h2 style="color: var(--vd-primary); margin-bottom: 15px;">Thank You!</h2>
-                            <p style="font-size: 1.1rem;">Your message has been sent successfully.</p>
-                        </div>
-                    `;
-
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 3000);
-                } else {
-                    alert('Failed to send message. Please try again.');
-                }
-            } catch (error) {
-                console.error('Form submission error:', error);
-                alert('An error occurred. Please try again.');
+                // Clear error on input (when user starts typing)
+                inputElement.addEventListener('input', function() {
+                    const formGroup = this.closest('.form-group');
+                    if (formGroup.classList.contains('error')) {
+                        const error = validateField(fieldName, this.value);
+                        if (!error) {
+                            showFieldError(fieldName, null);
+                        }
+                    }
+                });
             }
         });
     }
+
+    // Error handling and network detection
+    let retryCount = 0;
+    const maxRetries = 3;
+    let lastFormData = null;
+
+    // Function to detect if user is online
+    function isOnline() {
+        return navigator.onLine;
+    }
+
+    // Function to show error notification
+    function showErrorNotification(title, message, showRetry = true) {
+        const errorNotification = document.getElementById('error-notification');
+        const errorTitle = errorNotification.querySelector('.error-title');
+        const errorMessage = errorNotification.querySelector('.error-message');
+        const retryButton = errorNotification.querySelector('.retry-button');
+
+        errorTitle.textContent = title;
+        errorMessage.textContent = message;
+        retryButton.style.display = showRetry ? 'inline-block' : 'none';
+        errorNotification.classList.add('show');
+    }
+
+    // Function to hide error notification
+    function hideErrorNotification() {
+        const errorNotification = document.getElementById('error-notification');
+        errorNotification.classList.remove('show');
+    }
+
+    // Function to show offline notification
+    function showOfflineNotification() {
+        const offlineNotification = document.getElementById('offline-notification');
+        offlineNotification.classList.add('show');
+    }
+
+    // Function to hide offline notification
+    function hideOfflineNotification() {
+        const offlineNotification = document.getElementById('offline-notification');
+        offlineNotification.classList.remove('show');
+    }
+
+    // Function to handle different types of errors
+    function handleSubmissionError(error, response = null) {
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const btnContent = submitBtn.querySelector('.btn-content');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+
+        // Hide loading state
+        setLoadingState(submitBtn, btnContent, btnLoading, false);
+
+        if (!isOnline()) {
+            showOfflineNotification();
+            showErrorNotification(
+                'No Internet Connection',
+                'Please check your internet connection and try again.',
+                true
+            );
+        } else if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            // Network error
+            showErrorNotification(
+                'Connection Error',
+                'Unable to connect to the server. Please check your connection and try again.',
+                true
+            );
+        } else if (response && response.status === 429) {
+            // Rate limiting
+            showErrorNotification(
+                'Too Many Requests',
+                'You have sent too many messages recently. Please wait a few minutes before trying again.',
+                false
+            );
+        } else if (response && response.status >= 500) {
+            // Server error
+            showErrorNotification(
+                'Server Error',
+                'Our server is experiencing issues. Please try again in a few moments.',
+                true
+            );
+        } else if (response && response.status === 400) {
+            // Bad request
+            showErrorNotification(
+                'Invalid Information',
+                'Please check your information and try again.',
+                false
+            );
+        } else {
+            // Generic error
+            showErrorNotification(
+                'Unexpected Error',
+                'Something went wrong. Please try again.',
+                true
+            );
+        }
+    }
+
+    // Function to attempt form submission with retry logic
+    async function attemptSubmission(formData, isRetry = false) {
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const btnContent = submitBtn.querySelector('.btn-content');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+
+        try {
+            // Check if online before attempting
+            if (!isOnline()) {
+                throw new Error('User is offline');
+            }
+
+            // Hide any existing error notifications
+            hideErrorNotification();
+            hideOfflineNotification();
+
+            // Show loading state
+            setLoadingState(submitBtn, btnContent, btnLoading, true);
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+            const response = await fetch('http://localhost:3000/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (response.ok) {
+                // Success - reset retry count
+                retryCount = 0;
+                lastFormData = null;
+
+                const result = await response.json();
+                modalContent.innerHTML = `
+                    <div class="thank-you-message" style="text-align: center; padding: 40px;">
+                        <i class="fas fa-check-circle" style="font-size: 48px; color: var(--vd-primary); margin-bottom: 20px;"></i>
+                        <h2 style="color: var(--vd-primary); margin-bottom: 15px;">Thank You!</h2>
+                        <p style="font-size: 1.1rem;">Your message has been sent successfully.</p>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+            } else {
+                throw new Error(`HTTP ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Form submission error:', error);
+            
+            if (error.name === 'AbortError') {
+                handleSubmissionError(new Error('Request timeout'));
+            } else {
+                handleSubmissionError(error, error.response);
+            }
+
+            // Store form data for retry
+            lastFormData = formData;
+        }
+    }
+
+    // Event listeners for error handling
+    if (document.getElementById('error-notification')) {
+        // Close error notification
+        document.querySelector('.close-error').addEventListener('click', function() {
+            hideErrorNotification();
+        });
+
+        // Retry button
+        document.getElementById('retry-submit').addEventListener('click', function() {
+            if (lastFormData && retryCount < maxRetries) {
+                retryCount++;
+                attemptSubmission(lastFormData, true);
+            } else if (retryCount >= maxRetries) {
+                showErrorNotification(
+                    'Maximum Retries Exceeded',
+                    'Please try again later or contact us directly.',
+                    false
+                );
+            }
+        });
+    }
+
+    // Online/offline event listeners
+    window.addEventListener('online', function() {
+        hideOfflineNotification();
+        console.log('Connection restored');
+    });
+
+    window.addEventListener('offline', function() {
+        showOfflineNotification();
+        console.log('Connection lost');
+    });
 }); 
