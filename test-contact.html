@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Interactive Test - VD Audio Rental</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/contact-interactive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--vd-primary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Interactive Contact Options Test</h1>
+        
+        <!-- Business Hours Display -->
+        <div class="business-hours">
+            <h4><i class="fas fa-clock"></i> Business Hours</h4>
+            <div class="hours-status" id="businessStatus">
+                <span class="status-indicator" id="statusIndicator"></span>
+                <span class="status-text" id="statusText">Loading...</span>
+            </div>
+            <div class="hours-list">
+                <div class="hours-item">
+                    <span class="day">Monday - Friday</span>
+                    <span class="time">9:00 AM - 6:00 PM</span>
+                </div>
+                <div class="hours-item">
+                    <span class="day">Saturday</span>
+                    <span class="time">10:00 AM - 4:00 PM</span>
+                </div>
+                <div class="hours-item">
+                    <span class="day">Sunday</span>
+                    <span class="time">Closed</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Preference Selection -->
+        <div class="contact-preferences">
+            <h4><i class="fas fa-user-cog"></i> How would you like to be contacted?</h4>
+            <div class="preference-options">
+                <label class="preference-option">
+                    <input type="radio" name="contactPreference" value="phone" checked>
+                    <span class="preference-label">
+                        <i class="fas fa-phone"></i> Phone Call
+                    </span>
+                </label>
+                <label class="preference-option">
+                    <input type="radio" name="contactPreference" value="email">
+                    <span class="preference-label">
+                        <i class="fas fa-envelope"></i> Email
+                    </span>
+                </label>
+                <label class="preference-option">
+                    <input type="radio" name="contactPreference" value="whatsapp">
+                    <span class="preference-label">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </span>
+                </label>
+                <label class="preference-option">
+                    <input type="radio" name="contactPreference" value="text">
+                    <span class="preference-label">
+                        <i class="fas fa-sms"></i> Text Message
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Interactive Contact Options -->
+        <div class="contact-methods">
+            <h4><i class="fas fa-comments"></i> Contact Us Now</h4>
+            
+            <!-- Click-to-call -->
+            <a href="tel:+17862572705" class="contact-method call-method" id="callButton">
+                <div class="method-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="method-info">
+                    <span class="method-title">Call Us</span>
+                    <span class="method-detail">+1 (786) 257-2705</span>
+                    <span class="method-status" id="callStatus">Tap to call now</span>
+                </div>
+            </a>
+
+            <!-- WhatsApp Integration -->
+            <a href="#" class="contact-method whatsapp-method" id="whatsappButton">
+                <div class="method-icon whatsapp-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="method-info">
+                    <span class="method-title">WhatsApp</span>
+                    <span class="method-detail">Quick response guaranteed</span>
+                    <span class="method-status">Start conversation</span>
+                </div>
+            </a>
+
+            <!-- Email -->
+            <a href="mailto:info@vdaudiorentals.com" class="contact-method email-method">
+                <div class="method-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="method-info">
+                    <span class="method-title">Email Us</span>
+                    <span class="method-detail">info@vdaudiorentals.com</span>
+                    <span class="method-status">Send email directly</span>
+                </div>
+            </a>
+
+            <!-- Text Message -->
+            <a href="sms:+17862572705" class="contact-method sms-method">
+                <div class="method-icon">
+                    <i class="fas fa-sms"></i>
+                </div>
+                <div class="method-info">
+                    <span class="method-title">Text Message</span>
+                    <span class="method-detail">+1 (786) 257-2705</span>
+                    <span class="method-status">Send SMS</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Social Media Quick Links -->
+        <div class="social-contact">
+            <h4><i class="fas fa-share-alt"></i> Follow & Connect</h4>
+            <div class="social-methods">
+                <a href="https://www.facebook.com/VDAudioRental" target="_blank" rel="noopener noreferrer" 
+                   class="social-method facebook-method" aria-label="Message us on Facebook">
+                    <div class="social-icon">
+                        <i class="fab fa-facebook-messenger"></i>
+                    </div>
+                    <div class="social-info">
+                        <span class="social-title">Facebook</span>
+                        <span class="social-detail">Message us directly</span>
+                    </div>
+                </a>
+                
+                <a href="https://www.instagram.com/vdaudiorental" target="_blank" rel="noopener noreferrer" 
+                   class="social-method instagram-method" aria-label="DM us on Instagram">
+                    <div class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div class="social-info">
+                        <span class="social-title">Instagram</span>
+                        <span class="social-detail">Send us a DM</span>
+                    </div>
+                </a>
+                
+                <a href="https://www.linkedin.com/company/vdaudiorental/posts/?feedView=all" target="_blank" rel="noopener noreferrer" 
+                   class="social-method linkedin-method" aria-label="Connect on LinkedIn">
+                    <div class="social-icon">
+                        <i class="fab fa-linkedin"></i>
+                    </div>
+                    <div class="social-info">
+                        <span class="social-title">LinkedIn</span>
+                        <span class="social-detail">Professional inquiries</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/contact-interactive.js"></script>
+</body>
+</html>

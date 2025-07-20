@@ -1,0 +1,594 @@
+/* Interactive Contact Options Styles */
+
+/* Business Hours Section */
+.business-hours {
+    background: var(--vd-surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border-left: 4px solid var(--vd-primary);
+}
+
+.business-hours h4 {
+    color: var(--vd-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.hours-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    background: white;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.open {
+    background-color: var(--vd-success);
+}
+
+.status-indicator.closed {
+    background-color: var(--vd-error);
+}
+
+.status-indicator.closing-soon {
+    background-color: var(--vd-warning);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.hours-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid #eee;
+}
+
+.hours-item:last-child {
+    border-bottom: none;
+}
+
+.hours-item .day {
+    font-weight: 500;
+    color: var(--vd-text);
+}
+
+.hours-item .time {
+    color: var(--vd-text-light);
+    font-size: 0.9rem;
+}
+
+/* Contact Preferences Section */
+.contact-preferences {
+    background: var(--vd-surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.contact-preferences h4 {
+    color: var(--vd-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.preference-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.preference-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    background: white;
+    border: 2px solid transparent;
+}
+
+.preference-option:hover {
+    background: #f0f8f4;
+    border-color: var(--vd-primary-light);
+}
+
+.preference-option input[type="radio"] {
+    display: none;
+}
+
+.preference-option input[type="radio"]:checked + .preference-label {
+    color: var(--vd-primary);
+    font-weight: 500;
+}
+
+.preference-option input[type="radio"]:checked + .preference-label i {
+    color: var(--vd-primary);
+}
+
+.preference-option:has(input[type="radio"]:checked) {
+    background: #f0f8f4;
+    border-color: var(--vd-primary);
+}
+
+.preference-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--vd-text);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.preference-label i {
+    font-size: 1.1rem;
+    color: var(--vd-text-light);
+    transition: all 0.3s ease;
+}
+
+/* Contact Methods Section */
+.contact-methods {
+    margin-bottom: var(--spacing-lg);
+}
+
+.contact-methods h4 {
+    color: var(--vd-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.contact-method {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+    background: white;
+    border: 2px solid #eee;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--vd-text);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-method:hover {
+    border-color: var(--vd-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(34, 93, 56, 0.15);
+}
+
+.contact-method:focus {
+    outline: 2px solid var(--vd-primary);
+    outline-offset: 2px;
+}
+
+.method-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white !important;
+    flex-shrink: 0;
+}
+
+.method-icon i {
+    color: white !important;
+}
+
+.call-method .method-icon {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+}
+
+.whatsapp-method .method-icon {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+.email-method .method-icon {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.sms-method .method-icon {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
+.method-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.method-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--vd-primary);
+}
+
+.method-detail {
+    font-size: 0.95rem;
+    color: var(--vd-text);
+}
+
+.method-status {
+    font-size: 0.85rem;
+    color: var(--vd-text-light);
+    font-style: italic;
+}
+
+/* WhatsApp specific styling */
+.whatsapp-method:hover .whatsapp-icon {
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+    0%, 20%, 60%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    80% { transform: translateY(-5px); }
+}
+
+/* Call method specific styling */
+.call-method:hover .method-icon {
+    animation: ring 1s ease-in-out;
+}
+
+@keyframes ring {
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+    20%, 40%, 60%, 80% { transform: rotate(10deg); }
+}
+
+/* Social Media Section */
+.social-contact {
+    margin-bottom: var(--spacing-lg);
+}
+
+.social-contact h4 {
+    color: var(--vd-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.social-methods {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.social-method {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: white;
+    border: 2px solid #eee;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: var(--vd-text);
+    transition: all 0.3s ease;
+}
+
+.social-method:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.social-method:focus {
+    outline: 2px solid var(--vd-primary);
+    outline-offset: 2px;
+}
+
+.social-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: white !important;
+    flex-shrink: 0;
+}
+
+.social-icon i {
+    color: white !important;
+}
+
+.facebook-method .social-icon {
+    background: linear-gradient(135deg, #1877F2, #0866FF);
+}
+
+.facebook-method:hover {
+    border-color: #1877F2;
+}
+
+.instagram-method .social-icon {
+    background: linear-gradient(135deg, #E4405F, #C13584, #833AB4);
+}
+
+.instagram-method:hover {
+    border-color: #E4405F;
+}
+
+.linkedin-method .social-icon {
+    background: linear-gradient(135deg, #0A66C2, #004182);
+}
+
+.linkedin-method:hover {
+    border-color: #0A66C2;
+}
+
+.social-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.social-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--vd-primary);
+}
+
+.social-detail {
+    font-size: 0.9rem;
+    color: var(--vd-text-light);
+}
+
+/* Form Contact Section */
+.form-contact {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    background: var(--vd-surface);
+    border-radius: var(--border-radius);
+}
+
+.form-contact .message-btn {
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1.1rem;
+}
+
+.form-note {
+    color: var(--vd-text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Location Info Section */
+.location-info {
+    background: var(--vd-surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    text-align: center;
+}
+
+.location-info h4 {
+    color: var(--vd-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: 1.1rem;
+}
+
+.address {
+    font-weight: 500;
+    color: var(--vd-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.location-note {
+    color: var(--vd-text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-methods,
+    .social-methods {
+        gap: var(--spacing-xs);
+    }
+    
+    .contact-method,
+    .social-method {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+    
+    .method-icon,
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .preference-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .preference-option {
+        padding: var(--spacing-xs);
+    }
+    
+    .preference-label {
+        font-size: 0.85rem;
+    }
+    
+    .business-hours,
+    .contact-preferences,
+    .form-contact,
+    .location-info {
+        padding: var(--spacing-md);
+    }
+    
+    .hours-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+    
+    .hours-item .time {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .preference-options {
+        grid-template-columns: 1fr;
+    }
+    
+    .social-methods {
+        gap: var(--spacing-xs);
+    }
+    
+    .method-title,
+    .social-title {
+        font-size: 1rem;
+    }
+    
+    .method-detail,
+    .social-detail {
+        font-size: 0.85rem;
+    }
+    
+    .method-status {
+        font-size: 0.8rem;
+    }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+    .contact-method,
+    .social-method,
+    .preference-option {
+        transition: none;
+    }
+    
+    .status-indicator {
+        animation: none;
+    }
+    
+    .whatsapp-method:hover .whatsapp-icon,
+    .call-method:hover .method-icon {
+        animation: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .contact-method,
+    .social-method,
+    .preference-option {
+        border-width: 3px;
+    }
+    
+    .contact-method:hover,
+    .social-method:hover,
+    .preference-option:hover {
+        border-color: var(--vd-high-contrast-text);
+    }
+}
+/* I
+ntegration with existing contact section */
+#contact .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+#contact .contact-info > h3 {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-size: 1.8rem;
+    color: var(--vd-primary);
+}
+
+/* Ensure proper spacing in contact section */
+.contact-section-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--vd-primary), transparent);
+    margin: var(--spacing-xl) 0;
+}
+
+/* Loading states for contact methods */
+.contact-method.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.contact-method.loading .method-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Success states */
+.contact-method.success {
+    border-color: var(--vd-success);
+    background: #f0f9f0;
+}
+
+.contact-method.success .method-icon {
+    background: var(--vd-success) !important;
+}
+
+/* Focus improvements for accessibility */
+.contact-method:focus-visible,
+.social-method:focus-visible,
+.preference-option:focus-visible {
+    outline: 3px solid var(--vd-primary);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .contact-methods,
+    .social-contact,
+    .contact-preferences {
+        display: none;
+    }
+    
+    .location-info,
+    .business-hours {
+        display: block;
+    }
+    
+    .location-info .address {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+}

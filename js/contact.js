@@ -53,12 +53,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state
             setLoadingState(submitBtn, btnContent, btnLoading, true);
 
+            // Get selected contact preference
+            const selectedPreference = document.querySelector('input[name="contactPreference"]:checked');
+            const contactPreference = selectedPreference ? selectedPreference.value : 'email';
+
             const formData = {
                 name: this.name.value,
                 company: this.company.value,
                 email: this.email.value,
                 phone: this.phone.value,
-                message: this.message.value
+                message: this.message.value,
+                contactPreference: contactPreference
             };
 
             // Reset retry count for new submission
@@ -350,6 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     from_email: formData.email,
                     from_phone: formData.phone,
                     message: formData.message,
+                    contact_preference: formData.contactPreference,
                     to_name: 'VD Audio Rental'
                 }
             );
