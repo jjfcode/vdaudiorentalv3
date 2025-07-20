@@ -606,6 +606,45 @@
     <!-- Scripts -->
     <script src="../js/navigation.js"></script>
     <script src="../js/lightbox.js"></script>
+    <script src="../js/equipment-filters.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Run brand selection regardless of equipment filters
+        setTimeout(() => {
+            
+            // Get all brand logo items
+            const brandLogos = document.querySelectorAll('.brand-logo-item');
+            
+            // Add click event to each logo
+            brandLogos.forEach(logo => {
+                logo.addEventListener('click', function() {
+                    // Hide all brand sections
+                    document.querySelectorAll('.brand-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show the selected brand's speakers
+                    const brandName = this.getAttribute('data-brand');
+                    const speakerSection = document.getElementById(brandName + '-speakers');
+                    console.log('Brand clicked:', brandName);
+                    console.log('Looking for section:', brandName + '-speakers');
+                    console.log('Section found:', speakerSection);
+                    
+                    if (speakerSection) {
+                        speakerSection.style.display = 'block';
+                        speakerSection.style.visibility = 'visible';
+                        console.log('Section should now be visible');
+                        // Scroll to the speakers section
+                        speakerSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        console.error('Section not found for brand:', brandName);
+                    }
+                });
+            });
+        }, 1000); // Wait 1 second to let filter system initialize
+    });
+    </script>
     
     <!-- Brand Selection Script -->
     <script>

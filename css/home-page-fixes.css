@@ -1,0 +1,61 @@
+/* Home page specific fixes - only affects index.html */
+
+/* Equipment section visibility - ONLY for main index page */
+body.home-page #equipment {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body.home-page .equipment-grid {
+  display: grid !important;
+  visibility: visible !important;
+}
+
+body.home-page .equipment-item {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Fix clickability of equipment items - ONLY on home page */
+body.home-page .equipment-item a {
+  display: block !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+body.home-page .equipment-item a:hover {
+  text-decoration: none !important;
+}
+
+body.home-page .equipment-item {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative !important;
+}
+
+body.home-page .equipment-item:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+/* Debug: Make links more obvious - ONLY on home page */
+body.home-page .equipment-item a {
+  outline: 2px solid transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+body.home-page .equipment-item a:hover {
+  outline: 2px solid #007bff !important;
+  outline-offset: 2px !important;
+}
+
+body.home-page .equipment-item a:focus {
+  outline: 2px solid #007bff !important;
+  outline-offset: 2px !important;
+}

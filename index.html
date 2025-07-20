@@ -10,170 +10,171 @@
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/lightbox.css">
+    <link rel="stylesheet" href="css/home-page-fixes.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
-<body>
-    <!-- Skip to content link for screen readers -->
-    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+<body class="home-page"></body>
+<!-- Skip to content link for screen readers -->
+<a href="#main-content" class="skip-to-content">Skip to main content</a>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="./index.html" class="navbar-brand">
-                <img src="images/logos/logo1.png" alt="VD Audio Rental - Professional Audio Equipment Rental Logo"
-                    class="brand-logo">
-            </a>
-            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            <ul class="nav-menu">
-                <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#services">Services</a></li>
-                <li><a href="index.html#equipment">Equipment</a></li>
-                <li><a href="index.html#used-equipment">Sales</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container">
+        <a href="./index.html" class="navbar-brand">
+            <img src="images/logos/logo1.png" alt="VD Audio Rental - Professional Audio Equipment Rental Logo"
+                class="brand-logo">
+        </a>
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="index.html#home">Home</a></li>
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#equipment">Equipment</a></li>
+            <li><a href="index.html#used-equipment">Sales</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<header id="home" class="hero">
+    <div id="main-content"></div>
+    <div class="container">
+        <h1>Professional Audio Equipment Rental</h1>
+        <p class="hero-text">High-quality sound solutions for your events</p>
+        <a href="#contact" class="btn btn-primary">Get a Quote</a>
+    </div>
+</header>
+
+<!-- Services Section -->
+<section id="services" class="section" role="region" aria-labelledby="services-heading">
+    <div class="container">
+        <h2 id="services-heading">Our Services</h2>
+        <div class="services-grid">
+            <div class="card">
+                <i class="fas fa-truck-fast"></i>
+                <h3>Sub-Rental</h3>
+                <p>Professional audio equipment sub-rental services for rental companies and production houses</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Competitive Rates</li>
+                    <li><i class="fas fa-check"></i> Flexible Terms</li>
+                    <li><i class="fas fa-check"></i> Quality Equipment</li>
+                </ul>
+            </div>
+            <div class="card">
+                <i class="fas fa-route"></i>
+                <h3>Tour Support</h3>
+                <p>Complete audio solutions and support for concert tours and extended events</p>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Tour Package Deals</li>
+                    <li><i class="fas fa-check"></i> Technical Support</li>
+                    <li><i class="fas fa-check"></i> Backup Equipment</li>
+                </ul>
+            </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <header id="home" class="hero">
-        <div id="main-content"></div>
-        <div class="container">
-            <h1>Professional Audio Equipment Rental</h1>
-            <p class="hero-text">High-quality sound solutions for your events</p>
+<!-- Equipment Section -->
+<section id="equipment" class="section bg-primary" role="region" aria-labelledby="equipment-heading">
+    <div class="container">
+        <h2 id="equipment-heading">Our Equipment</h2>
+        <div class="equipment-grid" role="grid" aria-label="Equipment categories">
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/speakers.html" aria-describedby="speakers-desc">
+                    <img src="images/services/speaker.png" width="200" height="200"
+                        alt="Professional Sound Reinforcement Speaker Systems for Events and Concerts">
+                    <h3>Speakers</h3>
+                    <p id="speakers-desc">Professional sound reinforcement systems</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/mixers.html" aria-describedby="mixers-desc">
+                    <img src="images/services/mixer.png" width="200" height="200"
+                        alt="Professional Digital and Analog Audio Mixing Consoles for Live Sound and Recording">
+                    <h3>Mixers</h3>
+                    <p id="mixers-desc">Digital and analog mixing consoles</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/wireless.html" aria-describedby="wireless-desc">
+                    <img src="images/services/wmike.png" width="200" height="200"
+                        alt="Professional Wireless Microphone Systems for Live Performance and Broadcasting">
+                    <h3>Wireless Microphones</h3>
+                    <p id="wireless-desc">Professional wireless microphone systems</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/wired.html" aria-describedby="wired-desc">
+                    <img src="images/services/mike.png" width="200" height="200"
+                        alt="Professional Wired Microphones for Studio Recording and Live Performance">
+                    <h3>Wired Microphones</h3>
+                    <p id="wired-desc">High-quality wired microphones</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/intercom.html" aria-describedby="intercom-desc">
+                    <img src="images/services/intercom.png" width="200" height="200"
+                        alt="Professional Intercom Communication Systems for Live Events and Production">
+                    <h3>Intercom</h3>
+                    <p id="intercom-desc">Professional communication systems</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/outboard.html" aria-describedby="outboard-desc">
+                    <img src="images/services/outboargear.png" width="200" height="200"
+                        alt="Professional Audio Outboard Gear and Signal Processors for Sound Enhancement">
+                    <h3>Outboard Gear</h3>
+                    <p id="outboard-desc">Professional audio processors</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/players.html" aria-describedby="players-desc">
+                    <img src="images/services/recorder.png" width="200" height="200"
+                        alt="Professional Audio Players and Recording Equipment for Live Events and Studio Use">
+                    <h3>Players & Recorders</h3>
+                    <p id="players-desc">Professional playback and recording equipment</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/snakes.html" aria-describedby="snakes-desc">
+                    <img src="images/services/snake.png" width="200" height="200"
+                        alt="Professional Audio Snakes and Splitters for Signal Distribution and Routing">
+                    <h3>Snakes & Splitters</h3>
+                    <p id="snakes-desc">Audio distribution solutions</p>
+                </a>
+            </div>
+            <div class="equipment-item" role="gridcell">
+                <a href="pages/iem.html" aria-describedby="iem-desc">
+                    <img src="images/services/IEM.png" width="200" height="200"
+                        alt="Professional In-Ear Monitoring Systems for Musicians and Performers">
+                    <h3>IEM</h3>
+                    <p id="iem-desc">In-ear monitoring systems</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="cta-container">
+            <p>Need specific equipment for your event?</p>
             <a href="#contact" class="btn btn-primary">Get a Quote</a>
         </div>
-    </header>
+    </div>
+</section>
 
-    <!-- Services Section -->
-    <section id="services" class="section" role="region" aria-labelledby="services-heading">
-        <div class="container">
-            <h2 id="services-heading">Our Services</h2>
-            <div class="services-grid">
-                <div class="card">
-                    <i class="fas fa-truck-fast"></i>
-                    <h3>Sub-Rental</h3>
-                    <p>Professional audio equipment sub-rental services for rental companies and production houses</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Competitive Rates</li>
-                        <li><i class="fas fa-check"></i> Flexible Terms</li>
-                        <li><i class="fas fa-check"></i> Quality Equipment</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <i class="fas fa-route"></i>
-                    <h3>Tour Support</h3>
-                    <p>Complete audio solutions and support for concert tours and extended events</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Tour Package Deals</li>
-                        <li><i class="fas fa-check"></i> Technical Support</li>
-                        <li><i class="fas fa-check"></i> Backup Equipment</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Used Equipment Section -->
+<section id="used-equipment" class="section" role="region" aria-labelledby="used-equipment-heading">
+    <div class="container">
+        <h2 id="used-equipment-heading">Used Equipment For Sale</h2>
+        <p class="section-description">Professional audio equipment available for purchase</p>
 
-    <!-- Equipment Section -->
-    <section id="equipment" class="section bg-primary" role="region" aria-labelledby="equipment-heading">
-        <div class="container">
-            <h2 id="equipment-heading">Our Equipment</h2>
-            <div class="equipment-grid" role="grid" aria-label="Equipment categories">
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/speakers.html" aria-describedby="speakers-desc">
-                        <img src="images/services/speaker.png" width="200" height="200"
-                            alt="Professional Sound Reinforcement Speaker Systems for Events and Concerts">
-                        <h3>Speakers</h3>
-                        <p id="speakers-desc">Professional sound reinforcement systems</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/mixers.html" aria-describedby="mixers-desc">
-                        <img src="images/services/mixer.png" width="200" height="200"
-                            alt="Professional Digital and Analog Audio Mixing Consoles for Live Sound and Recording">
-                        <h3>Mixers</h3>
-                        <p id="mixers-desc">Digital and analog mixing consoles</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/wireless.html" aria-describedby="wireless-desc">
-                        <img src="images/services/wmike.png" width="200" height="200"
-                            alt="Professional Wireless Microphone Systems for Live Performance and Broadcasting">
-                        <h3>Wireless Microphones</h3>
-                        <p id="wireless-desc">Professional wireless microphone systems</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/wired.html" aria-describedby="wired-desc">
-                        <img src="images/services/mike.png" width="200" height="200"
-                            alt="Professional Wired Microphones for Studio Recording and Live Performance">
-                        <h3>Wired Microphones</h3>
-                        <p id="wired-desc">High-quality wired microphones</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/intercom.html" aria-describedby="intercom-desc">
-                        <img src="images/services/intercom.png" width="200" height="200"
-                            alt="Professional Intercom Communication Systems for Live Events and Production">
-                        <h3>Intercom</h3>
-                        <p id="intercom-desc">Professional communication systems</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/outboard.html" aria-describedby="outboard-desc">
-                        <img src="images/services/outboargear.png" width="200" height="200"
-                            alt="Professional Audio Outboard Gear and Signal Processors for Sound Enhancement">
-                        <h3>Outboard Gear</h3>
-                        <p id="outboard-desc">Professional audio processors</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/players.html" aria-describedby="players-desc">
-                        <img src="images/services/recorder.png" width="200" height="200"
-                            alt="Professional Audio Players and Recording Equipment for Live Events and Studio Use">
-                        <h3>Players & Recorders</h3>
-                        <p id="players-desc">Professional playback and recording equipment</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/snakes.html" aria-describedby="snakes-desc">
-                        <img src="images/services/snake.png" width="200" height="200"
-                            alt="Professional Audio Snakes and Splitters for Signal Distribution and Routing">
-                        <h3>Snakes & Splitters</h3>
-                        <p id="snakes-desc">Audio distribution solutions</p>
-                    </a>
-                </div>
-                <div class="equipment-item" role="gridcell">
-                    <a href="pages/iem.html" aria-describedby="iem-desc">
-                        <img src="images/services/IEM.png" width="200" height="200"
-                            alt="Professional In-Ear Monitoring Systems for Musicians and Performers">
-                        <h3>IEM</h3>
-                        <p id="iem-desc">In-ear monitoring systems</p>
-                    </a>
-                </div>
-            </div>
-
-            <div class="cta-container">
-                <p>Need specific equipment for your event?</p>
-                <a href="#contact" class="btn btn-primary">Get a Quote</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Used Equipment Section -->
-    <section id="used-equipment" class="section" role="region" aria-labelledby="used-equipment-heading">
-        <div class="container">
-            <h2 id="used-equipment-heading">Used Equipment For Sale</h2>
-            <p class="section-description">Professional audio equipment available for purchase</p>
-
-            <div class="used-equipment-grid">
-                <!-- 
+        <div class="used-equipment-grid">
+            <!-- 
                 ========================================
                 TEMPLATE: Copy this block to add new equipment
                 ========================================
@@ -207,188 +208,202 @@
                 ========================================
                 -->
 
-                <!-- CURRENT EQUIPMENT FOR SALE -->
-                <div class="used-equipment-item">
-                    <img src="images/equipment/profile.jpg" width="400" height="300"
-                        alt="Avid VENUE Profile Digital Mixing Console - Professional 96-Channel Live Sound Mixer for Sale">
-                    <div class="equipment-details">
-                        <h3>Avid VENUE Profile</h3>
-                        <p class="equipment-description">Professional Digital Mixing Console</p>
-                        <ul class="equipment-features">
-                            <li><i class="fas fa-plug"></i> 96 Input Channels</li>
-                            <li><i class="fas fa-sliders"></i> 24 Mix Buses</li>
-                            <li><i class="fas fa-microchip"></i> TDM Plugin Support</li>
-                            <li><i class="fas fa-desktop"></i> 24 Touch-sensitive Faders</li>
-                        </ul>
-                        <div class="equipment-meta">
-                            <div class="condition">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span>4.0/5.0</span>
-                            </div>
-                            <div class="price">$8,000</div>
-                        </div>
-                        <p class="sale-note">* Sold as is. Details to be confirmed.</p>
-                        <a href="#contact" class="btn btn-primary">Inquire Now</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section" role="region" aria-labelledby="about-heading">
-        <div class="container">
-            <h2 id="about-heading">About Us</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p><strong>VD Audio Rental</strong> was founded in 2009. Our vision began with the desire to become
-                        a trusted resource for live production and concert touring companies. We have since provided
-                        support for a variety of production events locally and abroad.</p>
-
-                    <p>With years of experience under our belt, we strive to be the first source for audio rental
-                        solutions. It is our priority to build relationships with our clients. Along with having a large
-                        inventory of professional audio gear available, we are proud to have a dedicated team with
-                        real-world knowledge in live production.</p>
-
-                    <p>This enables us to provide personal support for quick solutions. <strong>VD Audio Rental</strong>
-                        continues to evolve and expand to benefit our client's needs.</p>
-
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Professional Equipment</li>
-                        <li><i class="fas fa-check"></i> Technical Support</li>
-                        <li><i class="fas fa-check"></i> Competitive Pricing</li>
-                        <li><i class="fas fa-check"></i> Reliable Service</li>
+            <!-- CURRENT EQUIPMENT FOR SALE -->
+            <div class="used-equipment-item">
+                <img src="images/equipment/profile.jpg" width="400" height="300"
+                    alt="Avid VENUE Profile Digital Mixing Console - Professional 96-Channel Live Sound Mixer for Sale">
+                <div class="equipment-details">
+                    <h3>Avid VENUE Profile</h3>
+                    <p class="equipment-description">Professional Digital Mixing Console</p>
+                    <ul class="equipment-features">
+                        <li><i class="fas fa-plug"></i> 96 Input Channels</li>
+                        <li><i class="fas fa-sliders"></i> 24 Mix Buses</li>
+                        <li><i class="fas fa-microchip"></i> TDM Plugin Support</li>
+                        <li><i class="fas fa-desktop"></i> 24 Touch-sensitive Faders</li>
                     </ul>
+                    <div class="equipment-meta">
+                        <div class="condition">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>4.0/5.0</span>
+                        </div>
+                        <div class="price">$8,000</div>
+                    </div>
+                    <p class="sale-note">* Sold as is. Details to be confirmed.</p>
+                    <a href="#contact" class="btn btn-primary">Inquire Now</a>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section" role="region" aria-labelledby="contact-heading">
-        <div class="container">
-            <h2 id="contact-heading">Contact Us</h2>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3>Get in Touch</h3>
-                    <p><i class="fas fa-phone"></i> +1 786 257 2705</p>
-                    <p><i class="fas fa-envelope"></i> info@vdaudiorentals.com</p>
-                    <p><i class="fas fa-location-dot"></i> 1592 NW 159th St, Miami, FL 33169</p>
-                    <button id="showMessageForm" class="btn btn-primary message-btn">
-                        <i class="fas fa-envelope"></i> Send a Message
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Modal Form -->
-    <div class="modal" id="messageModal" role="dialog" aria-labelledby="form-title" aria-modal="true"
-        aria-hidden="true">
-        <div class="modal-content">
-            <span class="close-modal" role="button" tabindex="0" aria-label="Close message form">&times;</span>
-            <div class="form-header">
-                <h3 id="form-title">Send us a Message</h3>
-                <p>We'll get back to you as soon as possible</p>
-            </div>
-            <div id="error-notification" class="error-notification" role="alert" aria-live="assertive">
-                <button class="close-error" aria-label="Close error message">&times;</button>
-                <div class="error-title">Connection Error</div>
-                <div class="error-message">Unable to send your message. Please check your connection and try again.</div>
-                <button class="retry-button" id="retry-submit">Try Again</button>
-            </div>
-            <div id="offline-notification" class="offline-notification" role="alert" aria-live="assertive">
-                <i class="fas fa-wifi" aria-hidden="true"></i>
-                <span>You appear to be offline. Please check your internet connection.</span>
-            </div>
-            <form class="contact-form" id="contactForm" role="form" aria-labelledby="form-title">
-                <div class="form-group">
-                    <label for="contact-name" class="sr-only">Your Name</label>
-                    <input type="text" id="contact-name" name="name" placeholder="Your Name" required
-                        aria-describedby="name-help name-error" aria-invalid="false">
-                    <i class="fas fa-user" aria-hidden="true"></i>
-                    <div id="name-help" class="sr-only">Enter your full name</div>
-                    <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
-                </div>
-                <div class="form-group">
-                    <label for="contact-company" class="sr-only">Company Name</label>
-                    <input type="text" id="contact-company" name="company" placeholder="Company Name" required
-                        aria-describedby="company-help company-error" aria-invalid="false">
-                    <i class="fas fa-building" aria-hidden="true"></i>
-                    <div id="company-help" class="sr-only">Enter your company or organization name</div>
-                    <div id="company-error" class="error-message" role="alert" aria-live="polite"></div>
-                </div>
-                <div class="form-group">
-                    <label for="contact-email" class="sr-only">Your Email</label>
-                    <input type="email" id="contact-email" name="email" placeholder="Your Email" required
-                        aria-describedby="email-help email-error" aria-invalid="false">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>
-                    <div id="email-help" class="sr-only">Enter a valid email address</div>
-                    <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
-                </div>
-                <div class="form-group">
-                    <label for="contact-phone" class="sr-only">Your Phone</label>
-                    <input type="tel" id="contact-phone" name="phone" placeholder="Your Phone" required
-                        aria-describedby="phone-help phone-error" aria-invalid="false">
-                    <i class="fas fa-phone" aria-hidden="true"></i>
-                    <div id="phone-help" class="sr-only">Enter your phone number</div>
-                    <div id="phone-error" class="error-message" role="alert" aria-live="polite"></div>
-                </div>
-                <div class="form-group">
-                    <label for="contact-message" class="sr-only">Your Message</label>
-                    <textarea id="contact-message" name="message" placeholder="Your Message" required
-                        aria-describedby="message-help message-error" aria-invalid="false"></textarea>
-                    <i class="fas fa-comment-alt" aria-hidden="true"></i>
-                    <div id="message-help" class="sr-only">Enter your message or inquiry details</div>
-                    <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
-                </div>
-                <button type="submit" class="btn btn-primary submit-btn" aria-describedby="submit-help">
-                    <span class="btn-content">
-                        <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message
-                    </span>
-                    <span class="btn-loading" hidden>
-                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...
-                    </span>
-                </button>
-                <div id="submit-help" class="sr-only">Submit your contact form</div>
-            </form>
         </div>
     </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>VD Audio Rental</h3>
-                    <p>Professional audio solutions for your events</p>
-                </div>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/VDAudioRental" target="_blank" rel="noopener noreferrer"
-                        aria-label="Visit our Facebook page"><i class="fab fa-facebook" aria-hidden="true"></i></a>
-                    <a href="https://www.instagram.com/vdaudiorental" target="_blank" rel="noopener noreferrer"
-                        aria-label="Visit our Instagram page"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                    <a href="https://www.linkedin.com/company/vdaudiorental/posts/?feedView=all" target="_blank"
-                        rel="noopener noreferrer" aria-label="Visit our LinkedIn page"><i class="fab fa-linkedin"
-                            aria-hidden="true"></i></a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 VD Audio Rental. All rights reserved.</p>
+<!-- About Section -->
+<section id="about" class="section" role="region" aria-labelledby="about-heading">
+    <div class="container">
+        <h2 id="about-heading">About Us</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p><strong>VD Audio Rental</strong> was founded in 2009. Our vision began with the desire to become
+                    a trusted resource for live production and concert touring companies. We have since provided
+                    support for a variety of production events locally and abroad.</p>
+
+                <p>With years of experience under our belt, we strive to be the first source for audio rental
+                    solutions. It is our priority to build relationships with our clients. Along with having a large
+                    inventory of professional audio gear available, we are proud to have a dedicated team with
+                    real-world knowledge in live production.</p>
+
+                <p>This enables us to provide personal support for quick solutions. <strong>VD Audio Rental</strong>
+                    continues to evolve and expand to benefit our client's needs.</p>
+
+                <ul class="features-list">
+                    <li><i class="fas fa-check"></i> Professional Equipment</li>
+                    <li><i class="fas fa-check"></i> Technical Support</li>
+                    <li><i class="fas fa-check"></i> Competitive Pricing</li>
+                    <li><i class="fas fa-check"></i> Reliable Service</li>
+                </ul>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
-    <script src="js/navigation.js" defer></script>
-    <script src="js/contact.js" defer></script>
-    <script src="js/lightbox.js" defer></script>
+<!-- Contact Section -->
+<section id="contact" class="section" role="region" aria-labelledby="contact-heading">
+    <div class="container">
+        <h2 id="contact-heading">Contact Us</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p><i class="fas fa-phone"></i> +1 786 257 2705</p>
+                <p><i class="fas fa-envelope"></i> info@vdaudiorentals.com</p>
+                <p><i class="fas fa-location-dot"></i> 1592 NW 159th St, Miami, FL 33169</p>
+                <button id="showMessageForm" class="btn btn-primary message-btn">
+                    <i class="fas fa-envelope"></i> Send a Message
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal Form -->
+<div class="modal" id="messageModal" role="dialog" aria-labelledby="form-title" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+        <span class="close-modal" role="button" tabindex="0" aria-label="Close message form">&times;</span>
+        <div class="form-header">
+            <h3 id="form-title">Send us a Message</h3>
+            <p>We'll get back to you as soon as possible</p>
+        </div>
+        <div id="error-notification" class="error-notification" role="alert" aria-live="assertive">
+            <button class="close-error" aria-label="Close error message">&times;</button>
+            <div class="error-title">Connection Error</div>
+            <div class="error-message">Unable to send your message. Please check your connection and try again.
+            </div>
+            <button class="retry-button" id="retry-submit">Try Again</button>
+        </div>
+        <div id="offline-notification" class="offline-notification" role="alert" aria-live="assertive">
+            <i class="fas fa-wifi" aria-hidden="true"></i>
+            <span>You appear to be offline. Please check your internet connection.</span>
+        </div>
+        <form class="contact-form" id="contactForm" role="form" aria-labelledby="form-title">
+            <div class="form-group">
+                <label for="contact-name" class="sr-only">Your Name</label>
+                <input type="text" id="contact-name" name="name" placeholder="Your Name" required
+                    aria-describedby="name-help name-error" aria-invalid="false">
+                <i class="fas fa-user" aria-hidden="true"></i>
+                <div id="name-help" class="sr-only">Enter your full name</div>
+                <div id="name-error" class="error-message" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="form-group">
+                <label for="contact-company" class="sr-only">Company Name</label>
+                <input type="text" id="contact-company" name="company" placeholder="Company Name" required
+                    aria-describedby="company-help company-error" aria-invalid="false">
+                <i class="fas fa-building" aria-hidden="true"></i>
+                <div id="company-help" class="sr-only">Enter your company or organization name</div>
+                <div id="company-error" class="error-message" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="form-group">
+                <label for="contact-email" class="sr-only">Your Email</label>
+                <input type="email" id="contact-email" name="email" placeholder="Your Email" required
+                    aria-describedby="email-help email-error" aria-invalid="false">
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <div id="email-help" class="sr-only">Enter a valid email address</div>
+                <div id="email-error" class="error-message" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="form-group">
+                <label for="contact-phone" class="sr-only">Your Phone</label>
+                <input type="tel" id="contact-phone" name="phone" placeholder="Your Phone" required
+                    aria-describedby="phone-help phone-error" aria-invalid="false">
+                <i class="fas fa-phone" aria-hidden="true"></i>
+                <div id="phone-help" class="sr-only">Enter your phone number</div>
+                <div id="phone-error" class="error-message" role="alert" aria-live="polite"></div>
+            </div>
+            <div class="form-group">
+                <label for="contact-message" class="sr-only">Your Message</label>
+                <textarea id="contact-message" name="message" placeholder="Your Message" required
+                    aria-describedby="message-help message-error" aria-invalid="false"></textarea>
+                <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                <div id="message-help" class="sr-only">Enter your message or inquiry details</div>
+                <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
+            </div>
+            <button type="submit" class="btn btn-primary submit-btn" aria-describedby="submit-help">
+                <span class="btn-content">
+                    <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message
+                </span>
+                <span class="btn-loading" hidden>
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...
+                </span>
+            </button>
+            <div id="submit-help" class="sr-only">Submit your contact form</div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>VD Audio Rental</h3>
+                <p>Professional audio solutions for your events</p>
+            </div>
+            <div class="social-links">
+                <a href="https://www.facebook.com/VDAudioRental" target="_blank" rel="noopener noreferrer"
+                    aria-label="Visit our Facebook page"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/vdaudiorental" target="_blank" rel="noopener noreferrer"
+                    aria-label="Visit our Instagram page"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://www.linkedin.com/company/vdaudiorental/posts/?feedView=all" target="_blank"
+                    rel="noopener noreferrer" aria-label="Visit our LinkedIn page"><i class="fab fa-linkedin"
+                        aria-hidden="true"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VD Audio Rental. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+<script src="js/navigation.js" defer></script>
+<script src="js/contact.js" defer></script>
+<script src="js/lightbox.js" defer></script>
 </body>
 
 </html>
+<script>
+    // Ensure equipment links are clickable
+    document.addEventListener('DOMContentLoaded', function () {
+        const equipmentLinks = document.querySelectorAll('.equipment-item a');
+        equipmentLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                // Ensure the link works
+                if (this.href) {
+                    window.location.href = this.href;
+                }
+            });
+        });
+    });
+</script>
