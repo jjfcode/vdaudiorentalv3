@@ -197,10 +197,27 @@ class EquipmentFilters {
   }
   
   createFilterInterface() {
-    // Find the equipment detail page container to append filters at the bottom
-    const equipmentSection = document.querySelector('.equipment-detail-page');
+    // Find the brands section to insert filters after it
+    const brandsSection = document.querySelector('.brands-section');
     
-    if (!equipmentSection) return;
+    if (!brandsSection) return;
+    
+    // Create a section wrapper to match the page structure
+    const filterSection = document.createElement('section');
+    filterSection.className = 'section';
+    filterSection.style.cssText = `
+      padding: 20px 0;
+      background: var(--vd-background);
+    `;
+    
+    // Create container div to match page structure
+    const containerDiv = document.createElement('div');
+    containerDiv.className = 'container';
+    containerDiv.style.cssText = `
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    `;
     
     // Create filter container with proper sizing
     this.filterContainer = document.createElement('div');
@@ -210,13 +227,16 @@ class EquipmentFilters {
       max-width: 100%;
       box-sizing: border-box;
       overflow: hidden;
-      margin: 20px 0;
+      margin: 0;
     `;
     this.filterContainer.innerHTML = this.getFilterHTML();
     
-    // Insert at the bottom of the equipment section inside a container
-    const container = equipmentSection.querySelector('.container') || equipmentSection;
-    container.appendChild(this.filterContainer);
+    // Build the structure: section > container > filters
+    containerDiv.appendChild(this.filterContainer);
+    filterSection.appendChild(containerDiv);
+    
+    // Insert the filter section after the brands section
+    brandsSection.parentNode.insertBefore(filterSection, brandsSection.nextSibling);
     
     // Store reference to equipment container
     this.equipmentContainer = document.querySelector('.mixer-grid, .equipment-grid');
