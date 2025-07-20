@@ -1,0 +1,1452 @@
+/* ===================================
+   ANIMATIONS AND TRANSITIONS
+   ================================== */
+
+/* Scroll-triggered animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animation classes for scroll-triggered animations */
+.animate-on-scroll {
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-on-scroll.animate {
+  opacity: 1;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.scale-in {
+  animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Staggered animation delays */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-6 { animation-delay: 0.6s; }
+
+/* Enhanced hover effects for equipment cards */
+.equipment-item {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.equipment-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.equipment-item:hover::before {
+  left: 100%;
+}
+
+.equipment-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.equipment-item img {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.equipment-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Enhanced hover effects for service cards */
+.services-grid .card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.services-grid .card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(34, 93, 56, 0.05), rgba(34, 93, 56, 0.1));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.services-grid .card:hover::after {
+  opacity: 1;
+}
+
+.services-grid .card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(34, 93, 56, 0.2);
+}
+
+.services-grid .card i {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.services-grid .card:hover i {
+  transform: scale(1.1) rotate(5deg);
+  color: var(--vd-primary-light);
+}
+
+/* Loading animations for dynamic content */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius);
+}
+
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Image loading states */
+.loading-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.image-loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--vd-primary);
+}
+
+.image-loading-spinner i {
+  font-size: 1.5rem;
+  animation: spin 1s linear infinite;
+}
+
+.image-error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.image-error-state i {
+  font-size: 2rem;
+  opacity: 0.5;
+}
+
+.image-loading-overlay.error {
+  background: rgba(248, 249, 250, 0.95);
+}
+
+/* Content loading states */
+.loading-content {
+  opacity: 0.7;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.content-loaded {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Skeleton screens */
+.skeleton-item {
+  pointer-events: none;
+  user-select: none;
+}
+
+.skeleton-image {
+  height: 200px;
+  width: 100%;
+  margin-bottom: var(--spacing-md);
+}
+
+.skeleton-content {
+  padding: var(--spacing-md);
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 70%;
+  margin-bottom: var(--spacing-sm);
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 100%;
+  margin-bottom: var(--spacing-xs);
+}
+
+.skeleton-text:last-child {
+  width: 80%;
+}
+
+.skeleton-icon {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  margin: 0 auto var(--spacing-md);
+}
+
+.skeleton-list {
+  margin-top: var(--spacing-md);
+}
+
+.skeleton-list-item {
+  height: 16px;
+  width: 90%;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* Section loading overlay */
+.section-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.section-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.3s ease;
+}
+
+.section-loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--vd-primary);
+  font-size: 1.1rem;
+}
+
+.section-loading-spinner i {
+  font-size: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+/* Loading toast notification */
+.loading-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--vd-primary);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.loading-toast.show {
+  transform: translateX(0);
+}
+
+.loading-toast i {
+  animation: spin 1s linear infinite;
+}
+
+/* Form loading states */
+.contact-form.loading-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.contact-form.loading-pulse .form-group {
+  pointer-events: none;
+}
+
+/* Equipment grid loading states */
+.equipment-grid.loading .equipment-item {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Network status indicators */
+.network-status {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.network-status.online {
+  background: var(--vd-success);
+  color: white;
+}
+
+.network-status.offline {
+  background: var(--vd-error);
+  color: white;
+}
+
+/* Loading state for buttons */
+.btn.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Page transition effects */
+.page-transition {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-transition.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Parallax scrolling effects */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-element {
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+/* Hero section parallax */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  right: -10%;
+  bottom: -10%;
+  background: linear-gradient(135deg, rgba(34, 93, 56, 0.9), rgba(34, 93, 56, 0.7));
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+  z-index: -1;
+}
+
+/* Button animations */
+.btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+  z-index: 1;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: var(--vd-primary-light);
+  border-color: var(--vd-primary-light);
+}
+
+.btn-primary:hover {
+  background-color: #2d7a4a;
+  border-color: #2d7a4a;
+}
+
+.btn:active {
+  transform: translateY(-1px);
+  transition: transform 0.1s ease;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure text remains readable */
+.btn span,
+.btn i {
+  position: relative;
+  z-index: 2;
+}
+
+/* Navigation animations */
+.navbar {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu a {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--vd-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
+}
+
+.nav-menu a:hover::after,
+.nav-menu a:focus::after {
+  width: 100%;
+}
+
+/* Form animations */
+.form-group {
+  position: relative;
+}
+
+.form-group input,
+.form-group textarea {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  transform: scale(1.02);
+}
+
+/* Modal animations */
+.modal {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal.show {
+  animation: modalFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-content {
+  transform: scale(0.9) translateY(-20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal.show .modal-content {
+  transform: scale(1) translateY(0);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Footer animations */
+.footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.social-links a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  text-decoration: none;
+  border: none;
+  outline: none;
+}
+
+.social-links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-links a:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.social-links a:hover {
+  transform: translateY(-4px) scale(1.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: var(--vd-accent);
+}
+
+/* Individual social platform colors on hover */
+.social-links a[href*="facebook"]:hover {
+  background: linear-gradient(135deg, #1877f2, #42a5f5);
+  color: white;
+}
+
+.social-links a[href*="instagram"]:hover {
+  background: linear-gradient(135deg, #e4405f, #fd1d1d, #fcb045);
+  color: white;
+}
+
+.social-links a[href*="linkedin"]:hover {
+  background: linear-gradient(135deg, #0077b5, #00a0dc);
+  color: white;
+}
+
+/* Ensure icons stay above the background */
+.social-links a i {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover i {
+  transform: scale(1.1);
+}
+
+/* Consistent hover states for all interactive elements */
+
+/* Brand logo hover effects */
+.brand-logo-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-logo-item:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Used equipment item hover effects */
+.used-equipment-item {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.used-equipment-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Contact info hover effects */
+.contact-info p {
+  transition: all 0.3s ease;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+}
+
+.contact-info p:hover {
+  background-color: rgba(34, 93, 56, 0.05);
+  transform: translateX(5px);
+}
+
+.contact-info i {
+  transition: all 0.3s ease;
+}
+
+.contact-info p:hover i {
+  color: var(--vd-primary-light);
+  transform: scale(1.1);
+}
+
+/* Features list hover effects */
+.features-list li {
+  transition: all 0.3s ease;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+  cursor: default;
+}
+
+.features-list li:hover {
+  background-color: rgba(34, 93, 56, 0.05);
+  transform: translateX(3px);
+}
+
+.features-list li:hover i {
+  color: var(--vd-primary-light);
+  transform: scale(1.1);
+}
+
+/* Service features hover effects */
+.service-features li {
+  transition: all 0.3s ease;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+}
+
+.service-features li:hover {
+  background-color: rgba(34, 93, 56, 0.05);
+  transform: translateX(3px);
+}
+
+.service-features li:hover i {
+  color: var(--vd-primary-light);
+  transform: scale(1.1);
+}
+
+/* Equipment features hover effects */
+.equipment-features li {
+  transition: all 0.3s ease;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+}
+
+.equipment-features li:hover {
+  background-color: rgba(34, 93, 56, 0.1);
+  transform: translateX(3px);
+}
+
+.equipment-features li:hover i {
+  color: var(--vd-primary-light);
+  transform: scale(1.1);
+}
+
+/* Skip to content link hover */
+.skip-to-content {
+  transition: all 0.3s ease;
+}
+
+.skip-to-content:hover {
+  background-color: var(--vd-primary-light);
+  transform: translateY(2px);
+}
+
+/* Footer brand hover */
+.footer-brand {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+}
+
+.footer-brand:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.footer-brand:hover h3 {
+  color: #4CAF50;
+  font-size: 1.3em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.footer-brand:hover p {
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+
+/* CTA container - NO hover effects to prevent disappearing issue */
+.cta-container {
+  /* Removed all hover effects temporarily to fix disappearing issue */
+}
+
+/* Equipment meta hover effects */
+.equipment-meta {
+  transition: all 0.3s ease;
+}
+
+.price {
+  transition: all 0.3s ease;
+}
+
+.used-equipment-item:hover .price {
+  color: var(--vd-primary-light);
+  transform: scale(1.05);
+}
+
+/* Condition stars hover */
+.condition {
+  transition: all 0.3s ease;
+}
+
+.condition:hover i {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* Message button enhanced hover */
+.message-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.message-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+  z-index: 1;
+}
+
+.message-btn:hover::before {
+  left: 100%;
+}
+
+.message-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(34, 93, 56, 0.25);
+  background-color: #2d7a4a;
+}
+
+/* Ensure message button text remains readable */
+.message-btn span,
+.message-btn i {
+  position: relative;
+  z-index: 2;
+}
+
+/* Form group hover effects */
+.form-group {
+  transition: all 0.3s ease;
+}
+
+.form-group:hover input,
+.form-group:hover textarea {
+  border-color: var(--vd-primary);
+  box-shadow: 0 0 0 2px rgba(34, 93, 56, 0.1);
+}
+
+.form-group:hover i {
+  color: var(--vd-primary-light);
+  transform: scale(1.1);
+}
+
+/* Close modal button hover */
+.close-modal {
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  transform: scale(1.1);
+}
+
+/* Error notification close button hover */
+.close-error {
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.close-error:hover {
+  background-color: rgba(114, 28, 36, 0.1);
+  transform: scale(1.1);
+}
+
+/* Retry button hover */
+.retry-button {
+  transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(114, 28, 36, 0.3);
+}
+
+/* Navbar brand enhanced hover */
+.navbar-brand {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+.navbar-brand:hover .brand-logo {
+  filter: drop-shadow(0 4px 8px rgba(34, 93, 56, 0.3));
+}
+
+/* Mobile menu toggle enhanced hover */
+.mobile-menu-toggle {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-toggle:hover {
+  background-color: rgba(34, 93, 56, 0.1);
+  transform: scale(1.05);
+}
+
+.mobile-menu-toggle:hover .hamburger-line {
+  background-color: var(--vd-primary-light);
+}
+
+/* Consistent timing and easing functions */
+:root {
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Apply consistent transitions to all interactive elements */
+a, button, input, textarea, select, .card, .equipment-item, .used-equipment-item {
+  transition: all var(--transition-normal);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Disable parallax effects */
+  .parallax-element {
+    transform: none !important;
+  }
+  
+  /* Disable hover transforms */
+  .equipment-item:hover,
+  .services-grid .card:hover,
+  .btn:hover,
+  .brand-logo-item:hover,
+  .used-equipment-item:hover,
+  .social-links a:hover,
+  .nav-menu a:hover,
+  .navbar-brand:hover {
+    transform: none !important;
+  }
+  
+  /* Make scroll-triggered animations immediately visible */
+  .animate-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  /* Disable loading animations but keep opacity changes */
+  .loading-pulse {
+    animation: none !important;
+    opacity: 0.7;
+  }
+  
+  .loading-skeleton {
+    animation: none !important;
+    background: #f0f0f0 !important;
+  }
+  
+  /* Disable spinner animations but keep them visible */
+  .fa-spinner,
+  .image-loading-spinner i,
+  .section-loading-spinner i,
+  .loading-toast i {
+    animation: none !important;
+  }
+  
+  /* Disable modal animations */
+  .modal.show {
+    animation: none !important;
+  }
+  
+  .modal-content {
+    transform: none !important;
+  }
+  
+  /* Disable button shine effects */
+  .btn::before,
+  .message-btn::before {
+    display: none !important;
+  }
+  
+  /* Provide alternative button feedback for reduced motion */
+  .btn:hover,
+  .message-btn:hover {
+    transform: none !important;
+    box-shadow: 0 0 0 3px rgba(34, 93, 56, 0.3) !important;
+    background-color: var(--vd-primary-light) !important;
+  }
+  
+  /* Disable navigation underline animations */
+  .nav-menu a::after {
+    transition: none !important;
+    width: 100% !important;
+  }
+  
+  /* Disable equipment card shine effects */
+  .equipment-item::before {
+    display: none !important;
+  }
+  
+  .services-grid .card::after {
+    display: none !important;
+  }
+}
+
+/* Alternative animations for reduced motion users */
+@media (prefers-reduced-motion: reduce) {
+  /* Provide subtle feedback without motion */
+  .equipment-item:hover,
+  .services-grid .card:hover,
+  .btn:hover,
+  .brand-logo-item:hover,
+  .used-equipment-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+    border: 2px solid var(--vd-primary) !important;
+  }
+  
+  /* Focus indicators remain visible */
+  :focus-visible {
+    outline: 3px solid var(--vd-primary) !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Loading states use opacity changes only */
+  .loading-content {
+    opacity: 0.5 !important;
+    animation: none !important;
+  }
+  
+  .content-loaded {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* Manual reduced motion class for user preference toggle */
+.reduced-motion,
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.reduced-motion .parallax-element {
+  transform: none !important;
+}
+
+.reduced-motion .animate-on-scroll {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.reduced-motion .equipment-item:hover,
+.reduced-motion .services-grid .card:hover,
+.reduced-motion .btn:hover,
+.reduced-motion .brand-logo-item:hover,
+.reduced-motion .used-equipment-item:hover {
+  transform: none !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+  border: 2px solid var(--vd-primary) !important;
+}
+
+/* Accessibility notice styles */
+.accessibility-notice {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  background: var(--vd-primary);
+  color: white;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  max-width: 400px;
+  width: 90%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accessibility-notice.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.notice-content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  position: relative;
+}
+
+.notice-content i {
+  font-size: 1.5rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.notice-text {
+  flex: 1;
+}
+
+.notice-text strong {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.1rem;
+}
+
+.notice-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.notice-close {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.notice-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Motion toggle button styles */
+.motion-toggle {
+  transition: all 0.3s ease !important;
+}
+
+.motion-toggle:hover {
+  background: var(--vd-primary-light) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.motion-toggle:active {
+  transform: translateY(0) !important;
+}
+
+/* Ensure reduced motion users can still see the toggle */
+@media (prefers-reduced-motion: reduce) {
+  .motion-toggle:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .accessibility-notice {
+    transition: none !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+  
+  .accessibility-notice.show {
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+
+/* Responsive visual consistency */
+
+/* Mobile-first responsive animations */
+@media (max-width: 768px) {
+  /* Reduce animation intensity on mobile */
+  .equipment-item:hover,
+  .services-grid .card:hover,
+  .used-equipment-item:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+  
+  /* Adjust skeleton sizes for mobile */
+  .skeleton-image {
+    height: 150px;
+  }
+  
+  .skeleton-icon {
+    height: 36px;
+    width: 36px;
+  }
+  
+  /* Mobile-friendly loading overlays */
+  .image-loading-spinner {
+    font-size: 0.9rem;
+  }
+  
+  .image-loading-spinner i {
+    font-size: 1.2rem;
+  }
+  
+  /* Adjust accessibility notice for mobile */
+  .accessibility-notice {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    transform: translateY(-100%);
+  }
+  
+  .accessibility-notice.show {
+    transform: translateY(0);
+  }
+  
+  /* Mobile motion toggle positioning */
+  .motion-toggle {
+    bottom: 10px !important;
+    right: 10px !important;
+    padding: 10px 14px !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Mobile loading toast */
+  .loading-toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+    transform: translateY(-100%);
+  }
+  
+  .loading-toast.show {
+    transform: translateY(0);
+  }
+  
+  /* Mobile section loading */
+  .section-loading-spinner {
+    font-size: 1rem;
+  }
+  
+  .section-loading-spinner i {
+    font-size: 1.5rem;
+  }
+}
+
+/* Tablet responsive adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Moderate animation scaling for tablets */
+  .equipment-item:hover,
+  .services-grid .card:hover,
+  .used-equipment-item:hover {
+    transform: translateY(-6px) scale(1.015);
+  }
+  
+  /* Tablet skeleton adjustments */
+  .skeleton-image {
+    height: 180px;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1200px) {
+  /* Enhanced animations for larger screens */
+  .equipment-item:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .services-grid .card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 18px 35px rgba(34, 93, 56, 0.25);
+  }
+  
+  /* Larger loading elements */
+  .section-loading-spinner {
+    font-size: 1.3rem;
+  }
+  
+  .section-loading-spinner i {
+    font-size: 2.5rem;
+  }
+}
+
+/* High DPI screen adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper animations and effects */
+  .loading-skeleton {
+    background-size: 400px 100%;
+  }
+  
+  /* Enhanced shadow effects */
+  .equipment-item:hover,
+  .services-grid .card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover effects on touch devices */
+  .equipment-item:hover,
+  .services-grid .card:hover,
+  .btn:hover,
+  .brand-logo-item:hover,
+  .used-equipment-item:hover,
+  .social-links a:hover,
+  .nav-menu a:hover {
+    transform: none;
+    box-shadow: var(--box-shadow);
+  }
+  
+  /* Add touch feedback instead */
+  .equipment-item:active,
+  .services-grid .card:active,
+  .btn:active,
+  .brand-logo-item:active,
+  .used-equipment-item:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  
+  /* Touch-friendly loading states */
+  .loading-toast {
+    padding: var(--spacing-lg);
+    font-size: 1rem;
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Compact animations for landscape mobile */
+  .accessibility-notice {
+    top: 5px;
+    padding: var(--spacing-sm);
+  }
+  
+  .motion-toggle {
+    bottom: 5px !important;
+    right: 5px !important;
+    padding: 8px 12px !important;
+  }
+  
+  .loading-toast {
+    top: 5px;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}
+
+/* Print media - disable all animations */
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .animate-on-scroll {
+    opacity: 1 !important;
+  }
+  
+  .loading-skeleton,
+  .loading-pulse,
+  .accessibility-notice,
+  .motion-toggle,
+  .loading-toast {
+    display: none !important;
+  }
+}
+
+/* Ensure consistent spacing across all screen sizes */
+@media (max-width: 480px) {
+  /* Extra small screens */
+  .equipment-item,
+  .services-grid .card,
+  .used-equipment-item {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .skeleton-content {
+    padding: var(--spacing-sm);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  /* Small screens */
+  .equipment-item,
+  .services-grid .card,
+  .used-equipment-item {
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+@media (min-width: 769px) {
+  /* Medium and larger screens */
+  .equipment-item,
+  .services-grid .card,
+  .used-equipment-item {
+    margin-bottom: var(--spacing-xl);
+  }
+}

@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to manage loading state
+    // Function to manage loading state with enhanced animations
     function setLoadingState(submitBtn, btnContent, btnLoading, isLoading) {
         if (isLoading) {
             submitBtn.classList.add('loading');
@@ -77,12 +77,32 @@ document.addEventListener('DOMContentLoaded', function() {
             btnContent.style.display = 'none';
             btnLoading.removeAttribute('hidden');
             btnLoading.style.display = 'flex';
+            
+            // Add loading animation to the entire form
+            contactForm.classList.add('loading-pulse');
+            
+            // Disable all form inputs during submission
+            const formInputs = contactForm.querySelectorAll('input, textarea');
+            formInputs.forEach(input => {
+                input.disabled = true;
+                input.style.opacity = '0.7';
+            });
         } else {
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
             btnContent.style.display = 'flex';
             btnLoading.setAttribute('hidden', '');
             btnLoading.style.display = 'none';
+            
+            // Remove loading animation from form
+            contactForm.classList.remove('loading-pulse');
+            
+            // Re-enable all form inputs
+            const formInputs = contactForm.querySelectorAll('input, textarea');
+            formInputs.forEach(input => {
+                input.disabled = false;
+                input.style.opacity = '1';
+            });
         }
     }
 
