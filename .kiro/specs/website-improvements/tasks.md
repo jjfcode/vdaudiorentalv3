@@ -145,7 +145,7 @@
   - _Requirements: 7.5_
 
 - [ ] 7. User experience enhancements
-- [ ] 7.1 Add dark/light mode toggle
+- [x] 7.1 Add dark/light mode toggle
   - Create theme switcher component
   - Implement CSS custom properties for theming
   - Add user preference storage in localStorage
