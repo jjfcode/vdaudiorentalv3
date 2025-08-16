@@ -16,7 +16,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (showMessageBtn && modal) {
         showMessageBtn.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            // Position the modal near the button location
+            positionModalNearButton();
+            
             modal.style.display = 'block';
+            
+            // Smooth scroll to the modal if it's not fully visible
+            scrollToModal();
         });
     }
 
@@ -24,6 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeModalBtn && modal) {
         closeModalBtn.addEventListener('click', function() {
             modal.style.display = 'none';
+            
+            // Reset modal positioning
+            resetModalPosition();
+            
+            // Restore button text position when modal closes
+            restoreButtonTextPosition();
         });
     }
 
@@ -32,6 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
                 modal.style.display = 'none';
+                
+                // Reset modal positioning
+                resetModalPosition();
+                
+                // Restore button text position when modal closes
+                restoreButtonTextPosition();
             }
         });
     }
@@ -379,6 +398,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(() => {
                 modal.style.display = 'none';
+                // Reset modal positioning
+                resetModalPosition();
                 // Reset form
                 contactForm.reset();
                 // Reset form states
@@ -433,4 +454,83 @@ document.addEventListener('DOMContentLoaded', function() {
         showOfflineNotification();
         console.log('Connection lost');
     });
+
+    // Function to restore button text position when modal closes
+    function restoreButtonTextPosition() {
+        if (showMessageBtn) {
+            showMessageBtn.style.transform = 'translateY(0)';
+            showMessageBtn.style.boxShadow = '';
+            
+            // Also restore the form note text position
+            const formNote = showMessageBtn.nextElementSibling;
+            if (formNote && formNote.classList.contains('form-note')) {
+                formNote.style.transform = 'translateY(0)';
+                formNote.style.opacity = '1'; // Restore opacity
+            }
+        }
+    }
+
+    // Function to position modal near the button
+    function positionModalNearButton() {
+        if (showMessageBtn && modal) {
+            const buttonRect = showMessageBtn.getBoundingClientRect();
+            const modalContent = modal.querySelector('.modal-content');
+            
+            // Add dynamic positioning class
+            modalContent.classList.add('dynamic-position');
+            
+            // Calculate position to center modal near the button
+            const modalHeight = 600; // Approximate modal height
+            const windowHeight = window.innerHeight;
+            const buttonTop = buttonRect.top + window.scrollY;
+            
+            // Position modal so it's centered near the button
+            // If button is in lower half of screen, show modal above it
+            // If button is in upper half, show modal below it
+            let modalTop;
+            
+            if (buttonTop > windowHeight / 2) {
+                // Button is in lower half - show modal above it
+                modalTop = Math.max(20, buttonTop - modalHeight - 50);
+            } else {
+                // Button is in upper half - show modal below it
+                modalTop = buttonTop + 100;
+            }
+            
+            // Apply the positioning
+            modalContent.style.top = modalTop + 'px';
+            modalContent.style.left = '50%';
+            modalContent.style.transform = 'translateX(-50%)';
+        }
+    }
+
+    // Function to scroll to modal if needed
+    function scrollToModal() {
+        if (modal) {
+            const modalContent = modal.querySelector('.modal-content');
+            const modalRect = modalContent.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Check if modal is not fully visible
+            if (modalRect.top < 20 || modalRect.bottom > windowHeight - 20) {
+                // Modal is not fully visible, scroll to it
+                const scrollTarget = modalRect.top + window.scrollY - 50;
+                window.scrollTo({
+                    top: scrollTarget,
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }
+
+    // Function to reset modal positioning
+    function resetModalPosition() {
+        if (modal) {
+            const modalContent = modal.querySelector('.modal-content');
+            modalContent.classList.remove('dynamic-position');
+            modalContent.style.top = '';
+            modalContent.style.left = '';
+            modalContent.style.transform = '';
+        }
+    }
 }); 
