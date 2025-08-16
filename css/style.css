@@ -1206,9 +1206,182 @@ h6 {
   color: var(--vd-primary);
 }
 
-.form-group textarea+i {
-  top: var(--spacing-md);
-  transform: none;
+/* Enhanced Form Validation States */
+.form-group.success input,
+.form-group.success textarea {
+  border-color: var(--vd-success);
+  background-color: #f8fff8;
+}
+
+.form-group.success input:focus,
+.form-group.success textarea:focus {
+  outline-color: var(--vd-success);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.form-group.error input,
+.form-group.error textarea {
+  border-color: var(--vd-error);
+  background-color: #fff8f8;
+}
+
+.form-group.error input:focus,
+.form-group.error textarea:focus {
+  outline-color: var(--vd-error);
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+/* Success and Error Icons */
+.form-group.success .success-icon {
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--vd-success);
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+.form-group.error .error-icon {
+  position: absolute;
+  right: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--vd-error);
+  font-size: 1.2rem;
+  z-index: 2;
+}
+
+/* Error Messages */
+.error-message {
+  display: none;
+  color: var(--vd-error);
+  font-size: 0.85rem;
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: #fff8f8;
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--vd-error);
+}
+
+.error-message.show {
+  display: block;
+  animation: slideDown 0.3s ease;
+}
+
+/* Success Messages */
+.success-message {
+  display: none;
+  color: var(--vd-success);
+  font-size: 0.85rem;
+  margin-top: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: #f8fff8;
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--vd-success);
+}
+
+.success-message.show {
+  display: block;
+  animation: slideDown 0.3s ease;
+}
+
+/* Validation Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.form-group.error input,
+.form-group.error textarea {
+  animation: shake 0.5s ease;
+}
+
+/* Form Security Indicators */
+.form-security {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: var(--vd-surface);
+  border-radius: var(--border-radius);
+  font-size: 0.85rem;
+  color: var(--vd-text-light);
+}
+
+.security-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--vd-success);
+  animation: pulse 2s infinite;
+}
+
+/* Character Counter */
+.char-counter {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-xs);
+  font-size: 0.8rem;
+  color: var(--vd-text-light);
+  transition: color 0.3s ease;
+}
+
+.char-counter.warning {
+  color: var(--vd-warning);
+}
+
+.char-counter.danger {
+  color: var(--vd-error);
+}
+
+.current-count {
+  font-weight: 600;
+}
+
+.max-count {
+  font-weight: 500;
+}
+
+/* Form Loading States */
+.form-group.loading input,
+.form-group.loading textarea {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.form-group.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: var(--spacing-md);
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--vd-primary);
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
 }
 
 .submit-btn {

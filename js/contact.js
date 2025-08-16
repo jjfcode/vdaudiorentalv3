@@ -55,15 +55,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle form submission
+    // Handle form submission with enhanced security
     if (contactForm && modal && modalContent) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            // Check rate limiting
+            if (isRateLimited()) {
+                showErrorNotification(
+                    'Too Many Submissions',
+                    'Please wait a few minutes before submitting another message.',
+                    false
+                );
+                return;
+            }
 
             // Validate all fields before submission
             if (!validateAllFields()) {
                 return; // Stop submission if validation fails
             }
+
+            // Sanitize all form data before submission
+            const sanitizedFormData = sanitizeFormData(this);
 
             const submitBtn = this.querySelector('.submit-btn');
             const btnContent = submitBtn.querySelector('.btn-content');
@@ -77,12 +90,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const contactPreference = selectedPreference ? selectedPreference.value : 'email';
 
             const formData = {
-                name: this.name.value,
-                company: this.company.value,
-                email: this.email.value,
-                phone: this.phone.value,
-                message: this.message.value,
-                contactPreference: contactPreference
+                name: sanitizedFormData.name,
+                company: sanitizedFormData.company,
+                email: sanitizedFormData.email,
+                phone: sanitizedFormData.phone,
+                message: sanitizedFormData.message,
+                contactPreference: contactPreference,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent.substring(0, 100), // Limit user agent length
+                ipHash: await generateIPHash() // Generate hash for rate limiting
             };
 
             // Reset retry count for new submission
@@ -130,56 +146,131 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Form validation functions
+    // Enhanced form validation with comprehensive sanitization
     const validators = {
         name: {
             validate: (value) => {
-                if (!value.trim()) return 'Name is required';
-                if (value.trim().length < 2) return 'Name must be at least 2 characters';
-                if (value.trim().length > 50) return 'Name must be less than 50 characters';
-                if (!/^[a-zA-Z\s]+$/.test(value.trim())) return 'Name can only contain letters and spaces';
+                const sanitized = sanitizeInput(value);
+                if (!sanitized.trim()) return 'Name is required';
+                if (sanitized.trim().length < 2) return 'Name must be at least 2 characters';
+                if (sanitized.trim().length > 50) return 'Name must be less than 50 characters';
+                if (!/^[a-zA-Z\s\-'\.]+$/.test(sanitized.trim())) return 'Name can only contain letters, spaces, hyphens, apostrophes, and periods';
+                if (/[<>\"'&]/.test(sanitized)) return 'Name contains invalid characters';
+                if (/^\s*$/.test(sanitized)) return 'Name cannot be only whitespace';
                 return null;
-            }
+            },
+            sanitize: (value) => sanitizeInput(value)
         },
         company: {
             validate: (value) => {
-                if (!value.trim()) return 'Company name is required';
-                if (value.trim().length > 100) return 'Company name must be less than 100 characters';
+                const sanitized = sanitizeInput(value);
+                if (!sanitized.trim()) return 'Company name is required';
+                if (sanitized.trim().length > 100) return 'Company name must be less than 100 characters';
+                if (/[<>\"'&]/.test(sanitized)) return 'Company name contains invalid characters';
+                if (sanitized.trim().length < 2) return 'Company name must be at least 2 characters';
+                if (/^\s*$/.test(sanitized)) return 'Company name cannot be only whitespace';
                 return null;
-            }
+            },
+            sanitize: (value) => sanitizeInput(value)
         },
         email: {
             validate: (value) => {
-                if (!value.trim()) return 'Email is required';
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(value.trim())) return 'Please enter a valid email address';
+                const sanitized = sanitizeInput(value);
+                if (!sanitized.trim()) return 'Email is required';
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailRegex.test(sanitized.trim())) return 'Please enter a valid email address';
+                if (sanitized.length > 254) return 'Email address is too long';
+                if (/[<>\"'&]/.test(sanitized)) return 'Email contains invalid characters';
+                if (sanitized.includes('..') || sanitized.includes('--')) return 'Email contains invalid patterns';
                 return null;
-            }
+            },
+            sanitize: (value) => sanitizeInput(value).toLowerCase().trim()
         },
         phone: {
             validate: (value) => {
-                if (!value.trim()) return 'Phone number is required';
-                const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
-                const cleanPhone = value.replace(/[\s\-\(\)]/g, '');
-                if (!phoneRegex.test(cleanPhone)) return 'Please enter a valid phone number';
+                const sanitized = sanitizeInput(value);
+                if (!sanitized.trim()) return 'Phone number is required';
+                const cleanPhone = sanitized.replace(/[\s\-\(\)\.]/g, '');
+                const phoneRegex = /^[\+]?[1-9][\d]{7,15}$/;
+                if (!phoneRegex.test(cleanPhone)) return 'Please enter a valid phone number (8-16 digits)';
+                if (cleanPhone.length < 8) return 'Phone number must be at least 8 digits';
+                if (cleanPhone.length > 16) return 'Phone number must be less than 16 digits';
+                if (cleanPhone.match(/(\d)\1{6,}/)) return 'Phone number contains too many repeated digits';
                 return null;
-            }
+            },
+            sanitize: (value) => sanitizeInput(value).replace(/[^\d\+\-\(\)\s\.]/g, '')
         },
         message: {
             validate: (value) => {
-                if (!value.trim()) return 'Message is required';
-                if (value.trim().length < 10) return 'Message must be at least 10 characters';
-                if (value.trim().length > 1000) return 'Message must be less than 1000 characters';
+                const sanitized = sanitizeInput(value);
+                if (!sanitized.trim()) return 'Message is required';
+                if (sanitized.trim().length < 10) return 'Message must be at least 10 characters';
+                if (sanitized.trim().length > 1000) return 'Message must be less than 1000 characters';
+                if (/[<>\"'&]/.test(sanitized)) return 'Message contains invalid characters';
+                if (sanitized.includes('http://') || sanitized.includes('https://')) return 'Message cannot contain URLs';
+                if (/^\s*$/.test(sanitized)) return 'Message cannot be only whitespace';
+                if (sanitized.match(/(.)\1{10,}/)) return 'Message contains too many repeated characters';
                 return null;
-            }
+            },
+            sanitize: (value) => sanitizeInput(value)
         }
     };
 
-    // Function to validate a single field
+    // Enhanced input sanitization function
+    function sanitizeInput(input) {
+        if (typeof input !== 'string') return '';
+        
+        // Remove null bytes and control characters
+        let sanitized = input.replace(/[\x00-\x1F\x7F]/g, '');
+        
+        // Remove HTML tags and entities
+        sanitized = sanitized.replace(/<[^>]*>/g, '');
+        sanitized = sanitized.replace(/&[a-zA-Z0-9#]+;/g, '');
+        
+        // Remove script tags and javascript: protocol
+        sanitized = sanitized.replace(/javascript:/gi, '');
+        sanitized = sanitized.replace(/on\w+\s*=/gi, '');
+        
+        // Remove SQL injection patterns
+        const sqlPatterns = [
+            /(\b)(union|select|insert|update|delete|drop|create|alter|exec|execute|script)(\b)/gi,
+            /(\b)(or|and)(\s+)(\d+)(\s*)(=)(\s*)(\d+)/gi,
+            /(\b)(or|and)(\s+)(\d+)(\s*)(=)(\s*)(\d+)(\s*)(--)/gi
+        ];
+        
+        sqlPatterns.forEach(pattern => {
+            sanitized = sanitized.replace(pattern, '');
+        });
+        
+        // Remove XSS patterns
+        const xssPatterns = [
+            /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+            /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi,
+            /<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi,
+            /<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi,
+            /<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi
+        ];
+        
+        xssPatterns.forEach(pattern => {
+            sanitized = sanitized.replace(pattern, '');
+        });
+        
+        // Trim whitespace
+        sanitized = sanitized.trim();
+        
+        return sanitized;
+    }
+
+    // Enhanced field validation with sanitization
     function validateField(fieldName, value) {
         const validator = validators[fieldName];
         if (!validator) return null;
-        return validator.validate(value);
+        
+        // First sanitize the input
+        const sanitizedValue = validator.sanitize ? validator.sanitize(value) : sanitizeInput(value);
+        
+        // Then validate the sanitized input
+        return validator.validate(sanitizedValue);
     }
 
     // Function to show/hide error message
@@ -223,31 +314,149 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
 
-    // Add real-time validation to form fields
+    // Add real-time validation to form fields with enhanced security
     if (contactForm) {
         const formFields = ['name', 'company', 'email', 'phone', 'message'];
         
         formFields.forEach(fieldName => {
             const inputElement = document.getElementById(`contact-${fieldName}`);
             if (inputElement) {
+                // Add input event listener for real-time validation
+                inputElement.addEventListener('input', function() {
+                    // Debounce validation to avoid excessive calls
+                    clearTimeout(this.validationTimeout);
+                    this.validationTimeout = setTimeout(() => {
+                        const error = validateField(fieldName, this.value);
+                        showFieldError(fieldName, error);
+                        
+                        // Show success state if no errors
+                        if (!error) {
+                            showFieldSuccess(fieldName);
+                        }
+                    }, 300);
+                });
+
                 // Validate on blur (when user leaves the field)
                 inputElement.addEventListener('blur', function() {
                     const error = validateField(fieldName, this.value);
                     showFieldError(fieldName, error);
+                    
+                    // Show success state if no errors
+                    if (!error) {
+                        showFieldSuccess(fieldName);
+                    }
                 });
 
-                // Clear error on input (when user starts typing)
-                inputElement.addEventListener('input', function() {
+                // Clear error on focus (when user starts typing)
+                inputElement.addEventListener('focus', function() {
                     const formGroup = this.closest('.form-group');
                     if (formGroup.classList.contains('error')) {
-                        const error = validateField(fieldName, this.value);
-                        if (!error) {
-                            showFieldError(fieldName, null);
+                        formGroup.classList.remove('error');
+                        const errorElement = document.getElementById(`${fieldName}-error`);
+                        if (errorElement) {
+                            errorElement.textContent = '';
+                            errorElement.classList.remove('show');
                         }
                     }
                 });
+
+                // Prevent paste of potentially dangerous content
+                inputElement.addEventListener('paste', function(e) {
+                    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+                    if (containsDangerousContent(pastedText)) {
+                        e.preventDefault();
+                        showFieldError(fieldName, 'Pasted content contains invalid characters');
+                    }
+                });
+
+                // Prevent drag and drop of potentially dangerous content
+                inputElement.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    showFieldError(fieldName, 'Drag and drop is not allowed for security reasons');
+                });
+
+                // Special handling for message field character counter
+                if (fieldName === 'message') {
+                    inputElement.addEventListener('input', function() {
+                        updateCharacterCounter(this.value);
+                    });
+                }
             }
         });
+    }
+
+    // Function to check for dangerous content
+    function containsDangerousContent(text) {
+        if (typeof text !== 'string') return false;
+        
+        const dangerousPatterns = [
+            /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+            /javascript:/gi,
+            /on\w+\s*=/gi,
+            /<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi,
+            /<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi,
+            /<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi,
+            /<form\b[^<]*(?:(?!<\/form>)<[^<]*)*<\/form>/gi,
+            /union\s+select/gi,
+            /<[^>]*>/g
+        ];
+        
+        return dangerousPatterns.some(pattern => pattern.test(text));
+    }
+
+    // Function to show field success state
+    function showFieldSuccess(fieldName) {
+        const formGroup = document.querySelector(`#contact-${fieldName}`).closest('.form-group');
+        const inputElement = document.getElementById(`contact-${fieldName}`);
+        
+        formGroup.classList.remove('error');
+        formGroup.classList.add('success');
+        inputElement.setAttribute('aria-invalid', 'false');
+        
+        // Add success icon or visual feedback
+        const successIcon = formGroup.querySelector('.success-icon');
+        if (!successIcon) {
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-check-circle success-icon';
+            icon.style.cssText = `
+                position: absolute;
+                right: var(--spacing-md);
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--vd-success);
+                font-size: 1.2rem;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            formGroup.appendChild(icon);
+            
+            // Animate success icon
+            setTimeout(() => {
+                icon.style.opacity = '1';
+            }, 100);
+        }
+    }
+
+    // Function to update character counter for message field
+    function updateCharacterCounter(value) {
+        const counter = document.getElementById('message-counter');
+        const currentCount = counter.querySelector('.current-count');
+        const maxCount = 1000;
+        const currentLength = value.length;
+        
+        currentCount.textContent = currentLength;
+        
+        // Update counter styling based on character count
+        counter.classList.remove('warning', 'danger');
+        
+        if (currentLength > maxCount * 0.9) { // 90% of max
+            counter.classList.add('danger');
+        } else if (currentLength > maxCount * 0.75) { // 75% of max
+            counter.classList.add('warning');
+        }
+        
+        // Update aria-label for accessibility
+        counter.setAttribute('aria-label', `${currentLength} characters used out of ${maxCount} maximum`);
     }
 
     // Error handling and network detection
@@ -531,6 +740,45 @@ document.addEventListener('DOMContentLoaded', function() {
             modalContent.style.top = '';
             modalContent.style.left = '';
             modalContent.style.transform = '';
+        }
+    }
+
+    // Rate limiting implementation
+    let submissionAttempts = [];
+    const MAX_ATTEMPTS = 3;
+    const TIME_WINDOW = 5 * 60 * 1000; // 5 minutes
+
+    function isRateLimited() {
+        const now = Date.now();
+        
+        // Remove old attempts outside the time window
+        submissionAttempts = submissionAttempts.filter(timestamp => 
+            now - timestamp < TIME_WINDOW
+        );
+        
+        // Check if user has exceeded the limit
+        if (submissionAttempts.length >= MAX_ATTEMPTS) {
+            return true;
+        }
+        
+        // Add current attempt
+        submissionAttempts.push(now);
+        return false;
+    }
+
+    // Generate IP hash for rate limiting (client-side approximation)
+    async function generateIPHash() {
+        try {
+            // Use a combination of user agent and screen resolution as a simple fingerprint
+            const fingerprint = `${navigator.userAgent}_${screen.width}x${screen.height}_${navigator.language}`;
+            const encoder = new TextEncoder();
+            const data = encoder.encode(fingerprint);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch (error) {
+            // Fallback to simple hash
+            return btoa(navigator.userAgent + screen.width + screen.height).substring(0, 16);
         }
     }
 }); 

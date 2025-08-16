@@ -584,10 +584,13 @@
                 <div class="form-group">
                     <label for="contact-message" class="sr-only">Your Message</label>
                     <textarea id="contact-message" name="message" placeholder="Your Message" required
-                        aria-describedby="message-help message-error" aria-invalid="false"></textarea>
+                        aria-describedby="message-help message-error message-counter" aria-invalid="false"></textarea>
                     <i class="fas fa-comment-alt" aria-hidden="true"></i>
                     <div id="message-help" class="sr-only">Enter your message or inquiry details</div>
                     <div id="message-error" class="error-message" role="alert" aria-live="polite"></div>
+                    <div id="message-counter" class="char-counter" aria-live="polite">
+                        <span class="current-count">0</span> / <span class="max-count">1000</span> characters
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary submit-btn" aria-describedby="submit-help">
                     <span class="btn-content">
@@ -598,6 +601,12 @@
                     </span>
                 </button>
                 <div id="submit-help" class="sr-only">Submit your contact form</div>
+                
+                <!-- Form Security Indicator -->
+                <div class="form-security">
+                    <div class="security-indicator"></div>
+                    <span>🔒 Your information is protected with enhanced security measures</span>
+                </div>
             </form>
         </div>
     </div>
