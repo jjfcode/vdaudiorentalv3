@@ -1,16 +1,21 @@
-// Initialize EmailJS with your public key
-(function() {
-    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
-})();
-
-// Contact Form Modal Functionality
+// Contact Form Modal Functionality with Secure Backend API
 document.addEventListener('DOMContentLoaded', function() {
-    // Get modal elements - Removemos los console.log innecesarios
+    // Get modal elements
     const modal = document.getElementById('messageModal');
     const showMessageBtn = document.getElementById('showMessageForm');
     const closeModalBtn = document.querySelector('.close-modal');
     const contactForm = document.getElementById('contactForm');
     const modalContent = document.querySelector('.modal-content');
+
+    // API Configuration
+    const API_BASE_URL = (() => {
+        // If we're on localhost, use the backend port 3000
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://localhost:3000/api';
+        }
+        // For production, use relative path
+        return '/api';
+    })();
 
     // Show modal
     if (showMessageBtn && modal) {
@@ -103,6 +108,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Reset retry count for new submission
             retryCount = 0;
+            
+            // Log the API URL for debugging
+            console.log('Submitting to API:', API_BASE_URL);
+            console.log('Form data:', formData);
             
             // Attempt submission with comprehensive error handling
             await attemptSubmission(formData);
@@ -257,6 +266,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Trim whitespace
         sanitized = sanitized.trim();
+        
+        return sanitized;
+    }
+
+    // Function to sanitize all form data
+    function sanitizeFormData(form) {
+        const formData = new FormData(form);
+        const sanitized = {};
+        
+        // Sanitize each field
+        for (let [key, value] of formData.entries()) {
+            if (key === 'contactPreference') {
+                sanitized[key] = value;
+            } else {
+                sanitized[key] = sanitizeInput(value);
+            }
+        }
         
         return sanitized;
     }
@@ -573,27 +599,48 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state
             setLoadingState(submitBtn, btnContent, btnLoading, true);
 
-            // Replace with your EmailJS service ID and template ID
-            const response = await emailjs.send(
-                'YOUR_SERVICE_ID',     // Replace with your EmailJS service ID
-                'YOUR_TEMPLATE_ID',    // Replace with your EmailJS template ID
-                {
-                    from_name: formData.name,
-                    from_company: formData.company,
-                    from_email: formData.email,
-                    from_phone: formData.phone,
+            // Send data to the secure backend API
+            console.log('Making fetch request to:', `${API_BASE_URL}/contact/submit`);
+            const response = await fetch(`${API_BASE_URL}/contact/submit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-IP-Hash': formData.ipHash,
+                    // Removed test mode - emails will now be sent
+                },
+                body: JSON.stringify({
+                    name: formData.name,
+                    company: formData.company,
+                    email: formData.email,
+                    phone: formData.phone,
                     message: formData.message,
-                    contact_preference: formData.contactPreference,
-                    to_name: 'VD Audio Rental'
-                }
-            );
+                    contactPreference: formData.contactPreference
+                })
+            });
+            
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
 
-            if (response.status === 200) {
+            const data = await response.json();
+
+            if (response.ok && data.success) {
                 // Success - reset retry count
                 retryCount = 0;
                 lastFormData = null;
             } else {
-                throw new Error(`EmailJS Error: ${response.status}`);
+                // Handle backend validation errors
+                if (response.status === 400 && data.errors) {
+                    // Show field-specific errors
+                    data.errors.forEach(error => {
+                        showFieldError(error.field, error.message);
+                    });
+                    throw new Error('Validation failed');
+                } else if (response.status === 429) {
+                    // Rate limit exceeded
+                    throw new Error('Too many submissions. Please wait before trying again.');
+                } else {
+                    throw new Error(data.message || `Backend Error: ${response.status}`);
+                }
             }
 
             modalContent.innerHTML = `

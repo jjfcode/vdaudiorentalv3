@@ -1,91 +1,153 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const slowDown = require('express-slow-down');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Email transporter configuration
-const transporter = nodemailer.createTransport({
-    host: 'mail.vdaudiorentals.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-    tls: {
-        rejectUnauthorized: false
-    }
-});
-
-// Contact form endpoint
-app.post('/api/contact', async (req, res) => {
-    try {
-        const { name, company, email, phone, message } = req.body;
-
-        // Email content
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: 'info@vdaudiorentals.com',
-            subject: `New Contact Form Submission from ${name}`,
-            html: `
-                <h2>New Contact Form Submission</h2>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Name:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">${name}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Company:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">${company}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Email:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">${email}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Phone:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">${phone}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>Message:</strong></td>
-                        <td style="padding: 10px; border: 1px solid #ddd;">${message}</td>
-                    </tr>
-                </table>
-            `
-        };
-
-        // Send email
-        await transporter.sendMail(mailOptions);
-
-        // Send auto-response to user
-        const autoResponseOptions = {
-            from: process.env.EMAIL_USER,
-            to: email,
-            subject: 'Thank you for contacting VD Audio Rental',
-            html: `
-                <h2>Thank you for contacting VD Audio Rental</h2>
-                <p>Dear ${name},</p>
-                <p>We have received your message and will get back to you as soon as possible.</p>
-                <p>Best regards,<br>VD Audio Rental Team</p>
-            `
-        };
-
-        await transporter.sendMail(autoResponseOptions);
-
-        res.status(200).json({ message: 'Email sent successfully' });
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ error: 'Error sending email' });
-    }
-});
-
 const PORT = process.env.PORT || 3000;
+
+// Import routes
+const contactRoutes = require('./routes/contact');
+
+// Security Middleware
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"],
+            frameSrc: ["'none'"],
+            objectSrc: ["'none'"]
+        }
+    },
+    hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+    }
+}));
+
+// CORS Configuration
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN ? 
+        process.env.CORS_ORIGIN.split(',') : 
+        ['http://localhost:3000', 'http://localhost:5000', 'http://127.0.0.1:5502', 'http://localhost:5502'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
+// Rate Limiting
+const limiter = rateLimit({
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
+    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
+    message: {
+        error: 'Too many requests from this IP, please try again later.',
+        retryAfter: Math.ceil(parseInt(process.env.RATE_LIMIT_WINDOW_MS) / 1000 / 60)
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler: (req, res) => {
+        res.status(429).json({
+            success: false,
+            message: 'Too many requests from this IP, please try again later.',
+            retryAfter: Math.ceil(parseInt(process.env.RATE_LIMIT_WINDOW_MS) / 1000 / 60)
+        });
+    }
+});
+
+// Speed Limiting (gradual slowdown)
+const speedLimiter = slowDown({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    delayAfter: 50, // allow 50 requests per 15 minutes, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 50
+});
+
+// Apply rate limiting to all routes
+app.use('/api/', limiter);
+app.use('/api/', speedLimiter);
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Request logging middleware
+app.use((req, res, next) => {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] ${req.method} ${req.path} - ${req.ip}`);
+    next();
+});
+
+// Routes
+app.use('/api/contact', contactRoutes);
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+    res.json({
+        success: true,
+        message: 'VD Audio Rental Backend is running',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// Serve static files from the parent directory
+app.use(express.static(path.join(__dirname, '..')));
+
+// Catch-all route for SPA
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Global error handler:', err);
+    
+    // Don't expose internal errors in production
+    const message = process.env.NODE_ENV === 'production' 
+        ? 'Internal server error' 
+        : err.message;
+    
+    res.status(err.status || 500).json({
+        success: false,
+        message: message,
+        ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    });
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'Route not found'
+    });
+});
+
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-}); 
+    console.log(`🚀 VD Audio Rental Backend running on port ${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🔒 Security: Helmet, CORS, Rate Limiting enabled`);
+    console.log(`📧 Contact API: http://localhost:${PORT}/api/contact`);
+    console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`🌐 CORS Origins: ${corsOptions.origin.join(', ')}`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('SIGTERM received, shutting down gracefully');
+    process.exit(0);
+});
+
+process.on('SIGINT', () => {
+    console.log('SIGINT received, shutting down gracefully');
+    process.exit(0);
+});
+
+module.exports = app; 
