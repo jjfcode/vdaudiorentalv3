@@ -276,6 +276,55 @@
         </div>
     </section>
 
+    <!-- Equipment Inquiry Modal -->
+    <div id="equipmentInquiryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeInquiryModal">&times;</span>
+            <h3 id="inquiryFormTitle">Equipment Inquiry</h3>
+            
+            <form id="equipmentInquiryForm" class="contact-form">
+                <!-- Hidden equipment details -->
+                <input type="hidden" id="inquiry-equipment-id" name="equipment_id" value="">
+                <input type="hidden" id="inquiry-equipment-name" name="equipment_name" value="">
+                <input type="hidden" id="inquiry-equipment-price" name="equipment_price" value="">
+                
+                <div class="form-group">
+                    <label for="inquiry-name">Name *</label>
+                    <input type="text" id="inquiry-name" name="name" placeholder="Your Name" required>
+                    <i class="fas fa-user" aria-hidden="true"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inquiry-company">Company Name</label>
+                    <input type="text" id="inquiry-company" name="company" placeholder="Company Name (optional, min 2 characters)">
+                    <i class="fas fa-building" aria-hidden="true"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inquiry-email">Email *</label>
+                    <input type="email" id="inquiry-email" name="email" placeholder="Your Email" required>
+                    <i class="fas fa-envelope" aria-hidden="true"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inquiry-phone">Phone *</label>
+                    <input type="tel" id="inquiry-phone" name="phone" placeholder="Your Phone" required>
+                    <i class="fas fa-phone" aria-hidden="true"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="inquiry-message">Message</label>
+                    <textarea id="inquiry-message" name="message" placeholder="Additional details about your inquiry (optional, min 10 characters)..." rows="4"></textarea>
+                    <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Send Inquiry
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- About Section -->
     <section id="about" class="section" role="region" aria-labelledby="about-heading">
         <div class="container">
@@ -678,9 +727,9 @@
     <script src="js/loading-states.js" defer></script>
     <script src="js/navigation.js" defer></script>
     <script src="js/contact.js" defer></script>
+    <script src="js/inquiry.js" defer></script>
     <script src="js/contact-interactive.js" defer></script>
     <script src="js/lightbox.js" defer></script>
-    <script src="js/maps.js" defer></script>
     <!-- Google Maps API - Replace YOUR_API_KEY with actual API key -->
     <script>
         // Fallback if Google Maps fails to load

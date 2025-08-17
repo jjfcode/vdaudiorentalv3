@@ -749,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Button is in lower half - show modal above it
                 modalTop = Math.max(20, buttonTop - modalHeight - 50);
             } else {
-                // Button is in upper half - show modal below it
+                // Button is in upper half, show modal below it
                 modalTop = buttonTop + 100;
             }
             
@@ -828,46 +828,4 @@ document.addEventListener('DOMContentLoaded', function() {
             return btoa(navigator.userAgent + screen.width + screen.height).substring(0, 16);
         }
     }
-
-    // Equipment Inquiry Functionality
-    function initializeEquipmentInquiry() {
-        const inquireButtons = document.querySelectorAll('.inquire-btn');
-        
-        inquireButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Get equipment details from data attributes
-                const equipmentId = this.getAttribute('data-equipment-id');
-                const equipmentName = this.getAttribute('data-equipment-name');
-                const equipmentPrice = this.getAttribute('data-equipment-price');
-                
-                // Update hidden form fields
-                document.getElementById('equipment-id').value = equipmentId;
-                document.getElementById('equipment-name').value = equipmentName;
-                document.getElementById('equipment-price').value = equipmentPrice;
-                
-                // Update message placeholder to show equipment inquiry
-                const messageField = document.getElementById('contact-message');
-                if (messageField) {
-                    messageField.placeholder = `I'm interested in: ${equipmentName} (${equipmentPrice}). Please provide additional details about this equipment.`;
-                }
-                
-                // Show the contact modal
-                if (modal) {
-                    modal.style.display = 'block';
-                    scrollToModal();
-                }
-                
-                // Add equipment info to the form title
-                const formTitle = document.getElementById('form-title');
-                if (formTitle) {
-                    formTitle.textContent = `Inquiry for: ${equipmentName}`;
-                }
-            });
-        });
-    }
-
-    // Initialize equipment inquiry functionality
-    initializeEquipmentInquiry();
 }); 

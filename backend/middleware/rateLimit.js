@@ -58,8 +58,47 @@ const slowDownAPI = require('express-slow-down')({
     delayMs: () => 500 // Fixed: use simple function for v2 compatibility
 });
 
+// Equipment inquiry specific rate limiting (more permissive than contact form)
+const rateLimitInquiry = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 equipment inquiries per 15 minutes
+    message: {
+        success: false,
+        message: 'Too many equipment inquiries. Please wait 15 minutes before trying again.',
+        retryAfter: 15
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler: (req, res) => {
+        res.status(429).json({
+            success: false,
+            message: 'Too many equipment inquiries. Please wait 15 minutes before trying again.',
+            retryAfter: 15,
+            error: 'RATE_LIMIT_EXCEEDED'
+        });
+    },
+    // Skip rate limiting for certain conditions (optional)
+    skip: (req) => {
+        // Skip rate limiting for health checks or admin routes
+        return req.path === '/health' || req.path === '/status';
+    },
+    // Use the recommended key generator for IPv6 compatibility
+    keyGenerator: (req) => {
+        // Use the ipKeyGenerator helper for IPv6 compatibility
+        const ip = req.ip || req.connection.remoteAddress || req.socket.remoteAddress;
+        const userAgent = req.get('User-Agent')?.substring(0, 50) || 'unknown';
+        return `${ip}-${userAgent}`;
+    },
+    // Custom headers
+    headers: true,
+    // Store rate limit info in response headers
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
 module.exports = {
     rateLimitContact,
+    rateLimitInquiry,
     rateLimitAPI,
     slowDownAPI
 };

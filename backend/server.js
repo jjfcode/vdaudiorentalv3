@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 // Import routes
 const contactRoutes = require('./routes/contact');
+const inquiryRoutes = require('./routes/inquiry');
 
 // Security Middleware
 app.use(helmet({
@@ -86,6 +87,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/contact', contactRoutes);
+app.use('/api/inquiry', inquiryRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -135,6 +137,7 @@ app.listen(PORT, () => {
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`🔒 Security: Helmet, CORS, Rate Limiting enabled`);
     console.log(`📧 Contact API: http://localhost:${PORT}/api/contact`);
+    console.log(`🔍 Inquiry API: http://localhost:${PORT}/api/inquiry`);
     console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
     console.log(`🌐 CORS Origins: ${corsOptions.origin.join(', ')}`);
 });
