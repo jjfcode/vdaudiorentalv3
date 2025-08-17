@@ -572,6 +572,46 @@ h6 {
 }
 
 /* Used Equipment Section */
+#used-equipment .card {
+  text-align: center;
+  width: 100%;
+  margin: 0 auto var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+#used-equipment .card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(34, 93, 56, 0.2);
+}
+
+#used-equipment .card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(34, 93, 56, 0.05), rgba(34, 93, 56, 0.1));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#used-equipment .card:hover::after {
+  opacity: 1;
+}
+
+#used-equipment .card h2 {
+  margin-bottom: var(--spacing-md);
+  color: var(--vd-primary);
+  font-size: 2.5rem;
+}
+
 .section-description {
   text-align: center;
   max-width: 800px;

@@ -25,27 +25,27 @@
 
 ```html
 <div class="used-equipment-item">
-    <img src="images/equipment/yamaha-cl5.jpg" width="400" height="300"
-        alt="Yamaha CL5 Digital Mixing Console - Professional Live Sound Mixer">
+    <img src="images/equipment/DiGiCo-SD10.png" width="400" height="300"
+        alt="DiGiCo SD10 - Professional Live Sound Mixer">
     <div class="equipment-details">
-        <h3>Yamaha CL5</h3>
+        <h3>DiGiCo SD10 with SD-Rack and Fiber</h3>
         <p class="equipment-description">Professional Digital Mixing Console</p>
         <ul class="equipment-features">
-            <li><i class="fas fa-plug"></i> 72 Mono + 8 Stereo Inputs</li>
-            <li><i class="fas fa-sliders"></i> 24 Mix + 8 Matrix</li>
-            <li><i class="fas fa-microchip"></i> Dante Network Audio</li>
-            <li><i class="fas fa-desktop"></i> Touch Screen Interface</li>
+            <li><i class="fas fa-plug"></i> 144 Input Channels</li>
+            <li><i class="fas fa-sliders"></i> 64 Aux / Sub-Group Busses</li>
+            <li><i class="fas fa-microchip"></i> HMA Fiber Option</li>
+            <li><i class="fas fa-desktop"></i> Waves option card</li>
         </ul>
         <div class="equipment-meta">
             <div class="condition">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
+                <i class="fas fa-star">Used in Perfect Condition</i>
+                <i class="fas fa-star">HMA Fiber 220' included</i>
+                <i class="fas fa-star">SD-Rack 56 x 24</i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <span>5.0/5.0</span>
             </div>
-            <div class="price">$12,000</div>
+            <div class="price">$36,000</div>
         </div>
         <p class="sale-note">* Sold as is. Details to be confirmed.</p>
         <a href="#contact" class="btn btn-primary">Inquire Now</a>
