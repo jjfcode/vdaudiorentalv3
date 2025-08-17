@@ -140,8 +140,8 @@ const inquiryValidationRules = [
     body('company')
         .optional()
         .trim()
-        .isLength({ min: 2, max: 100 })
-        .withMessage('Company name must be between 2 and 100 characters')
+        .isLength({ max: 100 })
+        .withMessage('Company name must be 100 characters or less')
         .escape()
         .customSanitizer(value => {
             return value.replace(/<[^>]*>/g, '');
@@ -171,8 +171,8 @@ const inquiryValidationRules = [
     body('message')
         .optional()
         .trim()
-        .isLength({ min: 10, max: 1000 })
-        .withMessage('Message must be between 10 and 1000 characters')
+        .isLength({ max: 1000 })
+        .withMessage('Message must be 1000 characters or less')
         .escape()
         .customSanitizer(value => {
             let sanitized = value.replace(/<[^>]*>/g, '');

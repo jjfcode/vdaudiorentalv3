@@ -45,6 +45,13 @@ const submitInquiry = async (req, res) => {
         // Check if we're in test mode (skip email for testing)
         const isTestMode = process.env.NODE_ENV === 'test' || req.headers['x-test-mode'] === 'true';
         
+        // Check if optional fields have content (company and message)
+        const hasCompanyContent = company && company.trim().length >= 2;
+        const hasMessageContent = message && message.trim().length >= 10;
+        
+        console.log(`[DEBUG] Email conditions: TestMode=${isTestMode}, CompanyContent=${hasCompanyContent}, MessageContent=${hasMessageContent}`);
+        
+        // Always send email if not in test mode (regardless of optional field content)
         if (!isTestMode) {
             // Create email transporter
             const transporter = createTransporter();
@@ -203,13 +210,16 @@ const submitInquiry = async (req, res) => {
         }
         
         // Return success response
+        const emailStatus = !isTestMode ? 'sent' : 'skipped (test mode)';
+        
         res.status(200).json({
             success: true,
-            message: 'Equipment inquiry submitted successfully',
+            message: `Equipment inquiry submitted successfully. Email: ${emailStatus}`,
             data: {
                 inquiry_id: Date.now().toString(),
                 equipment_name: equipment_name,
                 customer_email: email,
+                email_sent: !isTestMode,
                 timestamp: new Date().toISOString()
             }
         });
