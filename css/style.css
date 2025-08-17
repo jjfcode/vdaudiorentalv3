@@ -715,6 +715,17 @@ h6 {
   margin-bottom: var(--spacing-md);
 }
 
+/* Equipment Inquiry Button Styling */
+.inquire-btn {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.inquire-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 93, 56, 0.3);
+}
+
 .btn-sm {
   padding: var(--spacing-xs) var(--spacing-sm);
   font-size: 0.9rem;
