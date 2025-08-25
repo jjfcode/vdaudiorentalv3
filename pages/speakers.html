@@ -592,30 +592,6 @@
     <!-- Scripts -->
     <script src="../js/navigation.js"></script>
     <script src="../js/lightbox.js"></script>
-    <script src="../js/equipment-filters.js"></script>
-    
-    <!-- Brand Selection Script (cleaned up, runs after filter system) -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Wait for filter system to initialize (ensure all sections are hidden first)
-        setTimeout(() => {
-            const brandLogos = document.querySelectorAll('.brand-logo-item');
-            brandLogos.forEach(logo => {
-                logo.addEventListener('click', function() {
-                    document.querySelectorAll('.brand-section').forEach(section => {
-                        section.style.display = 'none';
-                    });
-                    const brandName = this.getAttribute('data-brand');
-                    const speakerSection = document.getElementById(brandName + '-speakers');
-                    if (speakerSection) {
-                        speakerSection.style.display = 'block';
-                        speakerSection.style.visibility = 'visible';
-                        speakerSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-        }, 1000); // Wait 1 second to let filter system initialize
-    });
-    </script>
+    <script src="../js/brand-selection.js"></script>
 </body>
 </html> 

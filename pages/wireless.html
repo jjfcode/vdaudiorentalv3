@@ -453,46 +453,7 @@
     <!-- Scripts -->
     <script src="../js/navigation.js"></script>
     <script src="../js/lightbox.js"></script>
-    <script src="../js/equipment-filters.js"></script>
-    
-    <!-- Add this before closing body tag -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Run brand selection regardless of equipment filters
-        setTimeout(() => {
-            
-            // Get all brand logo items
-            const brandLogos = document.querySelectorAll('.brand-logo-item');
-            
-            // Add click event to each logo
-            brandLogos.forEach(logo => {
-                logo.addEventListener('click', function() {
-                    // Hide all wireless sections
-                    document.querySelectorAll('.brand-section').forEach(section => {
-                        section.style.display = 'none';
-                    });
-                    
-                    // Show the selected brand's wireless systems
-                    const brandName = this.getAttribute('data-brand');
-                    const wirelessSection = document.getElementById(brandName + '-wireless');
-                    console.log('Brand clicked:', brandName);
-                    console.log('Looking for section:', brandName + '-wireless');
-                    console.log('Section found:', wirelessSection);
-                    
-                    if (wirelessSection) {
-                        wirelessSection.style.display = 'block';
-                        wirelessSection.style.visibility = 'visible';
-                        console.log('Section should now be visible');
-                        // Scroll to the wireless section
-                        wirelessSection.scrollIntoView({ behavior: 'smooth' });
-                    } else {
-                        console.error('Section not found for brand:', brandName);
-                    }
-                });
-            });
-        }, 1000); // Wait 1 second to let filter system initialize
-    });
-    </script>
+    <script src="../js/brand-selection.js"></script>
 
     <!-- Footer -->
     <footer class="footer">
