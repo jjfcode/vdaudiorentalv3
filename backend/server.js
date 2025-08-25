@@ -78,7 +78,7 @@ const speedLimiter = slowDown({
     delayMs: 500 // begin adding 500ms of delay per request above 50
 });
 
-// Apply rate limiting to all routes
+// Apply rate limiting only to API routes
 app.use('/api/', limiter);
 app.use('/api/', speedLimiter);
 
@@ -90,7 +90,7 @@ app.use(express.urlencoded({ extended: true, limit: config.performance.bodyParse
 app.use((req, res, next) => {
     if (config.logging.enableDebug) {
         const timestamp = new Date().toISOString();
-        console.log(`[${timestamp}] ${req.method} ${req.path} - ${req.ip}`);
+        console.log(`[${timestamp}] ${req.method} ${req.path} - ${req.ip} - User-Agent: ${req.get('User-Agent')}`);
     }
     next();
 });
@@ -115,8 +115,18 @@ app.get('/healthz', (req, res) => res.status(200).send('ok'));
 // Serve static files from the parent directory
 app.use(express.static(path.join(__dirname, '..')));
 
-// Catch-all route for SPA
-app.get('*', (req, res) => {
+// Handle frontend routes - serve index.html for all non-API routes
+app.get('*', (req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+        return next();
+    }
+    
+    // For all other routes, serve the SPA
+    if (config.logging.enableDebug) {
+        console.log(`[SPA Route] Serving index.html for: ${req.path}`);
+    }
+    
     res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
