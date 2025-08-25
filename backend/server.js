@@ -122,16 +122,80 @@ app.get('/healthz', (req, res) => res.status(200).send('ok'));
 // Serve static files from the parent directory
 app.use(express.static(path.join(__dirname, '..')));
 
-// Handle frontend routes - serve index.html for all non-API routes
+// Handle frontend routes for specific pages
+app.get('/speakers', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving speakers.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'speakers.html'));
+});
+
+app.get('/mixers', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving mixers.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'mixers.html'));
+});
+
+app.get('/outboard', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving outboard.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'outboard.html'));
+});
+
+app.get('/wireless', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving wireless.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'wireless.html'));
+});
+
+app.get('/wired', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving wired.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'wired.html'));
+});
+
+app.get('/snakes', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving snakes.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'snakes.html'));
+});
+
+app.get('/players', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving players.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'players.html'));
+});
+
+app.get('/intercom', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving intercom.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'intercom.html'));
+});
+
+app.get('/iem', (req, res) => {
+    if (config.logging.enableDebug) {
+        console.log(`[Frontend Route] Serving iem.html for: ${req.path}`);
+    }
+    res.sendFile(path.join(__dirname, '..', 'pages', 'iem.html'));
+});
+
+// Catch-all route for other frontend routes
 app.get('*', (req, res, next) => {
     // Skip API routes
     if (req.path.startsWith('/api/')) {
         return next();
     }
     
-    // For all other routes, serve the SPA
+    // For all other routes, serve the main index.html
     if (config.logging.enableDebug) {
-        console.log(`[SPA Route] Serving index.html for: ${req.path}`);
+        console.log(`[Frontend Route] Serving index.html for: ${req.path}`);
     }
     
     res.sendFile(path.join(__dirname, '..', 'index.html'));
