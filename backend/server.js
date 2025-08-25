@@ -19,6 +19,9 @@ try {
 const app = express();
 const PORT = config.port;
 
+// Trust proxy for Render deployment
+app.set('trust proxy', 1);
+
 // Import routes
 const contactRoutes = require('./routes/contact');
 const inquiryRoutes = require('./routes/inquiry');
@@ -62,6 +65,8 @@ const limiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
+    // Trust proxy for accurate IP detection
+    trustProxy: true,
     handler: (req, res) => {
         res.status(429).json({
             success: false,
@@ -90,7 +95,9 @@ app.use(express.urlencoded({ extended: true, limit: config.performance.bodyParse
 app.use((req, res, next) => {
     if (config.logging.enableDebug) {
         const timestamp = new Date().toISOString();
-        console.log(`[${timestamp}] ${req.method} ${req.path} - ${req.ip} - User-Agent: ${req.get('User-Agent')}`);
+        const realIP = req.ip || req.connection.remoteAddress;
+        const forwardedIP = req.get('X-Forwarded-For');
+        console.log(`[${timestamp}] ${req.method} ${req.path} - Real IP: ${realIP} - Forwarded: ${forwardedIP} - User-Agent: ${req.get('User-Agent')}`);
     }
     next();
 });
