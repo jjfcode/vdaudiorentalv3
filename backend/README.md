@@ -1,267 +1,213 @@
-# VD Audio Rental - Secure Backend System
+# VD Audio Rental Backend
 
-A secure, production-ready Node.js backend for handling contact form submissions with comprehensive security features.
+Backend API para el sistema de contacto de VD Audio Rental, configurado para funcionar tanto en desarrollo local como en producción sin cambios.
 
-## 🚀 Features
+## 🚀 Características
 
-- **🔒 Enterprise Security**: Helmet, CORS, Rate Limiting, Input Validation
-- **📧 Professional Email**: Nodemailer with HTML templates and auto-responses
-- **🛡️ Anti-Spam**: Rate limiting, input sanitization, XSS protection
-- **📊 Monitoring**: Request logging, error tracking, health checks
-- **🌍 Production Ready**: Environment configuration, graceful shutdown
+- **Configuración automática por entorno**: Detecta automáticamente si estás en desarrollo o producción
+- **Sin cambios manuales**: Funciona localmente y en producción con la misma configuración
+- **Validación automática**: Verifica que todas las variables necesarias estén configuradas
+- **Scripts de despliegue**: Facilita la transición entre entornos
+- **Seguridad robusta**: Helmet, CORS, rate limiting y validación de entrada
 
-## 📋 Prerequisites
+## 📁 Estructura de Archivos
 
-- Node.js 16+ 
-- npm or yarn
-- Email service (Gmail, Outlook, etc.)
-
-## 🛠️ Installation
-
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-2. **Set up environment variables:**
-   ```bash
-   cp env.example .env
-   # Edit .env with your credentials
-   ```
-
-3. **Configure email settings:**
-   - For Gmail: Enable 2FA and generate App Password
-   - For other providers: Use appropriate SMTP settings
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-Create a `.env` file in the backend directory:
-
-```env
-# Server Configuration
-PORT=3000
-NODE_ENV=development
-
-# Email Configuration
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
-EMAIL_FROM=your-email@gmail.com
-EMAIL_TO=contact@vdaudiorentals.com
-
-# Security
-JWT_SECRET=your-super-secret-key
-BCRYPT_ROUNDS=12
-
-# Rate Limiting
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=5
-
-# CORS
-CORS_ORIGIN=http://localhost:3000,https://yourdomain.com
+```
+backend/
+├── config/
+│   └── environment.js          # Configuración centralizada por entorno
+├── .env                        # Variables de desarrollo (crear desde env.example)
+├── .env.production            # Variables de producción (crear desde production-config.env)
+├── env.example                # Plantilla para desarrollo
+├── production-config.env      # Plantilla para producción
+├── deploy.js                  # Script de despliegue interactivo
+├── start.js                   # Script de inicio con validaciones
+└── server.js                  # Servidor principal
 ```
 
-### Gmail Setup
+## 🛠️ Configuración Inicial
 
-1. Enable 2-Factor Authentication on your Google account
-2. Generate an App Password:
-   - Go to Google Account settings
-   - Security → 2-Step Verification → App passwords
-   - Generate password for "Mail"
-3. Use the generated password in `EMAIL_PASS`
-
-## 🚀 Running the Server
-
-### Development Mode
+### 1. Instalar dependencias
 ```bash
+npm install
+```
+
+### 2. Configurar entorno de desarrollo
+```bash
+# Copiar la plantilla de desarrollo
+cp env.example .env
+
+# Editar .env con tus credenciales
+nano .env
+```
+
+### 3. Configurar entorno de producción
+```bash
+# Usar el script de despliegue
+npm run deploy
+
+# O crear manualmente
+cp production-config.env .env.production
+nano .env.production
+```
+
+## 🌍 Variables de Entorno
+
+### Variables Requeridas
+- `EMAIL_USER`: Tu email de Gmail
+- `EMAIL_PASS`: Contraseña de aplicación de Gmail
+- `JWT_SECRET`: Clave secreta para JWT
+
+### Variables Opcionales
+- `NODE_ENV`: Entorno (development/production)
+- `PORT`: Puerto del servidor (default: 3000)
+- `CORS_ORIGIN`: Orígenes permitidos para CORS
+- `RATE_LIMIT_MAX_REQUESTS`: Límite de requests por IP
+- `LOG_LEVEL`: Nivel de logging (debug/info/warn/error)
+
+## 🚀 Comandos Disponibles
+
+### Desarrollo
+```bash
+# Iniciar en modo desarrollo
 npm run dev
-```
 
-### Production Mode
-```bash
+# Iniciar en modo desarrollo (sin nodemon)
 npm start
 ```
 
-### Direct Server Start
+### Producción
 ```bash
+# Iniciar en modo producción
+npm run start:prod
+
+# O establecer variable de entorno
+NODE_ENV=production npm start
+```
+
+### Utilidades
+```bash
+# Script de despliegue interactivo
+npm run deploy
+
+# Validar configuración actual
+npm run validate
+
+# Iniciar servidor directamente
 npm run server
 ```
 
-## 📡 API Endpoints
+## 🔧 Script de Despliegue
 
-### Contact Form Submission
-```
-POST /api/contact/submit
-```
+El script `deploy.js` te permite:
 
-**Request Body:**
-```json
-{
-  "name": "John Doe",
-  "company": "Audio Company",
-  "email": "john@example.com",
-  "phone": "+1234567890",
-  "message": "Hello, I need audio equipment...",
-  "contactPreference": "email"
-}
+1. **Cambiar a modo PRODUCCIÓN**: Establece `NODE_ENV=production`
+2. **Cambiar a modo DESARROLLO**: Establece `NODE_ENV=development`
+3. **Crear archivo de producción**: Genera `.env.production` desde la plantilla
+4. **Validar configuración**: Verifica que todo esté configurado correctamente
+
+```bash
+npm run deploy
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Contact form submitted successfully",
-  "data": {
-    "name": "John Doe",
-    "company": "Audio Company",
-    "email": "john@example.com",
-    "submittedAt": "2025-01-27T10:30:00.000Z"
-  }
-}
+## 🌐 Configuración Automática por Entorno
+
+### Desarrollo (NODE_ENV=development o no definido)
+- **CORS**: Permite localhost y puertos de desarrollo
+- **Rate Limiting**: 1000 requests por 15 minutos
+- **Logging**: Nivel debug, stack traces habilitados
+- **Debug**: Logging detallado habilitado
+
+### Producción (NODE_ENV=production)
+- **CORS**: Solo dominios de producción (configurados en `.env.production`)
+- **Rate Limiting**: 100 requests por 15 minutos
+- **Logging**: Nivel info, stack traces deshabilitados
+- **Debug**: Logging detallado deshabilitado
+
+## 📧 Configuración de Email
+
+### Gmail Setup
+1. Habilitar autenticación de 2 factores
+2. Generar contraseña de aplicación
+3. Usar la contraseña de aplicación en `EMAIL_PASS`
+
+### Variables de Email
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=tu-email@gmail.com
+EMAIL_PASS=tu-contraseña-de-aplicacion
+EMAIL_FROM=noreply@tudominio.com
+EMAIL_TO=contact@vdaudiorentals.com
 ```
 
-### Health Check
-```
-GET /api/health
-```
+## 🔒 Seguridad
 
-### Contact API Status
-```
-GET /api/contact/status
-```
+- **Helmet**: Headers de seguridad HTTP
+- **CORS**: Orígenes permitidos configurados por entorno
+- **Rate Limiting**: Protección contra spam y ataques
+- **Input Validation**: Validación de entrada con express-validator
+- **JWT**: Autenticación segura
 
-## 🔒 Security Features
+## 📝 Logs
 
-### Input Validation & Sanitization
-- **XSS Protection**: HTML tag removal, script injection prevention
-- **SQL Injection Protection**: Pattern detection and blocking
-- **Input Length Limits**: Prevents buffer overflow attempts
-- **Character Whitelisting**: Only allows safe characters
+Los logs se guardan en:
+- **Desarrollo**: `./logs/development.log`
+- **Producción**: `./logs/production.log`
 
-### Rate Limiting
-- **Contact Form**: 3 submissions per 15 minutes per IP
-- **General API**: 100 requests per 15 minutes per IP
-- **Gradual Slowdown**: Progressive response delays for abuse
+## 🚀 Despliegue
 
-### Security Headers
-- **Helmet**: Comprehensive security headers
-- **CORS**: Configurable cross-origin restrictions
-- **HSTS**: HTTPS enforcement
-- **CSP**: Content Security Policy
-
-## 📧 Email Features
-
-### Admin Notification
-- Professional HTML template
-- Complete contact information
-- Submission metadata (IP, timestamp, user agent)
-- Branded with VD Audio Rental styling
-
-### User Auto-Response
-- Confirmation email with message preview
-- Next steps explanation
-- Contact information and business hours
-- Professional branding and styling
-
-## 🐛 Error Handling
-
-### Validation Errors (400)
-```json
-{
-  "success": false,
-  "message": "Validation failed",
-  "errors": [
-    {
-      "field": "email",
-      "message": "Please enter a valid email address",
-      "value": "invalid-email"
-    }
-  ]
-}
+### 1. Preparar archivo de producción
+```bash
+npm run deploy
+# Seleccionar opción 3 para crear .env.production
 ```
 
-### Rate Limit Exceeded (429)
-```json
-{
-  "success": false,
-  "message": "Too many contact form submissions. Please wait 15 minutes before trying again.",
-  "retryAfter": 15,
-  "error": "RATE_LIMIT_EXCEEDED"
-}
+### 2. Editar variables de producción
+```bash
+nano .env.production
+# Cambiar todos los valores placeholder
 ```
 
-### Server Errors (500)
-```json
-{
-  "success": false,
-  "message": "Internal server error"
-}
+### 3. Iniciar en producción
+```bash
+npm run start:prod
 ```
 
-## 📊 Monitoring & Logging
+### 4. Verificar funcionamiento
+```bash
+curl http://localhost:3000/api/health
+```
 
-### Request Logging
-- Timestamp, method, path, IP address
-- User agent information
-- Response status codes
+## 🔍 Troubleshooting
 
-### Error Tracking
-- Detailed error logging
-- Stack traces (development only)
-- Error categorization and handling
+### Error: "Missing required configuration"
+- Verificar que `.env` o `.env.production` exista
+- Comprobar que `EMAIL_USER`, `EMAIL_PASS`, y `JWT_SECRET` estén configurados
 
-### Health Monitoring
-- Server uptime tracking
-- API endpoint status
-- Environment information
+### Error: "CORS policy"
+- Verificar que el origen de tu frontend esté en `CORS_ORIGIN`
+- En desarrollo, los orígenes localhost están permitidos automáticamente
 
-## 🚀 Production Deployment
+### Error: "Rate limit exceeded"
+- En desarrollo: 1000 requests por 15 minutos
+- En producción: 100 requests por 15 minutos
+- Ajustar `RATE_LIMIT_MAX_REQUESTS` si es necesario
 
-### Environment Setup
-1. Set `NODE_ENV=production`
-2. Configure production email service
-3. Set strong JWT secret
-4. Configure CORS origins for production domain
+## 📚 API Endpoints
 
-### Security Considerations
-- Use HTTPS in production
-- Set secure cookie options
-- Enable HSTS
-- Configure proper CORS origins
+- `POST /api/contact` - Formulario de contacto
+- `POST /api/inquiry` - Consultas de equipamiento
+- `GET /api/health` - Estado del servidor
 
-### Performance
-- Enable compression
-- Set appropriate rate limits
-- Monitor server resources
-- Use PM2 or similar process manager
+## 🤝 Contribución
 
-## 🔧 Troubleshooting
+1. Fork el proyecto
+2. Crear rama para feature (`git checkout -b feature/AmazingFeature`)
+3. Commit cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abrir Pull Request
 
-### Common Issues
+## 📄 Licencia
 
-**Email not sending:**
-- Check SMTP credentials
-- Verify 2FA and App Password setup
-- Check firewall/network restrictions
-
-**Rate limiting too strict:**
-- Adjust `RATE_LIMIT_MAX_REQUESTS` in .env
-- Modify rate limiting middleware
-
-**CORS errors:**
-- Update `CORS_ORIGIN` in .env
-- Check frontend domain configuration
-
-### Debug Mode
-Set `NODE_ENV=development` for detailed error messages and logging.
-
-## 📝 License
-
-This backend system is part of the VD Audio Rental website project.
-
-## 🤝 Support
-
-For technical support or questions about the backend system, please contact the development team.
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](../LICENSE) para detalles.

@@ -5,8 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "node start.js",
+    "start:prod": "NODE_ENV=production node start.js",
     "dev": "nodemon start.js",
     "server": "node server.js",
+    "deploy": "node deploy.js",
+    "setup:prod": "node setup-production.js",
+    "validate": "node -e \"require('./config/environment').validateConfig(require('./config/environment').config)\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

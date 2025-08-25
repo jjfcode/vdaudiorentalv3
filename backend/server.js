@@ -4,10 +4,20 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const slowDown = require('express-slow-down');
 const path = require('path');
-require('dotenv').config();
+
+// Import configuration
+const { config, isProduction, validateConfig } = require('./config/environment');
+
+// Validate configuration
+try {
+    validateConfig(config);
+} catch (error) {
+    console.error('❌ Configuration error:', error.message);
+    process.exit(1);
+}
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = config.port;
 
 // Import routes
 const contactRoutes = require('./routes/contact');
@@ -36,9 +46,7 @@ app.use(helmet({
 
 // CORS Configuration
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN ? 
-        process.env.CORS_ORIGIN.split(',') : 
-        ['http://localhost:3000', 'http://localhost:5000', 'http://127.0.0.1:5502', 'http://localhost:5502'],
+    origin: config.cors.origins,
     credentials: true,
     optionsSuccessStatus: 200
 };
@@ -46,11 +54,11 @@ app.use(cors(corsOptions));
 
 // Rate Limiting
 const limiter = rateLimit({
-    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
-    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
+    windowMs: config.rateLimit.windowMs,
+    max: config.rateLimit.max,
     message: {
         error: 'Too many requests from this IP, please try again later.',
-        retryAfter: Math.ceil(parseInt(process.env.RATE_LIMIT_WINDOW_MS) / 1000 / 60)
+        retryAfter: Math.ceil(config.rateLimit.windowMs / 1000 / 60)
     },
     standardHeaders: true,
     legacyHeaders: false,
@@ -58,7 +66,7 @@ const limiter = rateLimit({
         res.status(429).json({
             success: false,
             message: 'Too many requests from this IP, please try again later.',
-            retryAfter: Math.ceil(parseInt(process.env.RATE_LIMIT_WINDOW_MS) / 1000 / 60)
+            retryAfter: Math.ceil(config.rateLimit.windowMs / 1000 / 60)
         });
     }
 });
@@ -75,13 +83,15 @@ app.use('/api/', limiter);
 app.use('/api/', speedLimiter);
 
 // Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: config.performance.bodyParserLimit }));
+app.use(express.urlencoded({ extended: true, limit: config.performance.bodyParserLimit }));
 
 // Request logging middleware
 app.use((req, res, next) => {
-    const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] ${req.method} ${req.path} - ${req.ip}`);
+    if (config.logging.enableDebug) {
+        const timestamp = new Date().toISOString();
+        console.log(`[${timestamp}] ${req.method} ${req.path} - ${req.ip}`);
+    }
     next();
 });
 
@@ -112,14 +122,12 @@ app.use((err, req, res, next) => {
     console.error('Global error handler:', err);
     
     // Don't expose internal errors in production
-    const message = process.env.NODE_ENV === 'production' 
-        ? 'Internal server error' 
-        : err.message;
+    const message = isProduction ? 'Internal server error' : err.message;
     
     res.status(err.status || 500).json({
         success: false,
         message: message,
-        ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+        ...(config.logging.showStackTraces && { stack: err.stack })
     });
 });
 
@@ -134,12 +142,14 @@ app.use((req, res) => {
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 VD Audio Rental Backend running on port ${PORT}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🌍 Environment: ${config.nodeEnv}`);
     console.log(`🔒 Security: Helmet, CORS, Rate Limiting enabled`);
     console.log(`📧 Contact API: http://localhost:${PORT}/api/contact`);
     console.log(`🔍 Inquiry API: http://localhost:${PORT}/api/inquiry`);
     console.log(`💚 Health Check: http://localhost:${PORT}/api/health`);
-    console.log(`🌐 CORS Origins: ${corsOptions.origin.join(', ')}`);
+    console.log(`🌐 CORS Origins: ${config.cors.origins.join(', ')}`);
+    console.log(`📊 Rate Limit: ${config.rateLimit.max} requests per ${Math.round(config.rateLimit.windowMs / 1000 / 60)} minutes`);
+    console.log(`🔍 Log Level: ${config.logging.level}`);
 });
 
 // Graceful shutdown
