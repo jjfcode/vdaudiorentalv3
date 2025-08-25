@@ -109,6 +109,9 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Simple healthcheck for Render
+app.get('/healthz', (req, res) => res.status(200).send('ok'));
+
 // Serve static files from the parent directory
 app.use(express.static(path.join(__dirname, '..')));
 
