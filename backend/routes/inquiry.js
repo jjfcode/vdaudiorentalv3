@@ -3,12 +3,14 @@ const { body, validationResult } = require('express-validator');
 const inquiryController = require('../controllers/inquiryController');
 const { validateInquiryForm } = require('../middleware/validation');
 const { rateLimitInquiry } = require('../middleware/rateLimit');
+const { verifyRecaptcha } = require('../middleware/recaptcha');
 
 const router = express.Router();
 
-// Equipment inquiry submission with validation and rate limiting
+// Equipment inquiry submission with validation, rate limiting, and reCAPTCHA
 router.post('/', 
     rateLimitInquiry,
+    verifyRecaptcha,
     validateInquiryForm,
     inquiryController.submitInquiry
 );

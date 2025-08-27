@@ -789,6 +789,62 @@ h6 {
   margin-top: var(--spacing-md);
 }
 
+/* reCAPTCHA Styling */
+.recaptcha-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.recaptcha-container .g-recaptcha {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.recaptcha-error {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Form Select Styling */
+.form-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  padding-right: 45px;
+}
+
+.form-select:focus {
+  outline: none;
+  border-color: var(--vd-primary);
+  box-shadow: 0 0 0 3px rgba(34, 93, 86, 0.1);
+}
+
+.form-select:hover {
+  border-color: var(--vd-primary);
+}
+
+/* Enhanced form group spacing for new fields */
+#equipmentInquiryModal .form-group {
+  margin-bottom: 20px;
+}
+
+#equipmentInquiryModal .form-group:last-child {
+  margin-bottom: 0;
+}
+
 /* Dynamic positioning for inquiry modal */
 #equipmentInquiryModal .modal-content.dynamic-position {
   position: absolute;

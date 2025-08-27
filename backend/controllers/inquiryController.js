@@ -33,14 +33,18 @@ const submitInquiry = async (req, res) => {
             email, 
             phone, 
             message, 
+            urgency,
             equipment_id, 
             equipment_name, 
             equipment_price,
             inquiry_type 
         } = req.body;
         
-        // Log the inquiry submission attempt
-        console.log(`[${new Date().toISOString()}] Equipment inquiry from ${email} (${name}) for ${equipment_name}`);
+        // Log the inquiry submission attempt with reCAPTCHA info
+        const recaptchaInfo = req.recaptchaResult ? 
+            `(reCAPTCHA: ${req.recaptchaResult.success}, score: ${req.recaptchaResult.score || 'N/A'})` : 
+            '(reCAPTCHA: not verified)';
+        console.log(`[${new Date().toISOString()}] Equipment inquiry from ${email} (${name}) for ${equipment_name} ${recaptchaInfo}`);
         
         // Check if we're in test mode (skip email for testing)
         const isTestMode = process.env.NODE_ENV === 'test' || req.headers['x-test-mode'] === 'true';
@@ -131,6 +135,21 @@ const submitInquiry = async (req, res) => {
                                 </table>
                             </div>
                             
+                            <!-- Urgency Level Section -->
+                            <div style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-top: 20px;">
+                                <div style="background: #ff9800; color: white; padding: 15px; text-align: center;">
+                                    <h3 style="margin: 0; font-size: 18px;">Urgency Level</h3>
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="padding: 12px 15px; font-weight: bold; width: 30%;">Urgency:</td>
+                                        <td style="padding: 12px 15px;">
+                                            ${urgency ? urgency.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Not specified'}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
                             <!-- Inquiry Details Section -->
                             <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-left: 4px solid #4caf50; border-radius: 4px;">
                                 <p style="margin: 0; color: #2e7d32;">
@@ -138,7 +157,8 @@ const submitInquiry = async (req, res) => {
                                     Type: ${inquiry_type || 'Equipment Inquiry'}<br>
                                     Time: ${new Date().toLocaleString()}<br>
                                     IP Address: ${req.ip}<br>
-                                    User Agent: ${req.get('User-Agent')?.substring(0, 100) || 'Unknown'}
+                                    User Agent: ${req.get('User-Agent')?.substring(0, 100) || 'Unknown'}<br>
+                                    reCAPTCHA: ${req.recaptchaResult ? `Verified (Score: ${req.recaptchaResult.score || 'N/A'})` : 'Not verified'}
                                 </p>
                             </div>
                             
@@ -184,6 +204,7 @@ const submitInquiry = async (req, res) => {
                                 <h3 style="margin: 0 0 10px 0; color: #225d56;">Your Inquiry Details:</h3>
                                 <p><strong>Equipment:</strong> ${equipment_name}</p>
                                 <p><strong>Price:</strong> ${equipment_price || 'Price on request'}</p>
+                                <p><strong>Urgency:</strong> ${urgency ? urgency.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Not specified'}</p>
                                 <p><strong>Inquiry Date:</strong> ${new Date().toLocaleDateString()}</p>
                             </div>
                             

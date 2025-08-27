@@ -15,6 +15,12 @@ const baseConfig = {
     jwtSecret: process.env.JWT_SECRET || 'dev-secret-key-change-in-production',
     bcryptRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS) || 12,
     
+    // reCAPTCHA
+    recaptcha: {
+        siteKey: process.env.RECAPTCHA_SITE_KEY || 'your-recaptcha-site-key',
+        secretKey: process.env.RECAPTCHA_SECRET_KEY || 'your-recaptcha-secret-key'
+    },
+    
     // Email
     email: {
         host: process.env.EMAIL_HOST || 'smtp.gmail.com',
@@ -97,7 +103,7 @@ const getConfig = () => {
 
 // Validate required configuration
 const validateConfig = (config) => {
-    const required = ['email.user', 'email.pass', 'jwtSecret'];
+    const required = ['email.user', 'email.pass', 'jwtSecret', 'recaptcha.secretKey'];
     const missing = [];
     
     required.forEach(field => {

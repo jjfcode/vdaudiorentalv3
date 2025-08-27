@@ -3,12 +3,14 @@ const { body, validationResult } = require('express-validator');
 const contactController = require('../controllers/contactController');
 const { validateContactForm } = require('../middleware/validation');
 const { rateLimitContact } = require('../middleware/rateLimit');
+const { verifyRecaptcha } = require('../middleware/recaptcha');
 
 const router = express.Router();
 
-// Contact form submission with validation and rate limiting
+// Contact form submission with validation, rate limiting, and reCAPTCHA
 router.post('/submit', 
     rateLimitContact,
+    verifyRecaptcha,
     validateContactForm,
     contactController.submitContactForm
 );

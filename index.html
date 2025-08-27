@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="css/contact-interactive.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body class="home-page">
@@ -313,9 +315,29 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="inquiry-urgency">Urgency Level</label>
+                    <select id="inquiry-urgency" name="urgency" class="form-select">
+                        <option value="">Select urgency level</option>
+                        <option value="low">Low - General inquiry</option>
+                        <option value="medium">Medium - Planning phase</option>
+                        <option value="high">High - Immediate need</option>
+                        <option value="urgent">Urgent - Same day/next day</option>
+                    </select>
+                    <i class="fas fa-clock" aria-hidden="true"></i>
+                </div>
+                
+                <div class="form-group">
                     <label for="inquiry-message">Message</label>
                     <textarea id="inquiry-message" name="message" placeholder="Additional details about your inquiry (optional, min 10 characters)..." rows="4"></textarea>
                     <i class="fas fa-comment-alt" aria-hidden="true"></i>
+                </div>
+                
+                <!-- reCAPTCHA Widget -->
+                <div class="form-group recaptcha-container">
+                    <div class="g-recaptcha" data-sitekey="6Le81LMrAAAAAIQLgRQfhl-ZVDODXN9Hf9RQ4kDb"></div>
+                    <div class="recaptcha-error" id="recaptchaError" style="display: none; color: #d32f2f; font-size: 14px; margin-top: 5px;">
+                        Please complete the reCAPTCHA verification
+                    </div>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">
@@ -678,6 +700,15 @@
                         <span class="current-count">0</span> / <span class="max-count">1000</span> characters
                     </div>
                 </div>
+                
+                <!-- reCAPTCHA Widget for General Contact Form -->
+                <div class="form-group recaptcha-container">
+                    <div class="g-recaptcha" data-sitekey="6Le81LMrAAAAAIQLgRQfhl-ZVDODXN9Hf9RQ4kDb"></div>
+                    <div class="recaptcha-error" id="contactRecaptchaError" style="display: none; color: #d32f2f; font-size: 14px; margin-top: 5px;">
+                        Please complete the reCAPTCHA verification
+                    </div>
+                </div>
+                
                 <button type="submit" class="btn btn-primary submit-btn" aria-describedby="submit-help">
                     <span class="btn-content">
                         <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message

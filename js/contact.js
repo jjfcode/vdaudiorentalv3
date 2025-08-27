@@ -3,9 +3,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get modal elements
     const modal = document.getElementById('messageModal');
     const showMessageBtn = document.getElementById('showMessageForm');
-    const closeModalBtn = document.querySelector('.close-modal');
+    const closeModalBtn = document.querySelector('#messageModal .close-modal');
     const contactForm = document.getElementById('contactForm');
     const modalContent = document.querySelector('.modal-content');
+    
+    // Debug: Log modal elements
+    console.log('Modal elements found:', {
+        modal: !!modal,
+        showMessageBtn: !!showMessageBtn,
+        closeModalBtn: !!closeModalBtn,
+        contactForm: !!contactForm,
+        modalContent: !!modalContent
+    });
 
     // API Configuration
     const API_BASE_URL = (() => {
@@ -35,14 +44,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close modal
     if (closeModalBtn && modal) {
         closeModalBtn.addEventListener('click', function() {
+            console.log('Close button clicked - closing modal');
             modal.style.display = 'none';
             
             // Reset modal positioning
             resetModalPosition();
             
+            // Reset reCAPTCHA when modal closes
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
+            }
+            
             // Restore button text position when modal closes
             restoreButtonTextPosition();
         });
+    } else {
+        console.error('Close button or modal not found:', { closeModalBtn: !!closeModalBtn, modal: !!modal });
     }
 
     // Close modal when clicking outside
@@ -53,6 +70,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Reset modal positioning
                 resetModalPosition();
+                
+                // Reset reCAPTCHA when modal closes
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
                 
                 // Restore button text position when modal closes
                 restoreButtonTextPosition();
@@ -94,6 +116,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const selectedPreference = document.querySelector('input[name="contactPreference"]:checked');
             const contactPreference = selectedPreference ? selectedPreference.value : 'email';
 
+            // Get reCAPTCHA token
+            const recaptchaToken = grecaptcha.getResponse();
+            
             const formData = {
                 name: sanitizedFormData.name,
                 company: sanitizedFormData.company,
@@ -101,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 phone: sanitizedFormData.phone,
                 message: sanitizedFormData.message,
                 contactPreference: contactPreference,
+                recaptchaToken: recaptchaToken,
                 timestamp: new Date().toISOString(),
                 userAgent: navigator.userAgent.substring(0, 100), // Limit user agent length
                 ipHash: await generateIPHash() // Generate hash for rate limiting
@@ -336,6 +362,15 @@ document.addEventListener('DOMContentLoaded', function() {
             showFieldError(fieldName, error);
             if (error) isValid = false;
         });
+
+        // Validate reCAPTCHA
+        const recaptchaToken = grecaptcha.getResponse();
+        if (!recaptchaToken) {
+            document.getElementById('contactRecaptchaError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('contactRecaptchaError').style.display = 'none';
+        }
 
         return isValid;
     }
@@ -658,6 +693,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 resetModalPosition();
                 // Reset form
                 contactForm.reset();
+                // Reset reCAPTCHA
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
                 // Reset form states
                 const formGroups = contactForm.querySelectorAll('.form-group');
                 formGroups.forEach(group => {
@@ -787,6 +826,11 @@ document.addEventListener('DOMContentLoaded', function() {
             modalContent.style.top = '';
             modalContent.style.left = '';
             modalContent.style.transform = '';
+            
+            // Reset reCAPTCHA when modal closes
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
+            }
         }
     }
 

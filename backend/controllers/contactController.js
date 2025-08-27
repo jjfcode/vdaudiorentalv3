@@ -30,8 +30,11 @@ const submitContactForm = async (req, res) => {
     try {
         const { name, company, email, phone, message, contactPreference } = req.body;
         
-        // Log the submission attempt
-        console.log(`[${new Date().toISOString()}] Contact form submission from ${email} (${name})`);
+        // Log the submission attempt with reCAPTCHA info
+        const recaptchaInfo = req.recaptchaResult ? 
+            `(reCAPTCHA: ${req.recaptchaResult.success}, score: ${req.recaptchaResult.score || 'N/A'})` : 
+            '(reCAPTCHA: not verified)';
+        console.log(`[${new Date().toISOString()}] Contact form submission from ${email} (${name}) ${recaptchaInfo}`);
         
         // Check if we're in test mode (skip email for testing)
         const isTestMode = process.env.NODE_ENV === 'test' || req.headers['x-test-mode'] === 'true';
@@ -97,7 +100,8 @@ const submitContactForm = async (req, res) => {
                                     <strong>Submission Details:</strong><br>
                                     Time: ${new Date().toLocaleString()}<br>
                                     IP Address: ${req.ip}<br>
-                                    User Agent: ${req.get('User-Agent')?.substring(0, 100) || 'Unknown'}
+                                    User Agent: ${req.get('User-Agent')?.substring(0, 100) || 'Unknown'}<br>
+                                    reCAPTCHA: ${req.recaptchaResult ? `Verified (Score: ${req.recaptchaResult.score || 'N/A'})` : 'Not verified'}
                                 </p>
                             </div>
                         </div>

@@ -71,6 +71,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Get reCAPTCHA token
+        const recaptchaToken = grecaptcha.getResponse();
+        if (!recaptchaToken) {
+            document.getElementById('recaptchaError').style.display = 'block';
+            return;
+        }
+        
+        // Hide reCAPTCHA error if it was showing
+        document.getElementById('recaptchaError').style.display = 'none';
+        
         // Get form data
         const formData = new FormData(this);
         const equipmentId = formData.get('equipment_id');
@@ -78,9 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const equipmentPrice = formData.get('equipment_price');
         const company = formData.get('company');
         const message = formData.get('message');
+        const urgency = formData.get('urgency');
         
         console.log('Inquiry data collected:', { 
-            name, email, phone, company, message, 
+            name, email, phone, company, message, urgency,
             equipmentId, equipmentName, equipmentPrice 
         });
         
@@ -103,10 +114,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: email,
                 phone: phone,
                 message: message,
+                urgency: urgency,
                 equipment_id: equipmentId,
                 equipment_name: equipmentName,
                 equipment_price: equipmentPrice,
                 inquiry_type: 'equipment_inquiry',
+                recaptchaToken: recaptchaToken,
                 timestamp: new Date().toISOString()
             };
             
@@ -139,8 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Close modal
             inquiryModal.style.display = 'none';
             
-            // Reset form
+            // Reset form and reCAPTCHA
             this.reset();
+            grecaptcha.reset();
             
         } catch (error) {
             console.error('Equipment inquiry submission failed:', error);
