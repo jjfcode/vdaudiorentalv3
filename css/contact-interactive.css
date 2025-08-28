@@ -264,103 +264,7 @@
     20%, 40%, 60%, 80% { transform: rotate(10deg); }
 }
 
-/* Social Media Section */
-.social-contact {
-    margin-bottom: var(--spacing-lg);
-}
 
-.social-contact h4 {
-    color: var(--vd-primary);
-    margin-bottom: var(--spacing-md);
-    font-size: 1.1rem;
-}
-
-.social-methods {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-}
-
-.social-method {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
-    background: white;
-    border: 2px solid #eee;
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    color: var(--vd-text);
-    transition: all 0.3s ease;
-}
-
-.social-method:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.social-method:focus {
-    outline: 2px solid var(--vd-primary);
-    outline-offset: 2px;
-}
-
-.social-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    color: white !important;
-    flex-shrink: 0;
-}
-
-.social-icon i {
-    color: white !important;
-}
-
-.facebook-method .social-icon {
-    background: linear-gradient(135deg, #1877F2, #0866FF);
-}
-
-.facebook-method:hover {
-    border-color: #1877F2;
-}
-
-.instagram-method .social-icon {
-    background: linear-gradient(135deg, #E4405F, #C13584, #833AB4);
-}
-
-.instagram-method:hover {
-    border-color: #E4405F;
-}
-
-.linkedin-method .social-icon {
-    background: linear-gradient(135deg, #0A66C2, #004182);
-}
-
-.linkedin-method:hover {
-    border-color: #0A66C2;
-}
-
-.social-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.social-title {
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--vd-primary);
-}
-
-.social-detail {
-    font-size: 0.9rem;
-    color: var(--vd-text-light);
-}
 
 /* Form Contact Section */
 .form-contact {
@@ -391,19 +295,16 @@
         grid-template-columns: 1fr;
     }
     
-    .contact-methods,
-    .social-methods {
+    .contact-methods {
         gap: var(--spacing-xs);
     }
     
-    .contact-method,
-    .social-method {
+    .contact-method {
         padding: var(--spacing-sm);
         gap: var(--spacing-sm);
     }
     
-    .method-icon,
-    .social-icon {
+    .method-icon {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
@@ -443,17 +344,13 @@
         grid-template-columns: 1fr;
     }
     
-    .social-methods {
-        gap: var(--spacing-xs);
-    }
+
     
-    .method-title,
-    .social-title {
+    .method-title {
         font-size: 1rem;
     }
     
-    .method-detail,
-    .social-detail {
+    .method-detail {
         font-size: 0.85rem;
     }
     
@@ -465,7 +362,6 @@
 /* Accessibility Enhancements */
 @media (prefers-reduced-motion: reduce) {
     .contact-method,
-    .social-method,
     .preference-option {
         transition: none;
     }
@@ -483,13 +379,11 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .contact-method,
-    .social-method,
     .preference-option {
         border-width: 3px;
     }
     
     .contact-method:hover,
-    .social-method:hover,
     .preference-option:hover {
         border-color: var(--vd-high-contrast-text);
     }
@@ -543,7 +437,6 @@ ntegration with existing contact section */
 
 /* Focus improvements for accessibility */
 .contact-method:focus-visible,
-.social-method:focus-visible,
 .preference-option:focus-visible {
     outline: 3px solid var(--vd-primary);
     outline-offset: 2px;
@@ -552,7 +445,6 @@ ntegration with existing contact section */
 /* Print styles */
 @media print {
     .contact-methods,
-    .social-contact,
     .contact-preferences {
         display: none;
     }
