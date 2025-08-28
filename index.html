@@ -551,70 +551,60 @@
             <!-- Interactive Map Section -->
             <div class="map-container">
                 <div class="map-header">
-                    <h3><i class="fas fa-map-marker-alt"></i> Find Us & Get Directions</h3>
+                    <h3><i class="fas fa-map-marker-alt"></i> Find Us</h3>
                     <p>Located in Miami, FL - Serving the greater Miami area and beyond</p>
                 </div>
 
-                <div id="vd-map" role="application" aria-label="Interactive map showing VD Audio Rental location">
-                    <div class="map-loading">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        Loading interactive map...
+                <div id="vd-map" role="application" aria-label="Map showing VD Audio Rental location">
+                    <iframe 
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=-80.22825269212408,25.91780376445975,-80.22425269212408,25.92180376445975&layer=mapnik" 
+                        width="100%" 
+                        height="400" 
+                        frameborder="0" 
+                        scrolling="no" 
+                        marginheight="0" 
+                        marginwidth="0"
+                        title="VD Audio Rental Location Map"
+                        style="border-radius: 8px;">
+                    </iframe>
+                    
+                    <!-- Custom Location Marker -->
+                    <div class="custom-marker" id="custom-marker">
+                        <div class="marker-pin">
+                            <img src="images/logos/audiorental circle logo.png" alt="VD Audio Rental Logo" class="marker-logo">
+                        </div>
+                        <div class="marker-pulse"></div>
+                    </div>
+                    
+                    <!-- Zoom Controls -->
+                    <div class="map-zoom-controls">
+                        <button class="zoom-btn zoom-in" onclick="zoomMap('in')" aria-label="Zoom in">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <button class="zoom-btn zoom-out" onclick="zoomMap('out')" aria-label="Zoom out">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="zoom-btn zoom-reset" onclick="resetMapZoom()" aria-label="Reset zoom">
+                            <i class="fas fa-home"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="map-overlay">
+                        <div class="map-info">
+                            <h4><i class="fas fa-map-marker-alt"></i> VD Audio Rental</h4>
+                            <p><strong>Address:</strong><br>1592 NW 159th St, Miami, FL 33169</p>
+                            <p><strong>Phone:</strong> +1 786 257 2705</p>
+                            <p><strong>Email:</strong> info@vdaudiorentals.com</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="map-controls">
                     <div class="map-controls-grid">
-                        <!-- Directions Control -->
-                        <div class="control-group">
-                            <h4><i class="fas fa-route"></i> Get Directions</h4>
-                            <div class="location-services">
-                                <i class="fas fa-info-circle"></i>
-                                Leave blank to use your current location
-                            </div>
-                            <div class="control-input">
-                                <input type="text" id="directions-start" placeholder="Enter your starting address"
-                                    aria-label="Starting address for directions">
-                            </div>
-                            <div class="control-buttons">
-                                <button id="get-directions-btn" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-directions"></i> Get Directions
-                                </button>
-                                <button id="use-my-location-btn" class="btn btn-secondary btn-sm">
-                                    <i class="fas fa-location-arrow"></i> Use My Location
-                                </button>
-                            </div>
-                            <div id="route-info"></div>
-                        </div>
-
-                        <!-- Distance Calculator -->
-                        <div class="control-group">
-                            <h4><i class="fas fa-ruler-horizontal"></i> Distance Calculator</h4>
-                            <div class="location-services">
-                                <i class="fas fa-info-circle"></i>
-                                Check if you're in our service area
-                            </div>
-                            <div class="control-input">
-                                <input type="text" id="distance-address" placeholder="Enter your address"
-                                    aria-label="Address for distance calculation">
-                            </div>
-                            <div class="control-buttons">
-                                <button id="calculate-distance-btn" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-calculator"></i> Calculate Distance
-                                </button>
-                                <button id="toggle-service-area-btn" class="btn btn-secondary btn-sm">
-                                    <i class="fas fa-circle"></i> Hide Service Area
-                                </button>
-                            </div>
-                            <div id="distance-result"></div>
-                        </div>
-
                         <!-- Map Controls -->
                         <div class="control-group">
                             <h4><i class="fas fa-cog"></i> Map Controls</h4>
                             <div class="control-buttons">
-                                <button id="clear-directions-btn" class="btn btn-secondary btn-sm">
-                                    <i class="fas fa-eraser"></i> Clear All
-                                </button>
                                 <a href="https://maps.google.com/maps?q=1592+NW+159th+St,+Miami,+FL+33169"
                                     target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
                                     <i class="fas fa-external-link-alt"></i> Open in Google Maps
@@ -761,34 +751,7 @@
     <script src="js/inquiry.js" defer></script>
     <script src="js/contact-interactive.js" defer></script>
     <script src="js/lightbox.js" defer></script>
-    <!-- Google Maps API - Replace YOUR_API_KEY with actual API key -->
-    <script>
-        // Fallback if Google Maps fails to load
-        window.setTimeout(function () {
-            if (typeof google === 'undefined' || !google.maps) {
-                console.warn('Google Maps API failed to load - showing fallback');
-                const mapElement = document.getElementById('vd-map');
-                if (mapElement && !mapElement.querySelector('.map-error')) {
-                    mapElement.innerHTML = `
-                <div class="map-error">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>Interactive Map Unavailable</h3>
-                    <p>The interactive map requires a Google Maps API key to function.</p>
-                    <p><strong>Our Location:</strong><br>1592 NW 159th St, Miami, FL 33169</p>
-                    <a href="https://maps.google.com/maps?q=1592+NW+159th+St,+Miami,+FL+33169" 
-                       target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i> Open in Google Maps
-                    </a>
-                </div>
-            `;
-                }
-            }
-        }, 5000);
-    </script>
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7idgNBUYSEFwRIoxQLEWpCyspN91MVLc&libraries=geometry&callback=initVDMaps"
-        onerror="console.error('Failed to load Google Maps API')">
-        </script>
+
 
     <script>
         // Ensure equipment links are clickable
@@ -803,6 +766,131 @@
                 });
             });
         });
+        
+        // Map Zoom Controls
+        let currentZoom = 0; // 0 = default zoom level
+        const zoomLevels = [
+            // Default zoom (current)
+            'bbox=-80.22825269212408,25.91780376445975,-80.22425269212408,25.92180376445975',
+            // Zoom in level 1
+            'bbox=-80.22725269212408,25.91880376445975,-80.22525269212408,25.92080376445975',
+            // Zoom in level 2
+            'bbox=-80.22675269212408,25.91930376445975,-80.22575269212408,25.92030376445975',
+            // Zoom in level 3 (closest)
+            'bbox=-80.22650269212408,25.91955376445975,-80.22600269212408,25.92005376445975'
+        ];
+        
+        function zoomMap(direction) {
+            const iframe = document.querySelector('#vd-map iframe');
+            if (!iframe) return;
+            
+            if (direction === 'in' && currentZoom < zoomLevels.length - 1) {
+                currentZoom++;
+            } else if (direction === 'out' && currentZoom > 0) {
+                currentZoom--;
+            }
+            
+            updateMapZoom();
+        }
+        
+        function resetMapZoom() {
+            currentZoom = 0;
+            updateMapZoom();
+        }
+        
+        function updateMapZoom() {
+            const iframe = document.querySelector('#vd-map iframe');
+            if (!iframe) return;
+            
+            const baseUrl = 'https://www.openstreetmap.org/export/embed.html?';
+            const layer = 'layer=mapnik';
+            
+            const newSrc = `${baseUrl}${zoomLevels[currentZoom]}&${layer}`;
+            iframe.src = newSrc;
+            
+            // Update button states
+            updateZoomButtonStates();
+            
+            // Animate marker for new zoom level
+            animateMarker();
+        }
+        
+        function animateMarker() {
+            const marker = document.querySelector('.custom-marker');
+            if (marker) {
+                marker.style.animation = 'none';
+                marker.offsetHeight; // Trigger reflow
+                marker.style.animation = 'marker-drop 0.6s ease-out';
+            }
+        }
+        
+        function updateZoomButtonStates() {
+            const zoomInBtn = document.querySelector('.zoom-in');
+            const zoomOutBtn = document.querySelector('.zoom-out');
+            
+            if (zoomInBtn) {
+                zoomInBtn.disabled = currentZoom >= zoomLevels.length - 1;
+                zoomInBtn.style.opacity = currentZoom >= zoomLevels.length - 1 ? '0.5' : '1';
+            }
+            
+            if (zoomOutBtn) {
+                zoomOutBtn.disabled = currentZoom <= 0;
+                zoomOutBtn.style.opacity = currentZoom <= 0 ? '0.5' : '1';
+            }
+        }
+        
+        // Initialize zoom button states and marker interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(updateZoomButtonStates, 1000); // Wait for iframe to load
+            
+            // Make marker interactive
+            const marker = document.querySelector('.custom-marker');
+            if (marker) {
+                marker.style.pointerEvents = 'auto';
+                marker.style.cursor = 'pointer';
+                
+                marker.addEventListener('click', function() {
+                    showMarkerInfo();
+                });
+            }
+        });
+        
+        function showMarkerInfo() {
+            // Create a temporary info popup
+            const popup = document.createElement('div');
+            popup.className = 'marker-popup';
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <h4><i class="fas fa-map-marker-alt"></i> VD Audio Rental</h4>
+                    <p><strong>📍 Exact Location</strong></p>
+                    <p>1592 NW 159th St, Miami, FL 33169</p>
+                    <p><strong>📞 Phone:</strong> +1 786 257 2705</p>
+                    <p><strong>✉️ Email:</strong> info@vdaudiorentals.com</p>
+                    <button onclick="this.parentElement.parentElement.remove()" class="popup-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Position popup above marker
+            const marker = document.querySelector('.custom-marker');
+            if (marker) {
+                popup.style.position = 'absolute';
+                popup.style.top = 'calc(50% - 200px)';
+                popup.style.left = '50%';
+                popup.style.transform = 'translateX(-50%)';
+                popup.style.zIndex = '30';
+                
+                document.querySelector('#vd-map').appendChild(popup);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    if (popup.parentElement) {
+                        popup.remove();
+                    }
+                }, 5000);
+            }
+        }
     </script>
 </body>
 
