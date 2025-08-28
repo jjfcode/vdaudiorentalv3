@@ -383,31 +383,7 @@
     margin: 0;
 }
 
-/* Location Info Section */
-.location-info {
-    background: var(--vd-surface);
-    border-radius: var(--border-radius);
-    padding: var(--spacing-lg);
-    text-align: center;
-}
 
-.location-info h4 {
-    color: var(--vd-primary);
-    margin-bottom: var(--spacing-md);
-    font-size: 1.1rem;
-}
-
-.address {
-    font-weight: 500;
-    color: var(--vd-text);
-    margin-bottom: var(--spacing-xs);
-}
-
-.location-note {
-    color: var(--vd-text-light);
-    font-size: 0.9rem;
-    margin: 0;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -447,8 +423,7 @@
     
     .business-hours,
     .contact-preferences,
-    .form-contact,
-    .location-info {
+    .form-contact {
         padding: var(--spacing-md);
     }
     
@@ -582,13 +557,7 @@ ntegration with existing contact section */
         display: none;
     }
     
-    .location-info,
     .business-hours {
         display: block;
-    }
-    
-    .location-info .address {
-        font-size: 1.2rem;
-        font-weight: bold;
     }
 }
